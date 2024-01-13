@@ -18,7 +18,12 @@ module.exports = {
   },
   plugins: ['react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        "endOfLine": "auto"
+      }
+    ],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
