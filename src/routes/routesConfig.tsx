@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout.tsx';
 import ErrorPage from '@/pages/error';
+import predictPage from '@/pages/strategy/predict/page.tsx';
 
 const routesConfig = [
   {
@@ -25,7 +26,7 @@ const routesConfig = [
       },
       {
         path: 'predict',
-        element: <div>预测走势</div>,
+        element: predictPage,
         meta: {
           menuLevel: 2,
           title: '预测走势',
