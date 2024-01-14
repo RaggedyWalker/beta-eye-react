@@ -26,7 +26,7 @@ const routesConfig = [
       },
       {
         path: 'predict',
-        element: predictPage,
+        element: predictPage(),
         meta: {
           menuLevel: 2,
           title: '预测走势',
