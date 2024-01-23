@@ -11,42 +11,28 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
+    title: '策略 ID',
+    dataIndex: 'strategyId',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: '股票代码',
+    dataIndex: 'stockCode',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: '走势预测',
+    dataIndex: 'trendPrediction',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          return <div>{tag.toUpperCase()}</div>;
-        })}
-      </>
-    ),
+    title: '买点价格',
+    dataIndex: 'targetPrice',
   },
   {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <div>
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </div>
-    ),
+    title: '策略信心',
+    dataIndex: 'confidence',
+  },
+  {
+    title: '提出日期',
+    dataIndex: 'submitDate',
   },
 ];
 
