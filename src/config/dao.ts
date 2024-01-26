@@ -1,5 +1,5 @@
-import common from '@/config/common';
-import axios from 'axios';
+import common from '@/config/common.js';
+import axios, { AxiosResponse } from 'axios';
 
 axios.defaults.baseURL = `${common.BASE_URL}${common.API_NODE_PREFIX}`;
 
@@ -8,7 +8,7 @@ axios.interceptors.response.use(responseInterceptors, function (error) {
   return Promise.reject(error);
 });
 
-function responseInterceptors(response) {
+function responseInterceptors(response: AxiosResponse) {
   if (response.data.code === 200) return response.data;
 }
 export default axios;

@@ -6,6 +6,13 @@ import path from 'path';
 export default defineConfig({
   server: {
     port: 8888,
+    proxy: {
+      '/betaeye': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/betaeye/, ''),
+      },
+    },
   },
   plugins: [react()],
   resolve: {

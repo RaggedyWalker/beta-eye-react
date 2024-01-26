@@ -1,3 +1,8 @@
+import strategy from '@/service/strategy.ts';
 import configure from './configure.js';
 
-export default { configure };
+const service = {
+  configure,
+  strategy,
+};
+export default service;
