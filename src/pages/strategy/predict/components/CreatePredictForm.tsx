@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { ChangeEvent, memo, useEffect, useMemo, useState } from 'react';
 import { Form, Input } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react.ts';
@@ -15,6 +15,9 @@ type FieldType = {
   predictTrend: EnumObject;
   confidenceGrade: EnumObject;
 };
+
+const MemoSearchStockSelect = memo(SearchStockSelect);
+const MemoBaseSelect = memo(BaseSelect);
 
 const onFinish = (values: unknown) => {
   console.log('Success:', values);
@@ -78,10 +81,12 @@ function CreatePredictForm(props: CustomProps) {
   return (
     <div>
       <Form
+        className="mt-4"
         name="createPredictForm"
         colon={false}
-        labelCol={{ span: 6, offset: 0 }}
+        labelCol={{ span: 4, offset: 2 }}
         wrapperCol={{ span: 14, offset: 1 }}
+        labelAlign="left"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -101,7 +106,7 @@ function CreatePredictForm(props: CustomProps) {
             },
           ]}
         >
-          <SearchStockSelect value={stock} onChange={handleChange.stock} />
+          <MemoSearchStockSelect value={stock} onChange={handleChange.stock} />
         </Form.Item>
         <Form.Item<FieldType>
           label="走势预测"
@@ -117,18 +122,23 @@ function CreatePredictForm(props: CustomProps) {
             },
           ]}
         >
-          <BaseSelect
+          <MemoBaseSelect
             value={predictTrend}
             onChange={handleChange.predictTrend}
             options={options.predictTrend}
           />
         </Form.Item>
         <Form.Item<FieldType> label="买点价格">
-          <Input
-            placeholder="请输入买点价格"
-            value={goalPrice}
-            onChange={handleChange.goalPrice}
-          />
+          {useMemo(
+            () => (
+              <Input
+                placeholder="请输入买点价格"
+                value={goalPrice}
+                onChange={handleChange.goalPrice}
+              />
+            ),
+            [goalPrice],
+          )}
         </Form.Item>
         <Form.Item<FieldType>
           label="策略信心"
@@ -144,16 +154,11 @@ function CreatePredictForm(props: CustomProps) {
             },
           ]}
         >
-          {useMemo(
-            () => (
-              <BaseSelect
-                value={confidenceGrade}
-                onChange={handleChange.confidenceGrade}
-                options={options.confidenceGrade}
-              />
-            ),
-            [options.confidenceGrade],
-          )}
+          <MemoBaseSelect
+            value={confidenceGrade}
+            onChange={handleChange.confidenceGrade}
+            options={options.confidenceGrade}
+          />
         </Form.Item>
       </Form>
     </div>

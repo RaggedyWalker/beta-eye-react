@@ -74,4 +74,4 @@ const SearchStockSelect: React.FC<{
   );
 };
 
-export default React.memo(SearchStockSelect);
+export default SearchStockSelect;
