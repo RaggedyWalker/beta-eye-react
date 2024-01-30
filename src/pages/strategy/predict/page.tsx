@@ -45,10 +45,11 @@ const PredictPage: React.FC = () => {
         </Button>
       </section>
       <TrendPredictTable tableParams={tableParams} onChange={onTableChange} />
-      <CreatePredictDrawer
-        onClose={onClose}
-        open={createDrawerOpen}
-      ></CreatePredictDrawer>
+      <>
+        {createDrawerOpen && (
+          <CreatePredictDrawer onClose={onClose} open={createDrawerOpen} />
+        )}
+      </>
     </main>
   );
 };

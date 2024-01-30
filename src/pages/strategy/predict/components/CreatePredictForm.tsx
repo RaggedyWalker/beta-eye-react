@@ -1,34 +1,20 @@
-import React, { useState } from 'react';
-import { Form, Select } from 'antd';
-import type { SelectProps } from 'antd';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { Form, Input } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react.ts';
 import { Stock } from '@/types/stock.ts';
+import type { EnumObject } from '@/types/utils.ts';
+import BaseSelect from '@/components/common/select/BaseSelect.tsx';
+import SearchStockSelect from '@/pages/strategy/predict/components/form/SearchStockSelect.tsx';
 
 interface CustomProps extends FCProps {}
-interface CustomSelectProps extends SelectProps {
-  onCompositionStart?: (e: React.CompositionEvent<HTMLInputElement>) => void;
-  onCompositionEnd?: (e: React.CompositionEvent<HTMLInputElement>) => void;
-}
 
 type FieldType = {
   stock: Stock;
-  password: string;
+  goalPrice: string;
+  predictTrend: EnumObject;
+  confidenceGrade: EnumObject;
 };
-
-let timeout: ReturnType<typeof setTimeout> | null;
-
-function searchStock(query: string, callback: (arg0: Stock[]) => void) {
-  if (timeout) {
-    clearTimeout(timeout);
-    timeout = null;
-  }
-  timeout = setTimeout(fetchData, 300);
-  async function fetchData() {
-    const data = await service.strategy.searchStock({ query });
-    callback(data);
-  }
-}
 
 const onFinish = (values: unknown) => {
   console.log('Success:', values);
@@ -37,49 +23,73 @@ const onFinish = (values: unknown) => {
 const onFinishFailed = (errorInfo: unknown) => {
   console.log('Failed:', errorInfo);
 };
-
-let isComposing = false;
-
 function CreatePredictForm(props: CustomProps) {
-  const [stock, setStock] = useState<Stock | undefined>();
-  const [stockOptions, setStockOptions] = useState<Stock[]>([]);
+  const [options, setOptions] = useState({
+    predictTrend: [],
+    confidenceGrade: [],
+  });
+  const [stock, setStock] = useState<Stock | undefined | null>();
+  const [predictTrend, setPredictTrend] = useState<
+    EnumObject | undefined | null
+  >();
+  const [confidenceGrade, setConfidenceGrade] = useState<
+    EnumObject | undefined | null
+  >();
+  const [goalPrice, setGoalPrice] = useState('0.00');
+  console.log('form render');
 
-  const handleStockSearch: SelectProps['onSearch'] = async (query) => {
-    console.log(isComposing, query);
-    if (!isComposing) {
-      // 输入法会有' '，输入中不触发搜索
-      if (!query) {
-        setStockOptions([]);
-        return;
-      }
-      if (query.includes(' ')) {
-        return;
-      }
-      searchStock(query, setStockOptions);
-    }
-  };
-  const handleComposition = (e: React.CompositionEvent<HTMLInputElement>) => {
-    if (e.type === 'compositionend') {
-      isComposing = false;
-      handleStockSearch(e.data); // 输入法输入结束后再进行搜索
-    } else {
-      isComposing = true;
-    }
-  };
-  const handleStockChange: SelectProps['onChange'] = (newValue) => {
-    setStock(stockOptions.find((stock) => stock.stockCode === newValue));
-  };
+  function fetchOptions() {
+    Promise.all([
+      service.configure.getConfigure('predictTrend'),
+      service.configure.getConfigure('confidenceGrade'),
+    ]).then((data) => {
+      const newOptions = {
+        ...options,
+        predictTrend: data[0],
+        confidenceGrade: data[1],
+      };
+      setOptions(newOptions);
+    });
+  }
+
+  useEffect(() => {
+    console.log('effect');
+    fetchOptions();
+  }, []);
+
+  const handleChange = useMemo(
+    () => ({
+      stock: (newStock: Stock | undefined | null) => {
+        setStock(newStock);
+      },
+      predictTrend: (value: EnumObject | undefined | null) => {
+        setPredictTrend(value);
+      },
+      confidenceGrade: (value: EnumObject | undefined | null) => {
+        setConfidenceGrade(value);
+      },
+      goalPrice: (event: ChangeEvent<HTMLInputElement>) => {
+        setGoalPrice(event.currentTarget.value + '');
+      },
+    }),
+    [],
+  );
 
   return (
     <div>
       <Form
+        name="createPredictForm"
+        colon={false}
+        labelCol={{ span: 6, offset: 0 }}
+        wrapperCol={{ span: 14, offset: 1 }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
+        variant="filled"
       >
         <Form.Item<FieldType>
           label="股票"
-          name="stock"
+          // name="stock"
           rules={[
             {
               validator: (_, value) => {
@@ -91,25 +101,60 @@ function CreatePredictForm(props: CustomProps) {
             },
           ]}
         >
-          <Select
-            showSearch
-            value={stock}
-            placeholder="选择股票"
-            defaultActiveFirstOption={false}
-            suffixIcon={null}
-            filterOption={false}
-            onSearch={handleStockSearch}
-            onChange={handleStockChange}
-            onCompositionStart={handleComposition}
-            onCompositionEnd={handleComposition}
-            notFoundContent={null}
-            allowClear
-            options={(stockOptions || []).map((d: Stock) => ({
-              value: d.stockCode,
-              label: `${d.stockName} (${d.stockCode})`,
-            }))}
+          <SearchStockSelect value={stock} onChange={handleChange.stock} />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="走势预测"
+          // name="predictTrend"
+          rules={[
+            {
+              validator: (_, value) => {
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('请选择走势预测'));
+              },
+              validateTrigger: 'onBlur',
+            },
+          ]}
+        >
+          <BaseSelect
+            value={predictTrend}
+            onChange={handleChange.predictTrend}
+            options={options.predictTrend}
           />
-        </Form.Item>{' '}
+        </Form.Item>
+        <Form.Item<FieldType> label="买点价格">
+          <Input
+            placeholder="请输入买点价格"
+            value={goalPrice}
+            onChange={handleChange.goalPrice}
+          />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="策略信心"
+          // name="confidenceGrade"
+          rules={[
+            {
+              validator: (_, value) => {
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('请选择策略信心'));
+              },
+              validateTrigger: 'onBlur',
+            },
+          ]}
+        >
+          {useMemo(
+            () => (
+              <BaseSelect
+                value={confidenceGrade}
+                onChange={handleChange.confidenceGrade}
+                options={options.confidenceGrade}
+              />
+            ),
+            [options.confidenceGrade],
+          )}
+        </Form.Item>
       </Form>
     </div>
   );

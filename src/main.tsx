@@ -9,9 +9,9 @@ import theme from '@/themes/theme.config.ts';
 import './main.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ConfigProvider theme={theme} locale={zhCN}>
-      <RouterProvider router={router}></RouterProvider>
-    </ConfigProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <ConfigProvider theme={theme} locale={zhCN}>
+    <RouterProvider router={router}></RouterProvider>
+  </ConfigProvider>,
+  // </React.StrictMode>,
 );

@@ -7,7 +7,7 @@ const theme = {
     colorPrimary: '#722ed1',
     colorInfo: '#722ed1',
     wireframe: false,
-    borderRadius: 2,
+    borderRadius: 4,
     colorTextBase: '#1e1e1e',
   },
 };
