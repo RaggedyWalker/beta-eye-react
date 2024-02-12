@@ -10,6 +10,7 @@ import { Button, Layout, Menu, theme } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import routesConfig from '@/routes/routesConfig.tsx';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import Logo from '@/components/layout/Logo.tsx';
 
 const { Header, Content, Sider } = Layout;
 
@@ -83,8 +84,19 @@ const AppLayout: React.FC = () => {
 
   return (
     <Layout className="h-screen">
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Header
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 1,
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          userSelect: 'none',
+        }}
+      >
         <div className="demo-logo" />
+        <Logo />
         <Button
           type="text"
           icon={
@@ -111,39 +123,42 @@ const AppLayout: React.FC = () => {
           items={headerMenus}
         />
       </Header>
-      <Layout>
-        {sideMenus.length > 0 && (
-          <Sider
-            width={200}
-            style={{
-              background: colorBgContainer,
-            }}
-            collapsed={collapsed}
-          >
-            <Menu
-              mode="inline"
-              defaultSelectedKeys={
-                sideMenus.length > 0 ? [sideMenus[0].key as string] : []
-              }
-              selectedKeys={[currentSideMenu]}
-              style={{ height: '100%', borderRight: 0 }}
-              items={sideMenus}
-            />
-          </Sider>
-        )}
-        <Layout className="p-6">
-          <Content
-            style={{
-              padding: 24,
-              marginLeft: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-            }}
-          >
-            <Outlet />
-          </Content>
+      <Content>
+        <Layout className="h-full">
+          {sideMenus.length > 0 && (
+            <Sider
+              width={200}
+              collapsedWidth={0}
+              style={{
+                background: colorBgContainer,
+              }}
+              collapsed={collapsed}
+            >
+              <Menu
+                mode="inline"
+                defaultSelectedKeys={
+                  sideMenus.length > 0 ? [sideMenus[0].key as string] : []
+                }
+                selectedKeys={[currentSideMenu]}
+                style={{ height: '100%', borderRight: 0 }}
+                items={sideMenus}
+              />
+            </Sider>
+          )}
+          <Layout className="p-6">
+            <Content
+              style={{
+                padding: 24,
+                marginLeft: 0,
+                minHeight: 280,
+                background: colorBgContainer,
+              }}
+            >
+              <Outlet />
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
+      </Content>
     </Layout>
   );
 };

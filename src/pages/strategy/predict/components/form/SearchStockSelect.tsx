@@ -18,8 +18,8 @@ function searchStock(query: string, callback: (arg0: Stock[]) => void) {
 }
 
 const SearchStockSelect: React.FC<{
-  value: Stock | undefined | null;
-  onChange: (newValue: Stock | undefined) => void;
+  value?: Stock | undefined | null;
+  onChange?: (newValue: Stock | undefined) => void;
 }> = (props) => {
   const [stockOptions, setStockOptions] = useState<Stock[]>([]);
   const stockValue = props.value?.stockCode;
@@ -49,9 +49,12 @@ const SearchStockSelect: React.FC<{
   };
 
   const handleStockChange: SelectProps['onChange'] = (newValue) => {
-    props.onChange(stockOptions.find((stock) => stock.stockCode === newValue));
+    if (props.onChange) {
+      props.onChange(
+        stockOptions.find((stock) => stock.stockCode === newValue),
+      );
+    }
   };
-
   return (
     <Select
       showSearch

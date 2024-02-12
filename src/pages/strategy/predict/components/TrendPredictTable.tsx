@@ -1,94 +1,68 @@
-import { useEffect, useState } from 'react';
-import { message, Table, TableProps } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
-import service from '@/service';
+import { Table, TableColumnsType, TableProps } from 'antd';
 import { FCProps } from '@/types/react.ts';
-import dayjs from 'dayjs';
 import { TableParams } from '@/pages/strategy/predict/page.tsx';
+import type { PredictRowDataType } from '@/pages/strategy/predict/types';
 
 interface CustomProps extends FCProps {
+  tableList: PredictRowDataType[];
   tableParams: TableParams;
   onChange: TableProps['onChange'];
 }
-interface DataType {
-  key: string;
-  stockName: string;
-  stockCode: string;
-  createTime: string;
-  goalPrice: string;
-  predictTrendText: string;
-  comment: string;
-  confidenceGradeText: string;
-}
 
-const columns: ColumnsType<DataType> = [
+const columns: TableColumnsType<PredictRowDataType> = [
   {
     dataIndex: 'stockName',
     title: '股票',
     fixed: 'left',
+    width: 120,
   },
   {
     dataIndex: 'stockCode',
     title: '股票代码',
+    width: 120,
   },
   {
     dataIndex: 'createTime',
     title: '提出日期',
+    width: 100,
   },
   {
     dataIndex: 'goalPrice',
     title: '买点价格',
+    width: 100,
   },
   {
     dataIndex: 'predictTrendText',
     title: '走势预测',
-  },
-  {
-    dataIndex: 'comment',
-    title: '评价',
+    width: 100,
   },
   {
     dataIndex: 'confidenceGradeText',
     title: '策略信心',
+    width: 100,
+  },
+  {
+    dataIndex: 'comment',
+    title: '策略细节',
+    ellipsis: true,
+    width: 300,
   },
 ];
 
-const fetchData = async () => {
-  const data = await service.strategy.getPredictPage({
-    currentPage: 1,
-    pageSize: 10,
-  });
-  return {
-    ...data,
-    list: data.list.map((item: { createTime: string }) => {
-      return {
-        ...item,
-        createTime: dayjs(item.createTime).format('YYYY-M-D'),
-      };
-    }),
-  };
-};
-
 function TrendPredictTable(props: CustomProps) {
-  const [tableList, setTableList] = useState([]);
-
-  useEffect(() => {
-    console.log('fetch table');
-    fetchData()
-      .then((data) => setTableList(data.list))
-      .catch((e) => message.error(e.message));
-  }, [props.tableParams]);
-
   return (
-    <Table
-      bordered
-      rowKey="id"
-      columns={columns}
-      dataSource={tableList}
-      pagination={props.tableParams.pagination}
-      onChange={props.onChange}
-      size="small"
-    />
+    <div style={{ height: '50vh', overflowY: 'auto' }}>
+      <Table
+        bordered
+        sticky
+        rowKey="id"
+        columns={columns}
+        dataSource={props.tableList}
+        pagination={props.tableParams.pagination}
+        onChange={props.onChange}
+        size="small"
+      />
+    </div>
   );
 }
 

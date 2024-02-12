@@ -7,20 +7,21 @@ const BaseSelect: React.FC<{
   onChange?: (newValue: EnumObject | undefined) => void;
   options?: EnumObject[];
   placeholder?: string;
+  showSearch?: boolean;
 }> = (props) => {
   const value = props.value?.value;
   const options = props.options || [];
   const placeholder = props.placeholder || '请选择';
-  console.log('BaseSelect options:', options);
+  console.log('BaseSelect render:', options);
   const handleChange: SelectProps['onChange'] = (value) => {
     if (props.onChange) {
-      props.onChange(options.find((option) => option.value === value));
+      props.onChange(value);
     }
   };
 
   return (
     <Select
-      showSearch
+      showSearch={props.showSearch}
       value={value}
       placeholder={placeholder}
       defaultActiveFirstOption={false}

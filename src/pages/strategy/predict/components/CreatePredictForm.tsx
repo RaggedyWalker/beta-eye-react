@@ -1,82 +1,73 @@
-import { ChangeEvent, memo, useEffect, useMemo, useState } from 'react';
-import { Form, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Form, Input, message, Space } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react.ts';
 import { Stock } from '@/types/stock.ts';
-import type { EnumObject } from '@/types/utils.ts';
+import BaseInputNumber from '@/components/common/select/BaseInputNumber.tsx';
 import BaseSelect from '@/components/common/select/BaseSelect.tsx';
 import SearchStockSelect from '@/pages/strategy/predict/components/form/SearchStockSelect.tsx';
 
-interface CustomProps extends FCProps {}
+interface CustomProps extends FCProps {
+  onClose: () => void;
+  onCreatedPredict: () => void;
+}
 
 type FieldType = {
   stock: Stock;
   goalPrice: string;
-  predictTrend: EnumObject;
-  confidenceGrade: EnumObject;
+  predictTrend: number;
+  confidenceGrade: number;
+  comment: string;
 };
 
-const MemoSearchStockSelect = memo(SearchStockSelect);
-const MemoBaseSelect = memo(BaseSelect);
+async function fetchOptions() {
+  const data = await Promise.all([
+    service.configure.getConfigure('predictTrend'),
+    service.configure.getConfigure('confidenceGrade'),
+  ]);
+  return {
+    predictTrend: data[0],
+    confidenceGrade: data[1],
+  };
+}
 
-const onFinish = (values: unknown) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: unknown) => {
-  console.log('Failed:', errorInfo);
-};
 function CreatePredictForm(props: CustomProps) {
+  console.log('form render');
+
+  const [form] = Form.useForm();
   const [options, setOptions] = useState({
     predictTrend: [],
     confidenceGrade: [],
   });
-  const [stock, setStock] = useState<Stock | undefined | null>();
-  const [predictTrend, setPredictTrend] = useState<
-    EnumObject | undefined | null
-  >();
-  const [confidenceGrade, setConfidenceGrade] = useState<
-    EnumObject | undefined | null
-  >();
-  const [goalPrice, setGoalPrice] = useState('0.00');
-  console.log('form render');
+  const onValuesChange = (changedValues: FieldType, allValues: FieldType) => {
+    console.log(form.getFieldsValue());
+  };
+  const onFinish = (values: FieldType) => {
+    service.strategy
+      .addPredict({
+        stockName: values.stock.stockName,
+        stockCode: values.stock.stockCode,
+        goalPrice: String(values.goalPrice),
+        comment: values.comment,
+        predictTrend: values.predictTrend,
+        confidenceGrade: values.confidenceGrade,
+      })
+      .then(() => {
+        message.success('新增成功');
+        props.onCreatedPredict();
+      })
+      .catch((e) => message.error(e.response.data.message));
+  };
 
-  function fetchOptions() {
-    Promise.all([
-      service.configure.getConfigure('predictTrend'),
-      service.configure.getConfigure('confidenceGrade'),
-    ]).then((data) => {
-      const newOptions = {
-        ...options,
-        predictTrend: data[0],
-        confidenceGrade: data[1],
-      };
-      setOptions(newOptions);
-    });
-  }
+  const onReset = () => {
+    form.resetFields();
+  };
 
   useEffect(() => {
-    console.log('effect');
-    fetchOptions();
+    fetchOptions().then((newOptions) => {
+      setOptions((options) => Object.assign({}, options, newOptions));
+    });
   }, []);
-
-  const handleChange = useMemo(
-    () => ({
-      stock: (newStock: Stock | undefined | null) => {
-        setStock(newStock);
-      },
-      predictTrend: (value: EnumObject | undefined | null) => {
-        setPredictTrend(value);
-      },
-      confidenceGrade: (value: EnumObject | undefined | null) => {
-        setConfidenceGrade(value);
-      },
-      goalPrice: (event: ChangeEvent<HTMLInputElement>) => {
-        setGoalPrice(event.currentTarget.value + '');
-      },
-    }),
-    [],
-  );
 
   return (
     <div>
@@ -84,81 +75,103 @@ function CreatePredictForm(props: CustomProps) {
         className="mt-4"
         name="createPredictForm"
         colon={false}
-        labelCol={{ span: 4, offset: 2 }}
-        wrapperCol={{ span: 14, offset: 1 }}
+        labelCol={{ span: 4, offset: 1 }}
+        wrapperCol={{ span: 16, offset: 1 }}
         labelAlign="left"
+        form={form}
+        onValuesChange={onValuesChange}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        onReset={onReset}
         autoComplete="off"
         variant="filled"
       >
-        <Form.Item<FieldType>
+        <Form.Item
           label="股票"
-          // name="stock"
+          name="stock"
           rules={[
             {
-              validator: (_, value) => {
+              validator: (_, value) =>
                 value
                   ? Promise.resolve()
-                  : Promise.reject(new Error('请选择股票'));
-              },
+                  : Promise.reject(new Error('请选择股票')),
               validateTrigger: 'onBlur',
             },
           ]}
         >
-          <MemoSearchStockSelect value={stock} onChange={handleChange.stock} />
+          <SearchStockSelect />
         </Form.Item>
-        <Form.Item<FieldType>
+        <Form.Item
           label="走势预测"
-          // name="predictTrend"
+          name="predictTrend"
           rules={[
             {
-              validator: (_, value) => {
+              validator: (_, value) =>
                 value
                   ? Promise.resolve()
-                  : Promise.reject(new Error('请选择走势预测'));
-              },
+                  : Promise.reject(new Error('请选择走势预测')),
               validateTrigger: 'onBlur',
             },
           ]}
         >
-          <MemoBaseSelect
-            value={predictTrend}
-            onChange={handleChange.predictTrend}
-            options={options.predictTrend}
+          <BaseSelect options={options.predictTrend} />
+        </Form.Item>
+        <Form.Item
+          label="买点价格"
+          name="goalPrice"
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('请输入买点')),
+              validateTrigger: 'onBlur',
+            },
+          ]}
+        >
+          <BaseInputNumber placeholder="请输入买点价格" allowClear />
+        </Form.Item>
+        <Form.Item
+          label="策略细节"
+          name="comment"
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error('请输入策略细节')),
+              validateTrigger: 'onBlur',
+            },
+          ]}
+        >
+          <Input.TextArea
+            placeholder="请输入评价"
+            maxLength={150}
+            autoSize={{ minRows: 4, maxRows: 6 }}
+            showCount
           />
         </Form.Item>
-        <Form.Item<FieldType> label="买点价格">
-          {useMemo(
-            () => (
-              <Input
-                placeholder="请输入买点价格"
-                value={goalPrice}
-                onChange={handleChange.goalPrice}
-              />
-            ),
-            [goalPrice],
-          )}
-        </Form.Item>
-        <Form.Item<FieldType>
+        <Form.Item
           label="策略信心"
-          // name="confidenceGrade"
+          name="confidenceGrade"
           rules={[
             {
-              validator: (_, value) => {
+              validator: (_, value) =>
                 value
                   ? Promise.resolve()
-                  : Promise.reject(new Error('请选择策略信心'));
-              },
+                  : Promise.reject(new Error('请选择策略信心')),
               validateTrigger: 'onBlur',
             },
           ]}
         >
-          <MemoBaseSelect
-            value={confidenceGrade}
-            onChange={handleChange.confidenceGrade}
-            options={options.confidenceGrade}
-          />
+          <BaseSelect options={options.confidenceGrade} />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              提交
+            </Button>
+            <Button htmlType="reset">重置</Button>
+          </Space>
         </Form.Item>
       </Form>
     </div>
