@@ -6,8 +6,8 @@ import {
   useLocation,
   useMatches,
 } from 'react-router-dom';
-import { Button, Layout, Menu, theme } from 'antd';
-import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { ItemType } from 'antd/es/menu/hooks/useItems';
 import routesConfig from '@/routes/routesConfig.tsx';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import Logo from '@/components/layout/Logo.tsx';
@@ -19,21 +19,21 @@ function getHeaderMenus(): NonNullable<ItemType>[] {
   routesConfig.forEach((route) => {
     if (route?.meta?.menuLevel === 1) {
       headerMenus.push({
-        key: route.path,
-        label: <Link to={route.path}>{route.meta?.title}</Link>,
+        key: route.path as string,
+        label: <Link to={route.path as string}>{route.meta?.title}</Link>,
       });
     }
   });
-  console.log('headerMenus', headerMenus);
   return headerMenus;
 }
 
-const AppLayout: React.FC = () => {
+const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   const [currentHeaderMenu, setCurrentHeaderMenu] = useState('');
   const [currentSideMenu, setCurrentSideMenu] = useState('');
   const { pathname } = useLocation();
+  const systemTheme = props.theme || 'dark';
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, colorPrimary },
   } = theme.useToken();
   const [collapsed, setCollapsed] = useState(false);
 
@@ -82,6 +82,11 @@ const AppLayout: React.FC = () => {
     console.log('pathArr', pathArr);
   }, [pathname]);
 
+  const showSider = useMemo(
+    () => sideMenus.length > 0 && !collapsed,
+    [sideMenus, collapsed],
+  );
+
   return (
     <Layout className="h-screen">
       <Header
@@ -113,28 +118,43 @@ const AppLayout: React.FC = () => {
             height: 64,
           }}
         />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={
-            headerMenus.length > 0 ? [headerMenus[0].key as string] : []
-          }
-          selectedKeys={[currentHeaderMenu]}
-          items={headerMenus}
-        />
+        <ConfigProvider
+          theme={{
+            algorithm: theme.darkAlgorithm,
+            components: {
+              Menu: {
+                darkItemSelectedBg: 'transparent',
+                darkItemSelectedColor: colorPrimary,
+                // itemSelectedBg: 'transparent',
+                // itemSelectedColor: colorPrimary,
+              },
+            },
+          }}
+        >
+          <Menu
+            theme={systemTheme}
+            mode="horizontal"
+            defaultSelectedKeys={
+              headerMenus.length > 0 ? [headerMenus[0].key as string] : []
+            }
+            selectedKeys={[currentHeaderMenu]}
+            items={headerMenus}
+          />
+        </ConfigProvider>
       </Header>
       <Content>
         <Layout className="h-full">
-          {sideMenus.length > 0 && (
+          {showSider && (
             <Sider
               width={200}
               collapsedWidth={0}
               style={{
-                background: colorBgContainer,
+                background: '#fcf9fd',
               }}
               collapsed={collapsed}
             >
               <Menu
+                theme={systemTheme}
                 mode="inline"
                 defaultSelectedKeys={
                   sideMenus.length > 0 ? [sideMenus[0].key as string] : []
@@ -145,13 +165,19 @@ const AppLayout: React.FC = () => {
               />
             </Sider>
           )}
-          <Layout className="p-6">
+          <Layout
+            className={['h-full', 'overflow-y-auto', showSider ? '' : ''].join(
+              ' ',
+            )}
+          >
             <Content
+              className="px-12 py-8"
               style={{
-                padding: 24,
+                // padding: 24,
                 marginLeft: 0,
                 minHeight: 280,
                 background: colorBgContainer,
+                overflow: 'auto',
               }}
             >
               <Outlet />

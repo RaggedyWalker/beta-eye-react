@@ -20,7 +20,7 @@ const BaseInputNumber: React.FC<{
       if (originValue === null) {
         props.onChange('');
       } else {
-        props.onChange(originValue);
+        props.onChange(Number(originValue));
       }
     }
   };

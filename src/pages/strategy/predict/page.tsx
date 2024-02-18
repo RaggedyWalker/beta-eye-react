@@ -74,7 +74,7 @@ const PredictPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-full px-10 py-4">
+    <main className="min-h-full">
       <section className="mb-4">
         <Button
           type="primary"

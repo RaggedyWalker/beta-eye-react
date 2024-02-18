@@ -1,9 +1,18 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout.tsx';
 import ErrorPage from '@/pages/error';
+import OverviewPage from '@/pages/market/overview/page.tsx';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 
-const routesConfig = [
+type RouteConfig = {
+  meta?: {
+    title?: string;
+    menuLevel?: number;
+  };
+  children?: RouteConfig[];
+} & RouteObject;
+
+const routesConfig: RouteConfig[] = [
   {
     path: '/',
     element: <Navigate replace to="/strategy" />,
@@ -60,9 +69,18 @@ const routesConfig = [
     children: [
       {
         index: true,
-        element: <div>市场</div>,
+        // element: <Navigate replace to="/market/detail" />,
+        element: <Navigate replace to="/market/overview" />,
         meta: {
           title: '市场',
+        },
+      },
+      {
+        path: 'overview',
+        element: <OverviewPage />,
+        meta: {
+          // menuLevel: 2,
+          title: '市场总览',
         },
       },
     ],

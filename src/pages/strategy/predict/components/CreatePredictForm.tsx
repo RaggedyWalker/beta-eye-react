@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Input, message, Space } from 'antd';
+import { App, Button, Form, Input, Space } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react.ts';
 import { Stock } from '@/types/stock.ts';
@@ -14,7 +14,7 @@ interface CustomProps extends FCProps {
 
 type FieldType = {
   stock: Stock;
-  goalPrice: string;
+  goalPrice: number;
   predictTrend: number;
   confidenceGrade: number;
   comment: string;
@@ -34,6 +34,7 @@ async function fetchOptions() {
 function CreatePredictForm(props: CustomProps) {
   console.log('form render');
 
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [options, setOptions] = useState({
     predictTrend: [],
@@ -47,7 +48,7 @@ function CreatePredictForm(props: CustomProps) {
       .addPredict({
         stockName: values.stock.stockName,
         stockCode: values.stock.stockCode,
-        goalPrice: String(values.goalPrice),
+        goalPrice: values.goalPrice,
         comment: values.comment,
         predictTrend: values.predictTrend,
         confidenceGrade: values.confidenceGrade,
