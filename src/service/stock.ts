@@ -1,6 +1,5 @@
 import { Stock, SymbolDayLine } from '@/types/stock.ts';
 import axios from 'axios';
-import dayjs from 'dayjs';
 
 const stock = {
   /**

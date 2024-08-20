@@ -4,7 +4,7 @@ import service from '@/service';
 import { Stock } from '@/types/stock.ts';
 
 let timeout: ReturnType<typeof setTimeout> | null;
-let isComposing = false;
+const isComposing = false;
 function searchStock(query: string, callback: (arg0: Stock[]) => void) {
   if (timeout) {
     clearTimeout(timeout);
@@ -39,14 +39,14 @@ const SearchStockSelect: React.FC<{
     }
   };
 
-  const handleComposition = (e: React.CompositionEvent<HTMLInputElement>) => {
-    if (e.type === 'compositionend') {
-      isComposing = false;
-      handleStockSearch(e.data); // 输入法输入结束后再进行搜索
-    } else {
-      isComposing = true;
-    }
-  };
+  // const handleComposition = (e: React.CompositionEvent<HTMLInputElement>) => {
+  //   if (e.type === 'compositionend') {
+  //     isComposing = false;
+  //     handleStockSearch(e.data); // 输入法输入结束后再进行搜索
+  //   } else {
+  //     isComposing = true;
+  //   }
+  // };
 
   const handleStockChange: SelectProps['onChange'] = (newValue) => {
     if (props.onChange) {
@@ -65,8 +65,6 @@ const SearchStockSelect: React.FC<{
       filterOption={false}
       onSearch={handleStockSearch}
       onChange={handleStockChange}
-      onCompositionStart={handleComposition}
-      onCompositionEnd={handleComposition}
       notFoundContent={null}
       allowClear
       options={(stockOptions || []).map((d: Stock) => ({
