@@ -29,3 +29,12 @@ export interface Page<T> {
   total: number;
   list: T[];
 }
+
+export enum Period {
+  minute = 'minute',
+  hour = 'hour',
+  day = 'day',
+  week = 'week',
+  month = 'month',
+  year = 'year',
+}

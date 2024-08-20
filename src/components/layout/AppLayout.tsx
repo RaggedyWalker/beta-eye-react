@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Link,
   matchRoutes,
+  NavLink,
   Outlet,
   useLocation,
   useMatches,
 } from 'react-router-dom';
 import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
-import routesConfig from '@/routes/routesConfig.tsx';
+import routesConfig, { RouteConfig } from '@/routes/routesConfig.tsx';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import SuperSearch from '@/components/layout/header/SuperSearch.tsx';
 import Logo from '@/components/layout/Logo.tsx';
 
 const { Header, Content, Sider } = Layout;
@@ -20,7 +21,7 @@ function getHeaderMenus(): NonNullable<ItemType>[] {
     if (route?.meta?.menuLevel === 1) {
       headerMenus.push({
         key: route.path as string,
-        label: <Link to={route.path as string}>{route.meta?.title}</Link>,
+        label: <NavLink to={route.path as string}>{route.meta?.title}</NavLink>,
       });
     }
   });
@@ -32,9 +33,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   const [currentSideMenu, setCurrentSideMenu] = useState('');
   const { pathname } = useLocation();
   const systemTheme = props.theme || 'dark';
-  const {
-    token: { colorBgContainer, colorPrimary },
-  } = theme.useToken();
+  const { token } = theme.useToken();
   const [collapsed, setCollapsed] = useState(false);
 
   const headerMenus = useMemo<NonNullable<ItemType>[]>(() => {
@@ -45,13 +44,13 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
     const routes = matchRoutes(routesConfig, pathname);
     if (routes !== null && routes.length > 0 && routes[0].route.children) {
       const children = routes[0].route.children.filter(
-        (item) => item?.meta?.menuLevel === 2,
+        (item: RouteConfig) => item?.meta?.menuLevel === 2,
       );
       sideMenus = children.map((item) => {
         const to = [currentHeaderMenu, item.path].join('/');
         return {
           key: to,
-          label: (<Link to={to}>{item.meta?.title}</Link>) as JSX.Element,
+          label: (<NavLink to={to}>{item.meta?.title}</NavLink>) as JSX.Element,
         };
       });
     }
@@ -98,49 +97,60 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           display: 'flex',
           alignItems: 'center',
           userSelect: 'none',
+          justifyContent: 'space-between',
         }}
       >
-        <div className="demo-logo" />
-        <Logo />
-        <Button
-          type="text"
-          icon={
-            collapsed ? (
-              <MenuUnfoldOutlined style={{ color: 'white' }} />
-            ) : (
-              <MenuFoldOutlined style={{ color: 'white' }} />
-            )
-          }
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: '16px',
-            width: 64,
-            height: 64,
-          }}
-        />
-        <ConfigProvider
-          theme={{
-            algorithm: theme.darkAlgorithm,
-            components: {
-              Menu: {
-                darkItemSelectedBg: 'transparent',
-                darkItemSelectedColor: colorPrimary,
-                // itemSelectedBg: 'transparent',
-                // itemSelectedColor: colorPrimary,
-              },
-            },
-          }}
-        >
-          <Menu
-            theme={systemTheme}
-            mode="horizontal"
-            defaultSelectedKeys={
-              headerMenus.length > 0 ? [headerMenus[0].key as string] : []
+        <div className="flex items-center">
+          <Logo />
+          <Button
+            type="text"
+            icon={
+              collapsed ? (
+                <MenuUnfoldOutlined style={{ color: 'white' }} />
+              ) : (
+                <MenuFoldOutlined style={{ color: 'white' }} />
+              )
             }
-            selectedKeys={[currentHeaderMenu]}
-            items={headerMenus}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}
           />
-        </ConfigProvider>
+          <ConfigProvider
+            theme={{
+              algorithm: theme.darkAlgorithm,
+              token: {
+                motionDurationSlow: '0.1s',
+              },
+              components: {
+                Menu: {
+                  darkItemColor: 'rgba(255,255,255,0.8)',
+                  darkItemSelectedBg: 'transparent',
+                  darkItemSelectedColor: token.colorLink,
+                  motionUnit: 0,
+                  fontSize: 16,
+                  fontWeightStrong: 600,
+                },
+              },
+            }}
+          >
+            <Menu
+              className={'font-bold'}
+              theme={systemTheme}
+              mode="horizontal"
+              defaultSelectedKeys={
+                headerMenus.length > 0 ? [headerMenus[0].key as string] : []
+              }
+              selectedKeys={[currentHeaderMenu]}
+              items={headerMenus}
+            />
+          </ConfigProvider>
+        </div>
+        <div className="flex">
+          <SuperSearch className="w-4 min-w-60 content-end"></SuperSearch>
+        </div>
       </Header>
       <Content>
         <Layout className="h-full">
@@ -176,7 +186,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
                 // padding: 24,
                 marginLeft: 0,
                 minHeight: 280,
-                background: colorBgContainer,
+                background: token.colorBgContainer,
                 overflow: 'auto',
               }}
             >

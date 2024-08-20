@@ -23,14 +23,5 @@ const strategy = {
     const response = await axios.post('/strategy/predict/add', data);
     return response.data;
   },
-
-  /**
-   * 搜索股票
-   * @param params
-   */
-  searchStock: async function (params: { query: string }) {
-    const response = await axios.get('/source/stock/search', { params });
-    return response.data;
-  },
 };
 export default strategy;

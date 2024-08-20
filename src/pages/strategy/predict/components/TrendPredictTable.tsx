@@ -1,4 +1,5 @@
-import { Table, TableColumnsType, TableProps } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { Button, Table, TableProps } from 'antd';
 import { FCProps } from '@/types/react.ts';
 import { TableParams } from '@/pages/strategy/predict/page.tsx';
 import type { PredictRowDataType } from '@/pages/strategy/predict/types';
@@ -9,12 +10,26 @@ interface CustomProps extends FCProps {
   onChange: TableProps['onChange'];
 }
 
-const columns: TableColumnsType<PredictRowDataType> = [
+function StockNameLink(props: { record: PredictRowDataType }) {
+  const navigator = useNavigate();
+  const { record } = props;
+  return (
+    <Button
+      type="link"
+      onClick={() => navigator(`/market/stock/${record.stockCode}`)}
+    >
+      {record.stockName}
+    </Button>
+  );
+}
+
+const columns: TableProps<PredictRowDataType>['columns'] = [
   {
     dataIndex: 'stockName',
     title: '股票',
     fixed: 'left',
     width: 120,
+    render: (text, record) => <StockNameLink record={record}></StockNameLink>,
   },
   {
     dataIndex: 'stockCode',

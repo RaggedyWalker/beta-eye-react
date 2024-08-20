@@ -1,18 +1,25 @@
-import { Navigate, RouteObject } from 'react-router-dom';
+// import React from 'react';
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 import AppLayout from '@/components/layout/AppLayout.tsx';
 import ErrorPage from '@/pages/error';
 import OverviewPage from '@/pages/market/overview/page.tsx';
+import StockPage from '@/pages/market/stock/page.tsx';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 
-type RouteConfig = {
+export interface RouteConfig {
   meta?: {
     title?: string;
     menuLevel?: number;
   };
   children?: RouteConfig[];
-} & RouteObject;
+  element?: React.ReactNode;
+  errorElement?: React.ReactNode;
+  index?: boolean;
+  path?: string;
+}
 
-const routesConfig: RouteConfig[] = [
+const routesConfig = [
   {
     path: '/',
     element: <Navigate replace to="/strategy" />,
@@ -69,7 +76,6 @@ const routesConfig: RouteConfig[] = [
     children: [
       {
         index: true,
-        // element: <Navigate replace to="/market/detail" />,
         element: <Navigate replace to="/market/overview" />,
         meta: {
           title: '市场',
@@ -81,6 +87,14 @@ const routesConfig: RouteConfig[] = [
         meta: {
           // menuLevel: 2,
           title: '市场总览',
+        },
+      },
+      {
+        path: 'stock/:code?',
+        element: <StockPage />,
+        meta: {
+          // menuLevel: 2,
+          title: '个股',
         },
       },
     ],
@@ -95,9 +109,17 @@ const routesConfig: RouteConfig[] = [
     children: [
       {
         index: true,
-        element: <div>模拟</div>,
+        element: <Navigate replace to="/playground/train" />,
         meta: {
-          title: '模拟',
+          title: '市场',
+        },
+      },
+      {
+        path: 'train',
+        element: <div>练习</div>,
+        meta: {
+          title: 'k线练习',
+          menuLevel: 2,
         },
       },
     ],

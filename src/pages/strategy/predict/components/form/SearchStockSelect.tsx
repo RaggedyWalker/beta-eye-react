@@ -12,7 +12,7 @@ function searchStock(query: string, callback: (arg0: Stock[]) => void) {
   }
   timeout = setTimeout(fetchData, 500);
   async function fetchData() {
-    const data = await service.strategy.searchStock({ query });
+    const data = await service.stock.searchStock({ query });
     callback(data);
   }
 }
