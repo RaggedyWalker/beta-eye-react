@@ -9,7 +9,7 @@ export default defineConfig({
     port: 18888,
     proxy: {
       '/betaeye': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:13000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/betaeye/, ''),
       },
@@ -20,5 +20,8 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  build: {
+    outDir: 'eye',
   },
 });

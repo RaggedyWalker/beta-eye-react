@@ -181,8 +181,7 @@ function getIndicatorMA(): IndicatorCreate {
 
 const KLineChart: React.FC<klineChartProps> = (props) => {
   let chartRef: Chart | null = null;
-  const [period, setPeriod] = useState<Period>(Period.day);
-  setPeriod(Period.day);
+  const [period] = useState<Period>(Period.day);
   useEffect(() => {
     // 初始化图表
     const chart = init('chart', {
