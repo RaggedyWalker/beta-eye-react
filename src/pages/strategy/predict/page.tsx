@@ -26,7 +26,12 @@ const fetchData = async () => {
   };
 };
 
+const pageStyle: React.CSSProperties = {
+  position: 'relative',
+};
+
 const PredictPage: React.FC = () => {
+  const PageRef = React.useRef<HTMLElement>(null);
   // control table
   const [tableList, setTableList] = useState<PredictRowDataType[]>([]);
   const [tableParams, setTableParams] = useState<TableParams>({
@@ -74,7 +79,11 @@ const PredictPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-full">
+    <main
+      className="min-h-full px-12 py-8 relative"
+      ref={PageRef}
+      style={pageStyle}
+    >
       <section className="mb-4">
         <Button
           type="primary"
@@ -89,15 +98,14 @@ const PredictPage: React.FC = () => {
         tableParams={tableParams}
         onChange={onTableChange}
       />
-      <>
-        {createDrawerOpen && (
-          <CreatePredictDrawer
-            open={createDrawerOpen}
-            onClose={onClose}
-            onCreatedPredict={onCreatedPredict}
-          />
-        )}
-      </>
+      {createDrawerOpen && (
+        <CreatePredictDrawer
+          open={createDrawerOpen}
+          onClose={onClose}
+          onCreatedPredict={onCreatedPredict}
+          containerElement={PageRef.current}
+        />
+      )}
     </main>
   );
 };

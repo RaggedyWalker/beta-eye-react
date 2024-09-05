@@ -25,7 +25,6 @@ const SearchStockSelect: React.FC<{
   const stockValue = props.value?.stockCode;
   console.log('stock:', stockValue);
   const handleStockSearch: SelectProps['onSearch'] = async (query) => {
-    console.log(isComposing, query);
     if (!isComposing) {
       // 输入法会有' '，输入中不触发搜索
       if (!query) {

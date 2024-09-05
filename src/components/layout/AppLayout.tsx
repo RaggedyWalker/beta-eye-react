@@ -1,11 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-  matchRoutes,
-  NavLink,
-  Outlet,
-  useLocation,
-  useMatches,
-} from 'react-router-dom';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { matchRoutes, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
 import routesConfig, { RouteConfig } from '@/routes/routesConfig.tsx';
@@ -31,14 +25,13 @@ function getHeaderMenus(): NonNullable<ItemType>[] {
 const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   const [currentHeaderMenu, setCurrentHeaderMenu] = useState('');
   const [currentSideMenu, setCurrentSideMenu] = useState('');
+  const [collapsed, setCollapsed] = useState(false);
+
   const { pathname } = useLocation();
   const systemTheme = props.theme || 'dark';
   const { token } = theme.useToken();
-  const [collapsed, setCollapsed] = useState(false);
 
-  const headerMenus = useMemo<NonNullable<ItemType>[]>(() => {
-    return getHeaderMenus();
-  }, []);
+  const headerMenus = useRef<NonNullable<ItemType>[]>(getHeaderMenus());
   const sideMenus = useMemo<NonNullable<ItemType>[]>(() => {
     let sideMenus: NonNullable<ItemType>[] = [];
     const routes = matchRoutes(routesConfig, pathname);
@@ -56,11 +49,6 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
     }
     return sideMenus;
   }, [currentHeaderMenu]);
-
-  const matches = useMatches();
-  console.log('matches', matches);
-
-  // console.log('matchPath', matchPath(routesConfig, location.pathname));
 
   useEffect(() => {
     // setSideMenus(getSideMenus(location));
@@ -141,10 +129,12 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
               theme={systemTheme}
               mode="horizontal"
               defaultSelectedKeys={
-                headerMenus.length > 0 ? [headerMenus[0].key as string] : []
+                headerMenus.current.length > 0
+                  ? [headerMenus.current[0].key as string]
+                  : []
               }
               selectedKeys={[currentHeaderMenu]}
-              items={headerMenus}
+              items={headerMenus.current}
             />
           </ConfigProvider>
         </div>
@@ -181,9 +171,8 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
             )}
           >
             <Content
-              className="px-12 py-8"
+              className=""
               style={{
-                // padding: 24,
                 marginLeft: 0,
                 minHeight: 280,
                 background: token.colorBgContainer,

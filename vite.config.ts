@@ -7,6 +7,9 @@ export default defineConfig({
   base: '/eye/',
   server: {
     port: 18888,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
     proxy: {
       '/betaeye': {
         target: 'http://localhost:13000',
