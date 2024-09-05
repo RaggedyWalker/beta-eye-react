@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, message, TablePaginationConfig, TableProps } from 'antd';
 import service from '@/service';
+import { PredictRowDataType } from '@/types/service';
 import { PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import CreatePredictDrawer from '@/pages/strategy/predict/components/CreatePredictDrawer.tsx';
-import TrendPredictTable from '@/pages/strategy/predict/components/TrendPredictTable.tsx';
-import { PredictRowDataType } from '@/pages/strategy/predict/types';
+import TrendPredictTable from '@/pages/strategy/predict/components/table/TrendPredictTable.tsx';
 
 export interface TableParams {
   pagination?: TablePaginationConfig;

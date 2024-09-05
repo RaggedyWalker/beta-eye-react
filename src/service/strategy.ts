@@ -1,6 +1,6 @@
+import { PredictRowDataType } from '@/types/service';
 import { Page } from '@/types/utils.ts';
 import axios from 'axios';
-import { PredictRowDataType } from '@/pages/strategy/predict/types';
 
 const strategy = {
   /**

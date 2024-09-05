@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Table, TableProps } from 'antd';
 import { FCProps } from '@/types/react.ts';
+import type { PredictRowDataType } from '@/types/service';
+import dayjs from 'dayjs';
+import TrendPredictOperation from '@/pages/strategy/predict/components/table/TrendPredictOperation.tsx';
 import { TableParams } from '@/pages/strategy/predict/page.tsx';
-import type { PredictRowDataType } from '@/pages/strategy/predict/types';
 
 interface CustomProps extends FCProps {
   tableList: PredictRowDataType[];
@@ -16,6 +18,7 @@ function StockNameLink(props: { record: PredictRowDataType }) {
   return (
     <Button
       type="link"
+      style={{ paddingLeft: 0 }}
       onClick={() => navigator(`/market/stock/${record.stockCode}`)}
     >
       {record.stockName}
@@ -40,6 +43,7 @@ const columns: TableProps<PredictRowDataType>['columns'] = [
     dataIndex: 'createTime',
     title: '提出日期',
     width: 100,
+    render: (text) => dayjs(text).format('YYYY-MM-DD'),
   },
   {
     dataIndex: 'goalPrice',
@@ -61,6 +65,15 @@ const columns: TableProps<PredictRowDataType>['columns'] = [
     title: '策略细节',
     ellipsis: true,
     width: 300,
+  },
+  {
+    dataIndex: 'operation',
+    title: '操作',
+    width: 100,
+    align: 'center',
+    render: (text, record) => {
+      return <TrendPredictOperation record={record} />;
+    },
   },
 ];
 
