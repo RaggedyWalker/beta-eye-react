@@ -44,13 +44,19 @@ const PredictPage: React.FC = () => {
       hideOnSinglePage: true,
     },
   });
-  const onTableChange: TableProps['onChange'] = (
+  const onTableChange: TableProps<PredictRowDataType>['onChange'] = (
     pagination,
     filters,
     sorter,
     extra,
   ) => {
     setTableParams({ pagination });
+  };
+
+  const onRefresh = () => {
+    fetchData()
+      .then((data) => setTableList(data.list))
+      .catch((e) => message.error(e.message));
   };
 
   useEffect(() => {
@@ -97,6 +103,7 @@ const PredictPage: React.FC = () => {
         tableList={tableList}
         tableParams={tableParams}
         onChange={onTableChange}
+        onOperation={onRefresh}
       />
       {createDrawerOpen && (
         <CreatePredictDrawer

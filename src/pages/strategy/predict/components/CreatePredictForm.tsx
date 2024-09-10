@@ -57,7 +57,9 @@ function CreatePredictForm(props: CustomProps) {
         message.success('新增成功');
         props.onCreatedPredict();
       })
-      .catch((e) => message.error(e.response.data.message));
+      .catch((e) => {
+        message.error(e.response.data.message);
+      });
   };
 
   const onReset = () => {

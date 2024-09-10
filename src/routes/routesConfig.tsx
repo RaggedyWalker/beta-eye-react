@@ -1,6 +1,7 @@
 // import React from 'react';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
 import ErrorPage from '@/pages/error';
 import OverviewPage from '@/pages/market/overview/page.tsx';
@@ -50,7 +51,7 @@ const routesConfig = [
       },
       {
         path: 'exchange',
-        element: <div>开仓策略</div>,
+        element: <WaitNewModule />,
         meta: {
           menuLevel: 2,
           title: '开仓策略',
@@ -58,7 +59,7 @@ const routesConfig = [
       },
       {
         path: 'finder',
-        element: <div>选股器</div>,
+        element: <WaitNewModule />,
         meta: {
           menuLevel: 2,
           title: '选股器',
@@ -109,14 +110,14 @@ const routesConfig = [
     children: [
       {
         index: true,
-        element: <Navigate replace to="/playground/train" />,
+        element: <WaitNewModule />,
         meta: {
-          title: '市场',
+          title: '模拟',
         },
       },
       {
         path: 'train',
-        element: <div>练习</div>,
+        element: <WaitNewModule />,
         meta: {
           title: 'k线练习',
           menuLevel: 2,

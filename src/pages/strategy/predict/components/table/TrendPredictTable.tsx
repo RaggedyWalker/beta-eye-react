@@ -9,7 +9,8 @@ import { TableParams } from '@/pages/strategy/predict/page.tsx';
 interface CustomProps extends FCProps {
   tableList: PredictRowDataType[];
   tableParams: TableParams;
-  onChange: TableProps['onChange'];
+  onChange: TableProps<PredictRowDataType>['onChange'];
+  onOperation: () => void;
 }
 
 function StockNameLink(props: { record: PredictRowDataType }) {
@@ -26,58 +27,63 @@ function StockNameLink(props: { record: PredictRowDataType }) {
   );
 }
 
-const columns: TableProps<PredictRowDataType>['columns'] = [
-  {
-    dataIndex: 'stockName',
-    title: '股票',
-    fixed: 'left',
-    width: 120,
-    render: (text, record) => <StockNameLink record={record}></StockNameLink>,
-  },
-  {
-    dataIndex: 'stockCode',
-    title: '股票代码',
-    width: 120,
-  },
-  {
-    dataIndex: 'createTime',
-    title: '提出日期',
-    width: 100,
-    render: (text) => dayjs(text).format('YYYY-MM-DD'),
-  },
-  {
-    dataIndex: 'goalPrice',
-    title: '买点价格',
-    width: 100,
-  },
-  {
-    dataIndex: 'predictTrendText',
-    title: '走势预测',
-    width: 100,
-  },
-  {
-    dataIndex: 'confidenceGradeText',
-    title: '策略信心',
-    width: 100,
-  },
-  {
-    dataIndex: 'comment',
-    title: '策略细节',
-    ellipsis: true,
-    width: 300,
-  },
-  {
-    dataIndex: 'operation',
-    title: '操作',
-    width: 100,
-    align: 'center',
-    render: (text, record) => {
-      return <TrendPredictOperation record={record} />;
-    },
-  },
-];
-
 function TrendPredictTable(props: CustomProps) {
+  const columns: TableProps<PredictRowDataType>['columns'] = [
+    {
+      dataIndex: 'stockName',
+      title: '股票',
+      fixed: 'left',
+      width: 120,
+      render: (text, record) => <StockNameLink record={record}></StockNameLink>,
+    },
+    {
+      dataIndex: 'stockCode',
+      title: '股票代码',
+      width: 120,
+    },
+    {
+      dataIndex: 'createTime',
+      title: '提出日期',
+      width: 100,
+      render: (text) => dayjs(text).format('YYYY-MM-DD'),
+    },
+    {
+      dataIndex: 'goalPrice',
+      title: '买点价格',
+      width: 100,
+    },
+    {
+      dataIndex: 'predictTrendText',
+      title: '走势预测',
+      width: 100,
+    },
+    {
+      dataIndex: 'confidenceGradeText',
+      title: '策略信心',
+      width: 100,
+    },
+    {
+      dataIndex: 'comment',
+      title: '策略细节',
+      ellipsis: true,
+      width: 300,
+    },
+    {
+      dataIndex: 'operation',
+      title: '操作',
+      width: 100,
+      align: 'center',
+      render: (text, record) => {
+        return (
+          <TrendPredictOperation
+            record={record}
+            onOperation={props.onOperation}
+          />
+        );
+      },
+    },
+  ];
+
   return (
     <div style={{ height: '50vh', overflowY: 'auto' }}>
       <Table

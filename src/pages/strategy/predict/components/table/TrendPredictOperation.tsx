@@ -1,27 +1,40 @@
 import React from 'react';
-import { Dropdown, MenuProps } from 'antd';
+import { Dropdown, MenuProps, message, TableProps } from 'antd';
+import service from '@/service';
 import { FCProps } from '@/types/react.ts';
 import { PredictRowDataType } from '@/types/service';
 import { RightCircleOutlined } from '@ant-design/icons';
 
 interface CustomProps extends FCProps {
   record: PredictRowDataType;
+  onOperation: () => void;
 }
 
-const handlerSuccess = (record: PredictRowDataType) => {
-  console.log(record);
-};
-
-const handlerFail = (record: PredictRowDataType) => {
-  console.log(record);
-};
-
-const deletePredict = (record: PredictRowDataType) => {
-  console.log(record);
-};
-
 const TrendPredictOperation: React.FC<CustomProps> = (props) => {
-  const { record } = props;
+  const { record, onOperation } = props;
+
+  const handlerSuccess = (record: PredictRowDataType) => {
+    console.log(record);
+  };
+
+  const handlerFail = (record: PredictRowDataType) => {
+    console.log(record);
+  };
+
+  const deletePredict = (record: PredictRowDataType) => {
+    console.log(record);
+    service.strategy.deletePredict(record.id).then(
+      () => {
+        message.success('删除成功');
+        onOperation();
+      },
+      (err) => {
+        console.log(err);
+        message.error(err.response.data.message);
+      },
+    );
+  };
+
   const items: MenuProps['items'] = [
     {
       label: <span onClick={() => handlerSuccess(record)}>预测成功</span>,

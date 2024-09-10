@@ -23,5 +23,14 @@ const strategy = {
     const response = await axios.post('/strategy/predict/add', data);
     return response.data;
   },
+
+  /**
+   * 删除预测
+   * @param id
+   */
+  deletePredict: async function (id: number) {
+    const response = await axios.post('/strategy/predict/delete', { id });
+    return response.data;
+  },
 };
 export default strategy;
