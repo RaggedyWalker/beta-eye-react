@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, MenuProps, message, TableProps } from 'antd';
+import { Dropdown, MenuProps, message } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react.ts';
 import { PredictRowDataType } from '@/types/service';

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchRoutes, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
-import { ItemType } from 'antd/es/menu/hooks/useItems';
+import { ItemType } from 'antd/lib/menu/interface';
 import routesConfig, { RouteConfig } from '@/routes/routesConfig.tsx';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import SuperSearch from '@/components/layout/header/SuperSearch.tsx';
