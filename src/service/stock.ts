@@ -1,4 +1,5 @@
-import { Stock, SymbolDayLine } from '@/types/stock.ts';
+import { SymbolDayLine } from '@/types/service';
+import { Stock } from '@/types/stock.ts';
 import axios from 'axios';
 
 const stock = {

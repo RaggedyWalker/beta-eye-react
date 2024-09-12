@@ -12,13 +12,13 @@ interface CustomProps extends FCProps {
   onCreatedPredict: () => void;
 }
 
-type FieldType = {
+interface FieldType {
   stock: Stock;
   goalPrice: number;
   predictTrend: number;
   confidenceGrade: number;
   comment: string;
-};
+}
 
 async function fetchOptions() {
   const data = await Promise.all([
@@ -35,7 +35,7 @@ function CreatePredictForm(props: CustomProps) {
   console.log('form render');
 
   const { message } = App.useApp();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<FieldType>();
   const [options, setOptions] = useState({
     predictTrend: [],
     confidenceGrade: [],

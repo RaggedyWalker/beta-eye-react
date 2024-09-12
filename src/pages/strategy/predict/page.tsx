@@ -86,7 +86,7 @@ const PredictPage: React.FC = () => {
 
   return (
     <main
-      className="min-h-full px-12 py-8 relative"
+      className="min-h-full px-10 py-8 relative"
       ref={PageRef}
       style={pageStyle}
     >

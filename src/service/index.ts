@@ -1,10 +1,12 @@
-import stock from '@/service/stock.ts';
-import strategy from '@/service/strategy.ts';
-import configure from './configure.js';
+import configure from './configure.ts';
+import stock from './stock.ts';
+import strategy from './strategy.ts';
+import train from './train.ts';
 
 const service = {
   configure,
   strategy,
   stock,
+  train,
 };
 export default service;

@@ -6,6 +6,7 @@ import AppLayout from '@/components/layout/AppLayout.tsx';
 import ErrorPage from '@/pages/error';
 import OverviewPage from '@/pages/market/overview/page.tsx';
 import StockPage from '@/pages/market/stock/page.tsx';
+import TrainPage from '@/pages/playground/train/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 
 export interface RouteConfig {
@@ -110,14 +111,14 @@ const routesConfig = [
     children: [
       {
         index: true,
-        element: <WaitNewModule />,
+        element: <Navigate replace to="/playground/train" />,
         meta: {
           title: '模拟',
         },
       },
       {
         path: 'train',
-        element: <WaitNewModule />,
+        element: <TrainPage />,
         meta: {
           title: 'k线练习',
           menuLevel: 2,
