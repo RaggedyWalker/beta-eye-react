@@ -1,14 +1,19 @@
 import React from 'react';
 import { Select, SelectProps } from 'antd';
+import { FCProps } from '@/types/react';
 import { Stock } from '@/types/stock.ts';
 import useStockSearch from '@/hooks/useStockSearch';
 
-const SearchStockSelect: React.FC<{
+interface customProps extends FCProps {
   value?: Stock | undefined | null;
   onChange?: (newValue: Stock | undefined) => void;
-}> = (props) => {
+  disabled?: boolean;
+}
+
+const SearchStockSelect: React.FC<customProps> = (props) => {
   const { stockOptions, handleSearch } = useStockSearch();
   const stockValue = props.value?.stockCode;
+
   const handleStockChange: SelectProps['onChange'] = (newValue) => {
     if (props.onChange) {
       props.onChange(
@@ -28,6 +33,7 @@ const SearchStockSelect: React.FC<{
       onChange={handleStockChange}
       notFoundContent={null}
       allowClear
+      disabled={props.disabled}
       options={(stockOptions || []).map((d: Stock) => ({
         value: d.stockCode,
         label: `${d.stockName} (${d.stockCode})`,

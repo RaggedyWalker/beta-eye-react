@@ -27,13 +27,15 @@ export interface SymbolDayLine {
   ampPct: number;
 }
 
+export interface TrainKlineConfig {
+  stockCode: string;
+  startDate: string;
+  period: number;
+  blind: boolean;
+  revealTime: boolean;
+}
+
 export interface TrainKlineResource {
-  config: {
-    stockCode: string;
-    startDate: string;
-    period: number;
-    blind: boolean;
-    revealTime: boolean;
-  };
+  config: TrainKlineConfig;
   data: SymbolDayLine[];
 }
