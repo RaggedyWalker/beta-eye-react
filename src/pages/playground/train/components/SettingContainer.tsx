@@ -66,6 +66,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
   }
 
   function periodLimit(e: React.ChangeEvent<HTMLInputElement>) {
+    // console.log(e.target.value);
     const val = Number(e.target.value);
     if (val > 1000) {
       form.setFieldValue('period', 1000);
@@ -132,20 +133,25 @@ const SettingContainer: FC<CustomProps> = (props) => {
             </Form.Item>
           )}
         </Form.Item>
-        <Form.Item name="period" label="周期" rules={[{ required: true }]}>
+        <Form.Item
+          name="period"
+          label="周期"
+          tooltip="范围：30-600天"
+          rules={[{ required: true }]}
+        >
           <Input
             className="w-full mr-4 flex-1"
             type="number"
             min={10}
             max={1000}
             addonAfter="天"
-            onChange={periodLimit}
+            onBlur={periodLimit}
           />
         </Form.Item>
         <Form.Item
           name="blind"
           label="双盲随机"
-          tooltip="随机生成股票和起始时间。如果已选择起始时间，将在起始时间之后随机生成"
+          tooltip="随机生成股票和起始时间"
           rules={[{ required: true }]}
         >
           <Switch></Switch>
