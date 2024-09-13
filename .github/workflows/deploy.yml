@@ -16,6 +16,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
             node-version: '18'
+      # 3. 缓存 Yarn 依赖
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v3
+        with:
+            path: |
+                node_modules  # 缓存 node_modules 文件夹
+                ~/.yarn/cache # 可选：缓存 Yarn 的全局缓存
+                key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+                restore-keys: |
+                yarn-${{ runner.os }}-
       # 3. 安装依赖
       - name: Install dependencies
         run: npm i -g yarn && yarn
@@ -28,7 +38,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avz --delete"
-          SOURCE: "eye/"  # 打包后输出的目录，比如 dist 或 build
+          SOURCE: "eye"  # 打包后输出的目录，比如 dist 或 build
           REMOTE_HOST: ${{ secrets.SERVER_HOST }}
           REMOTE_USER: ${{ secrets.SERVER_USER }}
           TARGET: ${{ secrets.SERVER_PATH }}
