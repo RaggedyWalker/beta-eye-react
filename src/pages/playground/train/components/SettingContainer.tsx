@@ -87,7 +87,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
       <h1>训练设置</h1>
       <Form
         {...formLayout}
-        labelAlign="left"
+        labelAlign="right"
         form={form}
         name="control-hooks"
         initialValues={initialValues}
@@ -142,8 +142,8 @@ const SettingContainer: FC<CustomProps> = (props) => {
           <Input
             className="w-full mr-4 flex-1"
             type="number"
-            min={10}
-            max={1000}
+            min={30}
+            max={600}
             addonAfter="天"
             onBlur={periodLimit}
           />
