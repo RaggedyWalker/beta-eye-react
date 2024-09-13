@@ -1,14 +1,15 @@
-import React, { FC } from 'react';
-import { Button, DatePicker, Form, Input, Space, Switch } from 'antd';
+import React, { FC, useState } from 'react';
+import { App, Button, DatePicker, Form, Input, Space, Switch } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react';
+import { Stock } from '@/types/stock';
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import SearchStockSelect from '@/pages/strategy/predict/components/form/SearchStockSelect';
 
 interface CustomProps extends FCProps {}
 interface FormDataType {
-  stockCode?: string;
+  stock?: Stock;
   startDate?: Dayjs;
   period: number;
   blind: boolean;
@@ -37,6 +38,9 @@ const initialValues = {
 
 const SettingContainer: FC<CustomProps> = (props) => {
   const [form] = Form.useForm<FormDataType>();
+  const { message } = App.useApp();
+  const [loading, setLoading] = useState(false);
+
   function onValuesChange() {}
   function onReset() {
     form.resetFields();
@@ -44,14 +48,20 @@ const SettingContainer: FC<CustomProps> = (props) => {
 
   function onFinish() {
     form.validateFields().then((values) => {
+      setLoading(true);
       service.train
         .initTrain({
           ...values,
+          stockCode: values.stock?.stockCode,
           startDate: values.startDate?.valueOf(),
         })
         .then((data) => {
           console.log(data);
-        });
+        })
+        .catch((e) => {
+          message.error(e.message);
+        })
+        .finally(() => setLoading(false));
     });
   }
 
@@ -149,7 +159,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Space>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               开始
             </Button>
             <Button htmlType="button" onClick={onReset}>
