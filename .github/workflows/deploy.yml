@@ -23,8 +23,8 @@ jobs:
             path: |
                 node_modules  # 缓存 node_modules 文件夹
                 ~/.yarn/cache # 可选：缓存 Yarn 的全局缓存
-                key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-                restore-keys: |
+            key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+            restore-keys: |
                 yarn-${{ runner.os }}-
       # 3. 安装依赖
       - name: Install dependencies
