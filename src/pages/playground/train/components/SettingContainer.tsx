@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { App, Button, DatePicker, Form, Input, Space, Switch } from 'antd';
+import { Button, DatePicker, Form, Input, Space, Switch } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react';
 import styled from '@emotion/styled';
