@@ -50,8 +50,6 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
     return sideMenus;
   }, [currentHeaderMenu, pathname]);
 
-  
-
   useEffect(() => {
     const routes = matchRoutes(routesConfig, pathname);
     console.log('matchRoutes', routes);
