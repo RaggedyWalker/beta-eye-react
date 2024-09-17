@@ -36,6 +36,12 @@ const initialValues = {
   revealTime: false,
 };
 
+/**
+ * 1. 获取初始化训练参数
+ * 2. 记录本次训练参数
+ * 3. 获取训练k线数据
+ * 4. 记录本次训练数据
+ */
 const SettingContainer: FC<CustomProps> = (props) => {
   const [form] = Form.useForm<FormDataType>();
   const { message } = App.useApp();
@@ -76,12 +82,6 @@ const SettingContainer: FC<CustomProps> = (props) => {
     }
   }
 
-  /**
-   * 1. 获取初始化训练参数
-   * 2. 记录本次训练参数
-   * 3. 获取训练k线数据
-   * 4. 记录本次训练数据
-   */
   return (
     <StyleDiv className={[props.className, 'px-6 py-4 bg-slate-100'].join(' ')}>
       <h1>训练设置</h1>

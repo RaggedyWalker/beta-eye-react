@@ -8,6 +8,8 @@ import OverviewPage from '@/pages/market/overview/page.tsx';
 import StockPage from '@/pages/market/stock/page.tsx';
 import TrainPage from '@/pages/playground/train/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
+import LoginPage from '@/pages/user/login/page';
+import RegistryPage from '@/pages/user/registry/page';
 
 export interface RouteConfig {
   meta?: {
@@ -26,6 +28,22 @@ const routesConfig = [
     path: '/',
     element: <Navigate replace to="/strategy" />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+    meta: {
+      title: '登录',
+      skipAuth: true,
+    },
+  },
+  {
+    path: '/registry',
+    element: <RegistryPage />,
+    meta: {
+      title: '注册',
+      skipAuth: true,
+    },
   },
   {
     path: '/strategy',

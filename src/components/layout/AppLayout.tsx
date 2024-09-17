@@ -48,13 +48,13 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
       });
     }
     return sideMenus;
-  }, [currentHeaderMenu]);
+  }, [currentHeaderMenu, pathname]);
+
+  
 
   useEffect(() => {
-    // setSideMenus(getSideMenus(location));
     const routes = matchRoutes(routesConfig, pathname);
     console.log('matchRoutes', routes);
-    const pathArr: string[] = [];
     if (routes !== null) {
       routes.forEach((route, index) => {
         if (index === 0) {
@@ -65,8 +65,6 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
         }
       });
     }
-    console.log('sideMenus', sideMenus);
-    console.log('pathArr', pathArr);
   }, [pathname]);
 
   const showSider = useMemo(

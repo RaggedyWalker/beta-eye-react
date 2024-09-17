@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, TablePaginationConfig, TableProps } from 'antd';
+import { App, Button, message, TablePaginationConfig, TableProps } from 'antd';
 import service from '@/service';
 import { PredictRowDataType } from '@/types/service';
 import { PlusOutlined } from '@ant-design/icons';
@@ -32,6 +32,7 @@ const pageStyle: React.CSSProperties = {
 
 const PredictPage: React.FC = () => {
   const PageRef = React.useRef<HTMLElement>(null);
+  const { message } = App.useApp();
   // control table
   const [tableList, setTableList] = useState<PredictRowDataType[]>([]);
   const [tableParams, setTableParams] = useState<TableParams>({
