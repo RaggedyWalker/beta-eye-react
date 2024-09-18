@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { App, Button, message, TablePaginationConfig, TableProps } from 'antd';
+import { App, Button, TablePaginationConfig, TableProps } from 'antd';
 import service from '@/service';
 import { PredictRowDataType } from '@/types/service';
 import { PlusOutlined } from '@ant-design/icons';
