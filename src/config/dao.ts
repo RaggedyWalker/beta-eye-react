@@ -16,7 +16,7 @@ axios.interceptors.response.use(
     if (error.response?.status === 401) {
       const data = error.response?.data;
       message.error((data as Partial<BusinessError>).message);
-      router.navigate({ pathname: 'login' });
+      router.navigate({ pathname: '/login' });
     }
     return Promise.reject(error.response?.data);
   },
