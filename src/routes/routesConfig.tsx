@@ -15,6 +15,7 @@ export interface RouteConfig {
   meta?: {
     title?: string;
     menuLevel?: number;
+    auth?: boolean;
   };
   children?: RouteConfig[];
   element?: React.ReactNode;
@@ -34,7 +35,7 @@ const routesConfig = [
     element: <LoginPage />,
     meta: {
       title: '登录',
-      skipAuth: true,
+      auth: false,
     },
   },
   {
@@ -42,7 +43,7 @@ const routesConfig = [
     element: <RegistryPage />,
     meta: {
       title: '注册',
-      skipAuth: true,
+      auth: false,
     },
   },
   {
@@ -51,6 +52,7 @@ const routesConfig = [
     meta: {
       title: '策略',
       menuLevel: 1,
+      auth: true,
     },
     children: [
       {
@@ -92,6 +94,7 @@ const routesConfig = [
     meta: {
       menuLevel: 1,
       title: '市场',
+      auth: true,
     },
     children: [
       {
@@ -125,6 +128,7 @@ const routesConfig = [
     meta: {
       menuLevel: 1,
       title: '模拟',
+      auth: true,
     },
     children: [
       {

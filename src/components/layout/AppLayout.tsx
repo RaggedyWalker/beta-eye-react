@@ -1,5 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { matchRoutes, NavLink, Outlet, useLocation } from 'react-router-dom';
+import {
+  matchRoutes,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
 import { ItemType } from 'antd/lib/menu/interface';
 import routesConfig, { RouteConfig } from '@/routes/routesConfig.tsx';
@@ -28,6 +34,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const systemTheme = props.theme || 'dark';
   const { token } = theme.useToken();
 
@@ -53,6 +60,10 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   useEffect(() => {
     const routes = matchRoutes(routesConfig, pathname);
     console.log('matchRoutes', routes);
+    const auth = routes?.find((item) => item.route.meta?.auth === true);
+    if (auth && !localStorage.token) {
+      return navigate('/login');
+    }
     if (routes !== null) {
       routes.forEach((route, index) => {
         if (index === 0) {
