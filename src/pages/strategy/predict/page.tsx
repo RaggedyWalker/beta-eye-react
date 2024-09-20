@@ -4,6 +4,7 @@ import service from '@/service';
 import { PredictRowDataType } from '@/types/service';
 import { PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import BetaCard from '@/components/layout/Card';
 import CreatePredictDrawer from '@/pages/strategy/predict/components/CreatePredictDrawer.tsx';
 import TrendPredictTable from '@/pages/strategy/predict/components/table/TrendPredictTable.tsx';
 
@@ -86,12 +87,8 @@ const PredictPage: React.FC = () => {
   };
 
   return (
-    <main
-      className="min-h-full px-10 py-8 relative"
-      ref={PageRef}
-      style={pageStyle}
-    >
-      <section className="mb-4">
+    <main className="px-10 py-8 relative" ref={PageRef} style={pageStyle}>
+      <section className="mb-8">
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -100,12 +97,14 @@ const PredictPage: React.FC = () => {
           新增
         </Button>
       </section>
+      {/* <BetaCard> */}
       <TrendPredictTable
         tableList={tableList}
         tableParams={tableParams}
         onChange={onTableChange}
         onOperation={onRefresh}
       />
+      {/* </BetaCard> */}
       {createDrawerOpen && (
         <CreatePredictDrawer
           open={createDrawerOpen}

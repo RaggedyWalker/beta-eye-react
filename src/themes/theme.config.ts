@@ -1,19 +1,21 @@
-// import { ThemeConfig } from 'antd';
+import theme from './theme';
+
+// import theme from '@/assets/theme.json';
 
 const themeConfig = {
   token: {
-    // colorPrimary: '#722ed1',
-    // colorInfo: '#722ed1',
-    // wireframe: false,
-    // borderRadius: 2,
-    colorPrimary: '#722ed1',
-    colorInfo: '#722ed1',
+    colorPrimary: theme.colors.primary,
+    colorInfo: theme.colors.info,
     wireframe: false,
     borderRadius: 4,
-    colorTextBase: '#1e1e1e',
-    token: {
-      colorPrimary: '#361e89',
-      colorInfo: '#361e89',
+    colorTextBase: theme.colors['text-base'],
+    // colorFillQuaternary: theme.colors['layout-base'],
+    colorContainerBase: theme.colors['container-base'],
+  },
+  components: {
+    Table: {
+      // headerBg: 'rgb(246,245,247)',
+      headerBg: '#f5f5f5',
     },
   },
   // 暗黑模式

@@ -28,82 +28,98 @@ function RegistryPage() {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
-      <h2>用户注册</h2>
-      <Form form={form} name="register" onFinish={onFinish} layout="vertical">
-        <Form.Item
-          label="账号名称"
-          name="userName"
-          rules={[
-            { required: true, message: '请输入账号名称!' },
-            { min: 3, message: '账号名称至少为 3 个字符!' },
-          ]}
+    <div className="h-screen flex justify-center items-center">
+      <div className="max-w-[600px] min-w-[400px]">
+        <section className="text-2xl font-bold my-6">注册</section>
+        <Form
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          layout="vertical"
+          variant={'filled'}
         >
-          <Input placeholder="请输入账号名称" />
-        </Form.Item>
+          <Form.Item
+            label="账号名称"
+            name="userName"
+            rules={[
+              { required: true, message: '请输入账号名称!' },
+              { min: 3, message: '账号名称至少为 3 个字符!' },
+            ]}
+          >
+            <Input placeholder="请输入账号名称" />
+          </Form.Item>
 
-        <Form.Item
-          label="手机号"
-          name="phone"
-          rules={[
-            {
-              pattern: /^[1][3-9][0-9]{9}$/,
-              message: '请输入有效的手机号!',
-            },
-          ]}
-        >
-          <Input placeholder="请输入手机号（选填）" />
-        </Form.Item>
-
-        <Form.Item
-          label="邮箱"
-          name="email"
-          rules={[
-            {
-              type: 'email',
-              message: '请输入有效的邮箱地址!',
-            },
-          ]}
-        >
-          <Input placeholder="请输入邮箱（选填）" />
-        </Form.Item>
-
-        <Form.Item
-          label="密码"
-          name="password"
-          rules={[
-            { required: true, message: '请输入密码!' },
-            { min: 6, message: '密码至少为 6 个字符!' },
-          ]}
-        >
-          <Input.Password placeholder="请输入密码" />
-        </Form.Item>
-
-        <Form.Item
-          label="确认密码"
-          name="confirmPassword"
-          rules={[
-            { required: true, message: '请输入密码!' },
-            { min: 6, message: '密码至少为 6 个字符!' },
-            {
-              validator(rule, value) {
-                if (value && value !== form.getFieldValue('password')) {
-                  return Promise.reject('两次输入的密码不一致，请重新输入');
-                }
-                return Promise.resolve();
+          <Form.Item
+            label="手机号"
+            name="phone"
+            rules={[
+              {
+                pattern: /^[1][3-9][0-9]{9}$/,
+                message: '请输入有效的手机号!',
               },
-            },
-          ]}
-        >
-          <Input.Password placeholder="请再次输入密码" />
-        </Form.Item>
+            ]}
+          >
+            <Input placeholder="请输入手机号（选填）" />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            注册
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item
+            label="邮箱"
+            name="email"
+            rules={[
+              {
+                type: 'email',
+                message: '请输入有效的邮箱地址!',
+              },
+            ]}
+          >
+            <Input placeholder="请输入邮箱（选填）" />
+          </Form.Item>
+
+          <Form.Item
+            label="密码"
+            name="password"
+            rules={[
+              { required: true, message: '请输入密码!' },
+              { min: 6, message: '密码至少为 6 个字符!' },
+            ]}
+          >
+            <Input.Password placeholder="请输入密码" />
+          </Form.Item>
+
+          <Form.Item
+            label="确认密码"
+            name="confirmPassword"
+            rules={[
+              { required: true, message: '请输入密码!' },
+              { min: 6, message: '密码至少为 6 个字符!' },
+              {
+                validator(rule, value) {
+                  if (value && value !== form.getFieldValue('password')) {
+                    return Promise.reject('两次输入的密码不一致，请重新输入');
+                  }
+                  return Promise.resolve();
+                },
+              },
+            ]}
+          >
+            <Input.Password placeholder="请再次输入密码" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              注册
+            </Button>
+          </Form.Item>
+        </Form>
+        <p>
+          <a
+            className="text-xs text-primary cursor-pointer"
+            onClick={() => navigate('/login')}
+          >
+            已有账号？去登录吧!
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

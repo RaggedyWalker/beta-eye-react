@@ -82,12 +82,9 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   );
 
   return (
-    <Layout className="h-screen">
+    <Layout className="h-screen bg-layout-base">
       <Header
         style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
           width: '100%',
           display: 'flex',
           alignItems: 'center',
@@ -149,48 +146,39 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           <SuperSearch className="w-4 min-w-60 content-end"></SuperSearch>
         </div>
       </Header>
-      <Content>
-        <Layout className="h-full">
-          {showSider && (
-            <Sider
-              width={200}
-              collapsedWidth={0}
-              style={{
-                background: '#fcf9fd',
-              }}
-              collapsed={collapsed}
-            >
-              <Menu
-                theme={systemTheme}
-                mode="inline"
-                defaultSelectedKeys={
-                  sideMenus.length > 0 ? [sideMenus[0].key as string] : []
-                }
-                selectedKeys={[currentSideMenu]}
-                style={{ height: '100%', borderRight: 0 }}
-                items={sideMenus}
-              />
-            </Sider>
-          )}
-          <Layout
-            className={['h-full', 'overflow-y-auto', showSider ? '' : ''].join(
-              ' ',
-            )}
+      <Layout>
+        {showSider && (
+          <Sider
+            width={200}
+            collapsedWidth={0}
+            style={{
+              background: '#001529',
+            }}
+            collapsed={collapsed}
           >
-            <Content
-              className=""
-              style={{
-                marginLeft: 0,
-                minHeight: 280,
-                background: token.colorBgContainer,
-                overflow: 'auto',
-              }}
-            >
-              <Outlet />
-            </Content>
-          </Layout>
+            <Menu
+              theme={systemTheme}
+              mode="inline"
+              defaultSelectedKeys={
+                sideMenus.length > 0 ? [sideMenus[0].key as string] : []
+              }
+              selectedKeys={[currentSideMenu]}
+              style={{ height: '100%', borderRight: 0 }}
+              items={sideMenus}
+            />
+          </Sider>
+        )}
+        <Layout className={[showSider ? '' : ''].join(' ')}>
+          <Content
+            className="bg-layout-base overflow-auto"
+            style={{
+              marginLeft: 0,
+            }}
+          >
+            <Outlet />
+          </Content>
         </Layout>
-      </Content>
+      </Layout>
     </Layout>
   );
 };

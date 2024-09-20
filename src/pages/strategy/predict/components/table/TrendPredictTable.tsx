@@ -3,6 +3,7 @@ import { Button, Table, TableProps } from 'antd';
 import { FCProps } from '@/types/react.ts';
 import type { PredictRowDataType } from '@/types/service';
 import dayjs from 'dayjs';
+import BetaCard from '@/components/layout/Card';
 import TrendPredictOperation from '@/pages/strategy/predict/components/table/TrendPredictOperation.tsx';
 import { TableParams } from '@/pages/strategy/predict/page.tsx';
 
@@ -85,18 +86,17 @@ function TrendPredictTable(props: CustomProps) {
   ];
 
   return (
-    <div style={{ height: '50vh', overflowY: 'auto' }}>
+    <BetaCard>
       <Table
-        bordered
-        sticky
         rowKey="id"
         columns={columns}
         dataSource={props.tableList}
         pagination={props.tableParams.pagination}
         onChange={props.onChange}
         size="small"
+        sticky={{ offsetHeader: 64 }}
       />
-    </div>
+    </BetaCard>
   );
 }
 

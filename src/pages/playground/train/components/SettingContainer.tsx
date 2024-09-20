@@ -3,8 +3,8 @@ import { App, Button, DatePicker, Form, Input, Space, Switch } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react';
 import { Stock } from '@/types/stock';
-import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
+import BetaCard from '@/components/layout/Card';
 import SearchStockSelect from '@/pages/strategy/predict/components/form/SearchStockSelect';
 
 interface CustomProps extends FCProps {}
@@ -15,14 +15,6 @@ interface FormDataType {
   blind: boolean;
   revealTime: boolean;
 }
-
-const StyleDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  overflow-y: auto;
-  border-radius: 4px;
-`;
 const formLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -83,18 +75,23 @@ const SettingContainer: FC<CustomProps> = (props) => {
   }
 
   return (
-    <StyleDiv className={[props.className, 'px-6 py-4 bg-slate-100'].join(' ')}>
+    <BetaCard
+      className={[
+        props.className,
+        'flex flex-col overflow-y-auto gap-6 px-6 py-4',
+      ].join(' ')}
+    >
       <h1>训练设置</h1>
       <Form
         {...formLayout}
-        labelAlign="right"
+        labelAlign="left"
         form={form}
         name="control-hooks"
         initialValues={initialValues}
         onValuesChange={onValuesChange}
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
-        variant="outlined"
+        variant="filled"
       >
         <Form.Item noStyle shouldUpdate>
           {({ getFieldValue }) => (
@@ -174,7 +171,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
           </Space>
         </Form.Item>
       </Form>
-    </StyleDiv>
+    </BetaCard>
   );
 };
 
