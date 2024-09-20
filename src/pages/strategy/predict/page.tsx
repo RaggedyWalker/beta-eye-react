@@ -4,7 +4,6 @@ import service from '@/service';
 import { PredictRowDataType } from '@/types/service';
 import { PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
-import BetaCard from '@/components/layout/Card';
 import CreatePredictDrawer from '@/pages/strategy/predict/components/CreatePredictDrawer.tsx';
 import TrendPredictTable from '@/pages/strategy/predict/components/table/TrendPredictTable.tsx';
 
