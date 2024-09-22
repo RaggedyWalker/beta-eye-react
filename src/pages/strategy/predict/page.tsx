@@ -96,14 +96,12 @@ const PredictPage: React.FC = () => {
           新增
         </Button>
       </section>
-      {/* <BetaCard> */}
       <TrendPredictTable
         tableList={tableList}
         tableParams={tableParams}
         onChange={onTableChange}
         onOperation={onRefresh}
       />
-      {/* </BetaCard> */}
       {createDrawerOpen && (
         <CreatePredictDrawer
           open={createDrawerOpen}

@@ -3,7 +3,7 @@ import { useNavigate, useRouteError } from 'react-router-dom';
 export default function ErrorPage() {
   const error = useRouteError() as Error;
   const navigate = useNavigate();
-  // console.error(error);
+  console.error(error);
   setTimeout(() => {
     navigate({ pathname: '/' }, { replace: true });
   }, 3000);

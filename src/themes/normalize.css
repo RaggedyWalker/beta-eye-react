@@ -352,23 +352,23 @@
 
   /* 自定义滚动条的宽度和高度 */
 ::-webkit-scrollbar {
-  width: 4px;  /* 滚动条的宽度 */
+  width: 6px;  /* 滚动条的宽度 */
   height: 4px; /* 水平滚动条的高度 */
 }
 
 /* 滚动条轨道（背景） */
 ::-webkit-scrollbar-track {
   background: transparent;
-  border-radius: 10px;
+  border-radius: 10;
 }
 
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
   background: #d4d4d4; 
-  border-radius: 10px;
+  border-radius: 0;
 }
 /* 当滑块被悬停时 */
 ::-webkit-scrollbar-thumb:hover {
-  /* background: #555;  */
-  background: #722ed1; 
+  background: #bababa; 
+  /* background: rgba(114, 46, 209, 0.6);  */
 }

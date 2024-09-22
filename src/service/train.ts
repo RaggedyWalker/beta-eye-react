@@ -16,6 +16,13 @@ const train = {
     const response = await axios.post('/train/init', data);
     return response.data;
   },
+
+  getTrainData: async (data: { id: number }): Promise<TrainKlineConfig> => {
+    const response = await axios.get('/train/getTrainData', {
+      params: data,
+    });
+    return response.data;
+  },
 };
 
 export default train;

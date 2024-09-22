@@ -11,9 +11,7 @@ interface FieldType {
   phone?: string;
 }
 
-function Login(props: {
-  handleAction: (action: 'login' | 'registry') => void;
-}) {
+function Login() {
   const [form] = Form.useForm<FieldType>();
   const navigate = useNavigate();
   const { message } = App.useApp();
@@ -97,7 +95,7 @@ function Login(props: {
       <p>
         <a
           className="text-xs text-primary cursor-pointer"
-          onClick={() => props.handleAction('registry')}
+          onClick={() => navigate('/registry')}
         >
           没有账号？点此注册
         </a>

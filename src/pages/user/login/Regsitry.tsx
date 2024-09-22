@@ -10,9 +10,7 @@ interface FieldType {
   phone?: string;
 }
 
-function Registry(props: {
-  handleAction: (action: 'login' | 'registry') => void;
-}) {
+function Registry() {
   const { message } = App.useApp();
   const [form] = Form.useForm<FieldType>();
   const navigate = useNavigate();
@@ -114,7 +112,7 @@ function Registry(props: {
       <p>
         <a
           className="text-xs text-primary cursor-pointer"
-          onClick={() => props.handleAction('login')}
+          onClick={() => navigate('/login')}
         >
           已有账号？去登录吧!
         </a>

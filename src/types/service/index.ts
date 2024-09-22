@@ -28,6 +28,7 @@ export interface SymbolDayLine {
 }
 
 export interface TrainKlineConfig {
+  id: number;
   stockCode: string;
   startDate: string;
   period: number;

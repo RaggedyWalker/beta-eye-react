@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { App, Button, DatePicker, Form, Input, Space, Switch } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react';
@@ -38,6 +39,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
   const [form] = Form.useForm<FormDataType>();
   const { message } = App.useApp();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   function onValuesChange() {}
   function onReset() {
@@ -55,6 +57,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
         })
         .then((data) => {
           console.log(data);
+          navigate(`sandbox/${data.id}`);
         })
         .catch((e) => {
           message.error(e.message);

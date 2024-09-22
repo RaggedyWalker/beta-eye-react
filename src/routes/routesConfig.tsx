@@ -1,5 +1,5 @@
 // import React from 'react';
-import React from 'react';
+import React, { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
@@ -9,7 +9,8 @@ import StockPage from '@/pages/market/stock/page.tsx';
 import TrainPage from '@/pages/playground/train/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 import LoginPage from '@/pages/user/login/page';
-import RegistryPage from '@/pages/user/registry/page';
+
+// const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
 
 export interface RouteConfig {
   meta?: {
@@ -40,7 +41,7 @@ const routesConfig = [
   },
   {
     path: '/registry',
-    element: <RegistryPage />,
+    element: <LoginPage />,
     meta: {
       title: '注册',
       auth: false,
@@ -144,6 +145,13 @@ const routesConfig = [
         meta: {
           title: 'k线练习',
           menuLevel: 2,
+        },
+      },
+      {
+        path: 'train/sandbox/:id',
+        Component: lazy(() => import('@/pages/playground/train/sandbox/page')),
+        meta: {
+          title: 'k线训练沙盒',
         },
       },
     ],
