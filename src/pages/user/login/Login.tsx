@@ -16,7 +16,7 @@ function Login() {
   const navigate = useNavigate();
   const { message } = App.useApp();
 
-  const { clearToken } = useUserInfo();
+  const { setToken, clearToken } = useUserInfo();
 
   useEffect(() => {
     clearToken();
@@ -28,6 +28,7 @@ function Login() {
     service.user
       .login(values)
       .then((result) => {
+        setToken(result.data.token);
         navigate('/');
       })
       .catch((e) => {

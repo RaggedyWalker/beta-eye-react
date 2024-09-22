@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import BetaCard from '@/components/layout/Card';
 import Login from './Login';
 import Registry from './Regsitry';

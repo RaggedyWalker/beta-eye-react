@@ -86,7 +86,11 @@ const PredictPage: React.FC = () => {
   };
 
   return (
-    <main className="px-10 py-8 relative" ref={PageRef} style={pageStyle}>
+    <main
+      className="h-full px-10 py-8 relative"
+      ref={PageRef}
+      style={pageStyle}
+    >
       <section className="mb-8">
         <Button
           type="primary"

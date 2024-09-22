@@ -88,6 +88,7 @@ function TrendPredictTable(props: CustomProps) {
   return (
     <BetaCard>
       <Table
+        bordered
         rowKey="id"
         columns={columns}
         dataSource={props.tableList}

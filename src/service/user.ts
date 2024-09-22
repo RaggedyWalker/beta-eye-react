@@ -7,8 +7,6 @@ const user = {
   async login(data: { userName?: string; password: string }) {
     data.password = CryptoJS.AES.encrypt(data.password, key).toString();
     const result = await axios.post('/user/login', data);
-    const { token } = result.data;
-    localStorage.setItem('token', token);
     return result;
   },
 

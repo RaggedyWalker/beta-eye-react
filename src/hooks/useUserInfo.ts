@@ -1,18 +1,24 @@
 import { useState } from 'react';
 
 function useUserInfo() {
-  const [token, setToken] = useState<string | null>(
+  const [userToken, setUserToken] = useState<string | null>(
     localStorage.getItem('token'),
   );
 
   function clearToken() {
     localStorage.removeItem('token');
-    setToken(null);
+    setUserToken(null);
+  }
+
+  function setToken(token: string) {
+    localStorage.setItem('token', token);
+    setUserToken(token);
   }
 
   return {
-    token,
+    userToken,
     clearToken,
+    setToken,
   };
 }
 
