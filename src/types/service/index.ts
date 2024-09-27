@@ -29,11 +29,12 @@ export interface SymbolDayLine {
 
 export interface TrainKlineConfig {
   id: number;
-  stockCode: string;
+  name: string;
+  code: string;
   startDate: string;
   period: number;
   blind: boolean;
-  revealTime: boolean;
+  userId: number;
 }
 
 export interface TrainKlineResource {

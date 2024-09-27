@@ -1,4 +1,4 @@
-import { TrainKlineConfig } from '@/types/service';
+import { TrainKlineConfig, TrainKlineResource } from '@/types/service';
 import axios from 'axios';
 
 const train = {
@@ -7,6 +7,7 @@ const train = {
    * @param data
    */
   initTrain: async (data: {
+    stockName?: string;
     stockCode?: string;
     startDate?: number;
     period: number;
@@ -17,7 +18,7 @@ const train = {
     return response.data;
   },
 
-  getTrainData: async (data: { id: number }): Promise<TrainKlineConfig> => {
+  getTrainData: async (data: { id: number }): Promise<TrainKlineResource> => {
     const response = await axios.get('/train/getTrainData', {
       params: data,
     });

@@ -3,6 +3,13 @@
 /* Document
    ========================================================================== */
 
+/* 全局设置 box-sizing: border-boxs */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 /**
  * 1. Correct the line height in all browsers.
  * 2. Prevent adjustments of font size after orientation changes in iOS.
@@ -371,4 +378,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #bababa; 
   /* background: rgba(114, 46, 209, 0.6);  */
+}
+
+p {
+  /* margin-block-start: 0; */
+  /* margin-block-end: 0; */
+  padding: 0;
+  margin: 0;
 }

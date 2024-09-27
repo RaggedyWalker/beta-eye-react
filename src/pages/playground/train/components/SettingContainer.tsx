@@ -52,6 +52,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
       service.train
         .initTrain({
           ...values,
+          stockName: values.stock?.stockName,
           stockCode: values.stock?.stockCode,
           startDate: values.startDate?.valueOf(),
         })
