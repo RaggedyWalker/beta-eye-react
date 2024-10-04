@@ -78,9 +78,7 @@ function ControlPanel(props: CustomProps) {
           {((current - seed) / seed) * 100}%
         </StyledP>
         <StyledP>
-          <BuyButton type="primary" onClick={() => makeTransaction({})}>
-            买入
-          </BuyButton>
+          <BuyButton type="primary">买入</BuyButton>
           <SellButton type="primary">卖出</SellButton>
         </StyledP>
         <StyledP>
