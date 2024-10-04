@@ -61,7 +61,9 @@ function ControlPanel(props: CustomProps) {
         </StyledP>
         <StyledP>
           <label>开始时间</label>
-          {dayjs(trainConfig.startDate).format('YYYY-MM-DD')}
+          {trainConfig.blind
+            ? 'xxxxxx'
+            : dayjs(trainConfig.startDate).format('YYYY-MM-DD')}
         </StyledP>
         <StyledP>
           <label>初始资金</label>

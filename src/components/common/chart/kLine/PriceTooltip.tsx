@@ -27,7 +27,7 @@ function PriceTooltip(props: CustomProps) {
 
   return (
     <div
-      className="whitespace-nowrap bg-zinc-100/30 border-zinc-100 border-solid p-2"
+      className="whitespace-nowrap border-solid p-2 bg-[rgba(213,213,213,0.8)] border-[rgba(213,213,213,0.2)]"
       style={{
         position: 'absolute',
         top: '10px',

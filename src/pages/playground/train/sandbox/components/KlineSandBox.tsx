@@ -32,11 +32,36 @@ function splitData(rawData: SymbolDayLine[]) {
   };
 }
 
+function calculateMA(dayCount: number, data: SymbolDayLine[]) {
+  const lines = data.map((kline) => [
+    kline.timestamp,
+    kline.open,
+    kline.close,
+    kline.low,
+    kline.high,
+  ]);
+  const result = [];
+  for (let i = 0, len = lines.length; i < len; i++) {
+    if (i < dayCount) {
+      result.push('-');
+      continue;
+    }
+    let sum = 0;
+    for (let j = 0; j < dayCount; j++) {
+      sum += lines[i - j][1];
+    }
+    console.log(lines[i][0]);
+
+    result.push(+(sum / dayCount).toFixed(3));
+  }
+  return result;
+}
+
 function KlineSandBox(props: CustomProps) {
-  const { trainData } = props;
+  const { trainData, trainConfig } = props;
   const [chartData, setChartData] = useState<SymbolDayLine[]>([]);
 
-  const [tooltipData, setTooltipData] = useState<SymbolDayLine>([]);
+  const [tooltipData, setTooltipData] = useState<SymbolDayLine>();
   const [tooltipPosition, setTooltipPosition] = useState<number[]>([]);
 
   useEffect(() => {
@@ -97,10 +122,10 @@ function KlineSandBox(props: CustomProps) {
           id: 'candleSticks',
           xAxisIndex: 0,
           yAxisIndex: 0,
-          encode: {
-            x: 'timestamp',
-            y: ['open', 'close', 'low', 'high'],
-          },
+          // encode: {
+          //   x: 'timestamp',
+          //   y: ['open', 'close', 'low', 'high'],
+          // },
           dimensions: [
             'timestamp',
             'open',
@@ -118,6 +143,84 @@ function KlineSandBox(props: CustomProps) {
             borderColor0: undefined,
           },
           barMaxWidth: 28,
+          markLine: {
+            symbol: ['none', 'none'],
+            data: [
+              {
+                name: 'min line on close',
+                type: 'min',
+                valueDim: 'close',
+                lineStyle: {
+                  color: 'blue', // 线条颜色
+                  type: 'dashed', // 线条样式：虚线
+                },
+              },
+              {
+                name: 'max line on close',
+                type: 'max',
+                valueDim: 'close',
+                lineStyle: {
+                  color: 'red', // 线条颜色
+                  type: 'dashed', // 线条样式：虚线
+                },
+              },
+            ],
+            blur: {
+              lineStyle: {
+                type: 'dashed', // 线条样式：虚线
+              },
+            },
+          },
+        },
+        {
+          name: 'MA5',
+          type: 'line',
+          data: calculateMA(5, chartData),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'MA10',
+          type: 'line',
+          data: calculateMA(10, chartData),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'MA20',
+          type: 'line',
+          data: calculateMA(20, chartData),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'MA60',
+          type: 'line',
+          data: calculateMA(60, chartData),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'MA120',
+          type: 'line',
+          data: calculateMA(120, chartData),
+          symbol: 'none',
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
         },
         {
           name: 'Volume',
@@ -143,6 +246,7 @@ function KlineSandBox(props: CustomProps) {
       xAxis: [
         {
           type: 'category',
+          data: chartData.map((kline) => kline.timestamp),
           gridIndex: 0,
           boundaryGap: true,
           axisLine: { onZero: false },
@@ -168,7 +272,7 @@ function KlineSandBox(props: CustomProps) {
           axisTick: { show: false },
           splitLine: { show: false },
           axisLabel: {
-            show: true,
+            show: !trainConfig.blind,
             formatter: (value, index) => {
               return dayjs(value).format('YYYY-MM-DD');
             },
@@ -176,6 +280,7 @@ function KlineSandBox(props: CustomProps) {
           axisPointer: {
             z: 100,
             label: {
+              show: !trainConfig.blind,
               formatter(params) {
                 return dayjs(params.value).format('YYYY-MM-DD');
               },
@@ -248,11 +353,13 @@ function KlineSandBox(props: CustomProps) {
         option={chartOption}
         style={{ height: '100%' }}
       ></ReactECharts>
-      <PriceTooltip
-        blind={props.trainConfig.blind}
-        symbolData={tooltipData}
-        position={tooltipPosition}
-      ></PriceTooltip>
+      {tooltipData && (
+        <PriceTooltip
+          blind={props.trainConfig.blind}
+          symbolData={tooltipData}
+          position={tooltipPosition}
+        ></PriceTooltip>
+      )}
     </div>
   );
 }

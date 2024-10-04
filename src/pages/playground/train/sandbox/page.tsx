@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { App } from 'antd';
 import service from '@/service';
 import { TrainKlineConfig, TrainKlineResource } from '@/types/service';
-import dayjs from 'dayjs';
 import ControlPanel from './components/ControlPanel';
 import KlineSandBox from './components/KlineSandBox';
 
