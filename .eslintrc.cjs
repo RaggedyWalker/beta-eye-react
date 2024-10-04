@@ -30,6 +30,6 @@ module.exports = {
     ],
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'off' : 'warn',
+    'no-unused-vars': import.meta.env === 'production' ? 'off' : 'warn',
   },
 }
