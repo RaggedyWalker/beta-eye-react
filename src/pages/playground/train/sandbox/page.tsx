@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { App } from 'antd';
 import service from '@/service';
 import { TrainKlineConfig, TrainKlineResource } from '@/types/service';
+import dayjs from 'dayjs';
 import ControlPanel from './components/ControlPanel';
 import KlineSandBox from './components/KlineSandBox';
 
@@ -47,7 +48,8 @@ function TrainSandBox() {
       {trainResource && (
         <>
           <KlineSandBox
-            className="flex-1"
+            className="flex-1 pr-0"
+            trainConfig={trainResource?.config as TrainKlineConfig}
             trainData={trainResource.data}
             transactionRecord={transactionRecord}
           ></KlineSandBox>
