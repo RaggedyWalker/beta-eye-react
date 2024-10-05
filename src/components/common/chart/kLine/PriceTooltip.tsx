@@ -58,7 +58,7 @@ function PriceTooltip(props: CustomProps) {
       </StyledDiv>
       <StyledDiv>
         <label>涨幅</label>
-        <span style={{ color: fontColor }}>{symbolData.growthPct}</span>
+        <span style={{ color: fontColor }}>{symbolData.growthPct}%</span>
       </StyledDiv>
       <StyledDiv>
         <label>振幅</label>

@@ -24,3 +24,4 @@ eye
 *.njsproj
 *.sln
 *.sw?
+.history

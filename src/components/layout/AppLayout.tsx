@@ -62,7 +62,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
     console.log('matchRoutes', routes);
     const auth = routes?.find((item) => item.route.meta?.auth === true);
     if (auth && !localStorage.token) {
-      return navigate('/login');
+      return navigate('/login', { replace: true,state: { from: pathname} });
     }
     if (routes !== null) {
       routes.forEach((route, index) => {

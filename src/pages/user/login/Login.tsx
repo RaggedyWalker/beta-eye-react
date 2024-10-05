@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { App, Button, Form, Input } from 'antd';
 import service from '@/service';
 import useUserInfo from '@/hooks/useUserInfo';
@@ -18,6 +18,8 @@ function Login() {
 
   const { setToken, clearToken } = useUserInfo();
 
+  const location = useLocation();
+
   useEffect(() => {
     clearToken();
   }, []);
@@ -29,7 +31,12 @@ function Login() {
       .login(values)
       .then((result) => {
         setToken(result.data.token);
-        navigate('/');
+        let from = '/';
+        if (location.state?.from) {
+          from = location.state.from;
+        }
+        console.log('from:', from);
+        navigate(from, { replace: true });
       })
       .catch((e) => {
         message.error((e as Error).message);

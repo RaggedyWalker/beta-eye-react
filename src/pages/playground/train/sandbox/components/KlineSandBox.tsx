@@ -1,40 +1,27 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import theme from '@/themes/theme';
 import { FCProps } from '@/types/react';
 import { SymbolDayLine, TrainKlineConfig } from '@/types/service';
 import dayjs from 'dayjs';
+import { SeriesOption } from 'echarts';
 import ReactECharts from 'echarts-for-react';
 import { CallbackDataParams, EChartsOption } from 'echarts/types/dist/shared';
 import PriceTooltip from '@/components/common/chart/kLine/PriceTooltip';
-import { Transaction } from '../page';
+import Card from '@/components/layout/Card';
+import { Direction, Transaction } from '../page';
 
 interface CustomProps extends FCProps {
   trainConfig: TrainKlineConfig;
-  trainData: SymbolDayLine[];
   transactionRecord: Transaction[];
+  chartKlines: SymbolDayLine[];
 }
 
-function splitData(rawData: SymbolDayLine[]) {
-  const categoryData = [];
-  const values = [];
-  const volumes = [];
-  for (let i = 0; i < rawData.length; i++) {
-    const kline = rawData[i];
-    categoryData.push(dayjs(kline.timestamp).format('YYYY-MM-DD'));
-    values.push([kline.open, kline.close, kline.low, kline.high]);
-    volumes.push([i, kline.volume]);
-  }
+type ChartKline = Omit<SymbolDayLine, 'timestamp'> & {
+  timestamp: number | string;
+};
 
-  return {
-    categoryData: categoryData,
-    values: values,
-    volumes: volumes,
-  };
-}
-
-function calculateMA(dayCount: number, data: SymbolDayLine[]) {
+function calculateMA(dayCount: number, data: ChartKline[]) {
   const lines = data.map((kline) => [
-    kline.timestamp,
     kline.open,
     kline.close,
     kline.low,
@@ -48,35 +35,38 @@ function calculateMA(dayCount: number, data: SymbolDayLine[]) {
     }
     let sum = 0;
     for (let j = 0; j < dayCount; j++) {
-      sum += lines[i - j][1];
+      sum += lines[i - j][0];
     }
-    console.log(lines[i][0]);
-
     result.push(+(sum / dayCount).toFixed(3));
   }
   return result;
 }
 
 function KlineSandBox(props: CustomProps) {
-  const { trainData, trainConfig } = props;
-  const [chartData, setChartData] = useState<SymbolDayLine[]>([]);
-
-  const [tooltipData, setTooltipData] = useState<SymbolDayLine>();
+  const { trainConfig, chartKlines, transactionRecord } = props;
+  const [chartOption, setChartOption] = useState<EChartsOption>({});
+  const [tooltipData, setTooltipData] = useState<SymbolDayLine | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<number[]>([]);
 
-  useEffect(() => {
-    setChartData(trainData);
-  }, [trainData]);
+  const [chartEvents] = useState({
+    globalout: (event: any) => {
+      setTooltipData(null);
+    },
+  });
 
-  const chartOption = useMemo((): EChartsOption => {
-    return {
+  useEffect(() => {
+    const finalData: ChartKline[] = chartKlines.map((item) => ({
+      ...item,
+      timestamp: new Date(item.timestamp).toISOString(),
+    }));
+    const option: EChartsOption = {
       animation: false,
       legend: { show: false },
       dataset: [
         {
-          source: chartData,
+          source: finalData,
           dimensions: [
-            'timestamp',
+            { name: 'timestamp' },
             'high',
             'low',
             'open',
@@ -143,26 +133,92 @@ function KlineSandBox(props: CustomProps) {
             borderColor0: undefined,
           },
           barMaxWidth: 28,
+          markPoint: {
+            animation: false,
+            label: {
+              formatter: function (param) {
+                return (param.value as Direction) === Direction.BUY
+                  ? '买入'
+                  : '卖出';
+              },
+            },
+            symbolSize: 12,
+            data: transactionRecord.map((t) => {
+              const index = finalData.findIndex(
+                (data) => data.timestamp === new Date(t.date).toISOString(),
+              );
+              return {
+                name: 'Mark',
+                coord: [index, t.price],
+                symbolRotate: t.direction === Direction.BUY ? 0 : 180,
+                symbolOffset: [
+                  0,
+                  t.direction === Direction.BUY ? '500%' : '-500%',
+                ],
+                itemStyle: {
+                  borderJoin: 'miter',
+                  opacity: 0.8,
+                  color:
+                    t.direction === Direction.BUY
+                      ? theme.colors.long
+                      : theme.colors.short,
+                },
+                symbol: 'triangle',
+                value: t.direction,
+                label: {
+                  color:
+                    t.direction === Direction.BUY
+                      ? theme.colors.long
+                      : theme.colors.short,
+                  position: t.direction === Direction.BUY ? 'bottom' : 'top',
+                },
+              };
+            }),
+          },
           markLine: {
             symbol: ['none', 'none'],
             data: [
               {
-                name: 'min line on close',
+                name: 'min line on low',
                 type: 'min',
-                valueDim: 'close',
+                valueDim: 'low',
                 lineStyle: {
                   color: 'blue', // 线条颜色
                   type: 'dashed', // 线条样式：虚线
                 },
+                label: {
+                  position: 'insideStartTop',
+                  fontSize: 8,
+                },
               },
               {
-                name: 'max line on close',
+                name: 'max line on high',
                 type: 'max',
-                valueDim: 'close',
+                valueDim: 'high',
                 lineStyle: {
                   color: 'red', // 线条颜色
                   type: 'dashed', // 线条样式：虚线
                 },
+                label: {
+                  position: 'insideStartTop',
+                  fontSize: 8,
+                },
+              },
+              {
+                name: 'start',
+                xAxis: new Date(trainConfig.startDate).toISOString(),
+                lineStyle: {
+                  color: theme.colors.primary, // 线条颜色
+                  type: 'solid', // 线条样式：虚线
+                  opacity: 0.2,
+                },
+                label: {
+                  show: true,
+                  formatter: '开始',
+                  color: theme.colors['text-base'],
+                  opacity: 0.6
+                },
+                symbolRotate: 90
               },
             ],
             blur: {
@@ -175,7 +231,7 @@ function KlineSandBox(props: CustomProps) {
         {
           name: 'MA5',
           type: 'line',
-          data: calculateMA(5, chartData),
+          data: calculateMA(5, finalData),
           symbol: 'none',
           smooth: true,
           lineStyle: {
@@ -185,7 +241,7 @@ function KlineSandBox(props: CustomProps) {
         {
           name: 'MA10',
           type: 'line',
-          data: calculateMA(10, chartData),
+          data: calculateMA(10, finalData),
           symbol: 'none',
           smooth: true,
           lineStyle: {
@@ -195,7 +251,7 @@ function KlineSandBox(props: CustomProps) {
         {
           name: 'MA20',
           type: 'line',
-          data: calculateMA(20, chartData),
+          data: calculateMA(20, finalData),
           symbol: 'none',
           smooth: true,
           lineStyle: {
@@ -205,7 +261,7 @@ function KlineSandBox(props: CustomProps) {
         {
           name: 'MA60',
           type: 'line',
-          data: calculateMA(60, chartData),
+          data: calculateMA(60, finalData),
           symbol: 'none',
           smooth: true,
           lineStyle: {
@@ -215,7 +271,7 @@ function KlineSandBox(props: CustomProps) {
         {
           name: 'MA120',
           type: 'line',
-          data: calculateMA(120, chartData),
+          data: calculateMA(120, finalData),
           symbol: 'none',
           smooth: true,
           lineStyle: {
@@ -246,16 +302,17 @@ function KlineSandBox(props: CustomProps) {
       xAxis: [
         {
           type: 'category',
-          data: chartData.map((kline) => kline.timestamp),
+          data: finalData.map((kline) => kline.timestamp),
           gridIndex: 0,
           boundaryGap: true,
           axisLine: { onZero: false },
+          axisTick: { show: false },
           splitLine: { show: false },
           axisLabel: {
             show: false,
-          },
-          axisTick: {
-            show: false,
+            formatter: (value, index) => {
+              return dayjs(value).format('YYYY-MM-DD');
+            },
           },
           axisPointer: {
             z: 100,
@@ -268,7 +325,7 @@ function KlineSandBox(props: CustomProps) {
           type: 'category',
           gridIndex: 1,
           boundaryGap: true,
-          axisLine: { onZero: false },
+          axisLine: { onZero: true },
           axisTick: { show: false },
           splitLine: { show: false },
           axisLabel: {
@@ -276,6 +333,9 @@ function KlineSandBox(props: CustomProps) {
             formatter: (value, index) => {
               return dayjs(value).format('YYYY-MM-DD');
             },
+            showMinLabel: true,
+            fontSize: 8,
+            // interval: 20
           },
           axisPointer: {
             z: 100,
@@ -320,14 +380,14 @@ function KlineSandBox(props: CustomProps) {
       ],
       grid: [
         {
-          left: '0%',
-          right: '6%',
+          left: '1.6%',
+          right: '5.4%',
           top: '5%',
           height: '70%',
         },
         {
-          left: '0%',
-          right: '6%',
+          left: '1.6%',
+          right: '5.4%',
           top: '80%',
           height: '15%',
         },
@@ -337,21 +397,21 @@ function KlineSandBox(props: CustomProps) {
           type: 'inside',
           xAxisIndex: [0, 1],
           minValueSpan: 20, // 最小缩放范围，至少显示2个数据点
-        },
-        {
-          type: 'inside',
-          xAxisIndex: [0, 1],
-          minValueSpan: 20, // 最小缩放范围，至少显示2个数据点
-        },
+          maxValueSpan: 200 * 5,
+        }
       ],
     };
-  }, [chartData]);
+    console.log({ ...chartOption, ...option });
+
+    setChartOption({ ...chartOption, ...option });
+  }, [chartKlines, transactionRecord]);
 
   return (
-    <div className={`${props.className || ''} p-4 relative`}>
+    <Card className={`${props.className || ''} pl-4 relative m-6`}>
       <ReactECharts
         option={chartOption}
         style={{ height: '100%' }}
+        onEvents={chartEvents}
       ></ReactECharts>
       {tooltipData && (
         <PriceTooltip
@@ -360,7 +420,7 @@ function KlineSandBox(props: CustomProps) {
           position={tooltipPosition}
         ></PriceTooltip>
       )}
-    </div>
+    </Card>
   );
 }
 

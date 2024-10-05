@@ -1,6 +1,14 @@
 import React, { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { App, Button, DatePicker, Form, Input, Space, Switch } from 'antd';
+import {
+  App,
+  Button,
+  DatePicker,
+  Form,
+  InputNumber,
+  Space,
+  Switch,
+} from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react';
 import { Stock } from '@/types/stock';
@@ -73,8 +81,8 @@ const SettingContainer: FC<CustomProps> = (props) => {
     if (val > 1000) {
       form.setFieldValue('period', 1000);
     }
-    if (val < 10) {
-      form.setFieldValue('period', 10);
+    if (val < 30) {
+      form.setFieldValue('period', 30);
     }
   }
 
@@ -140,7 +148,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
           tooltip="范围：30-600天"
           rules={[{ required: true }]}
         >
-          <Input
+          <InputNumber
             className="w-full mr-4 flex-1"
             type="number"
             min={30}
