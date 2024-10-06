@@ -9,7 +9,7 @@ import StockPage from '@/pages/market/stock/page.tsx';
 import TrainPage from '@/pages/playground/train/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 import LoginPage from '@/pages/user/login/page';
-
+import TrainSandBox from '@/pages/playground/train/sandbox/page';
 // const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
 
 export interface RouteConfig {
@@ -149,7 +149,8 @@ const routesConfig = [
       },
       {
         path: 'train/sandbox/:id',
-        Component: lazy(() => import('@/pages/playground/train/sandbox/page')),
+        // Component: lazy(() => import('@/pages/playground/train/sandbox/page')),
+        element: <TrainSandBox />,
         meta: {
           title: 'k线训练沙盒',
         },

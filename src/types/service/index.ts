@@ -37,7 +37,7 @@ export interface TrainKlineConfig {
   period: number;
   blind: boolean;
   userId: number;
-  finished: boolean
+  finished: boolean;
 }
 
 export interface TrainKlineResource {

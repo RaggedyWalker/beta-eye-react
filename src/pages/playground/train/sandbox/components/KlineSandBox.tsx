@@ -218,6 +218,7 @@ function KlineSandBox(props: CustomProps) {
                   formatter: '开始',
                   color: theme.colors['text-base'],
                   opacity: 0.6,
+                  fontWeight: 'bold'
                 },
                 symbolRotate: 90,
               },
