@@ -1,5 +1,4 @@
-// import React from 'react';
-import React, { lazy } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
@@ -7,9 +6,10 @@ import ErrorPage from '@/pages/error';
 import OverviewPage from '@/pages/market/overview/page.tsx';
 import StockPage from '@/pages/market/stock/page.tsx';
 import TrainPage from '@/pages/playground/train/page';
+import TrainSandBox from '@/pages/playground/train/sandbox/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 import LoginPage from '@/pages/user/login/page';
-import TrainSandBox from '@/pages/playground/train/sandbox/page';
+
 // const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
 
 export interface RouteConfig {
@@ -149,7 +149,7 @@ const routesConfig = [
       },
       {
         path: 'train/sandbox/:id',
-        // Component: lazy(() => import('@/pages/playground/train/sandbox/page')),
+        // Component: React.lazy(() => import('@/pages/playground/train/sandbox/page')),
         element: <TrainSandBox />,
         meta: {
           title: 'k线训练沙盒',

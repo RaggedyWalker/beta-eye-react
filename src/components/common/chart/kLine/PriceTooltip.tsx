@@ -11,7 +11,7 @@ interface CustomProps extends FCProps {
 }
 
 function PriceTooltip(props: CustomProps) {
-  const { symbolData, position } = props;
+  const { symbolData } = props;
 
   const StyledDiv = Styled.div`
 
