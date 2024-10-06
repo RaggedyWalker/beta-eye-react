@@ -1,25 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { App } from 'antd';
 import service from '@/service';
+import { Transaction, TransDirection } from '@/types/playground';
 import { SymbolDayLine, TrainKlineResource } from '@/types/service';
 import ControlPanel from './components/ControlPanel';
 import KlineSandBox from './components/KlineSandBox';
 
-export enum Direction {
-  BUY,
-  SELL,
-}
-export interface Transaction {
-  id?: number;
-  date: number;
-  price: number;
-  amount: number;
-  direction: Direction;
-}
-
 function TrainSandBox() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [trainResource, setTrainResource] = useState<TrainKlineResource>();
   const [chartKlines, setChartKlines] = useState<SymbolDayLine[]>([]);
 
@@ -32,20 +22,21 @@ function TrainSandBox() {
       .getTrainData({ id: id as unknown as number })
       .then((data) => {
         setTrainResource(data);
-        const index = data.data.findIndex((item) => {
-          return new Date(item.timestamp) >= new Date(data.config.startDate);
-        });
-        setChartKlines(data.data.slice(0, index + 1));
+        if (data.config.finished) {
+          setTransActionRecord(data.transactions);
+          setChartKlines(data.data);
+        } else {
+          const index = data.data.findIndex((item) => {
+            return new Date(item.timestamp) >= new Date(data.config.startDate);
+          });
+          setChartKlines(data.data.slice(0, index + 1));
+        }
       })
       .catch((e) => {
         message.error(e.message);
       });
   }, [id]);
-
-  useEffect(() => {
-    console.log('transactionRecord:', transactionRecord);
-  }, [transactionRecord]);
-
+  
   function makeTransaction(t: Transaction) {
     setTransActionRecord([...transactionRecord, t]);
   }
@@ -64,10 +55,10 @@ function TrainSandBox() {
   function buy(amount: number) {
     const current = chartKlines[chartKlines.length - 1];
     makeTransaction({
-      date: current.timestamp,
+      date: new Date(current.timestamp).toISOString(),
       price: current.close,
       amount: amount,
-      direction: Direction.BUY,
+      direction: TransDirection.BUY,
     });
     nextDay();
   }
@@ -75,12 +66,26 @@ function TrainSandBox() {
   function sell(amount: number) {
     const current = chartKlines[chartKlines.length - 1];
     makeTransaction({
-      date: current.timestamp,
+      date: new Date(current.timestamp).toISOString(),
       price: current.close,
       amount: amount,
-      direction: Direction.SELL,
+      direction: TransDirection.SELL,
     });
     nextDay();
+  }
+
+  async function finish() {
+    service.train
+      .finishTrain({
+        id: parseInt(id as string),
+        transactions: transactionRecord,
+      })
+      .then((data) => {
+        navigate('/playground/train', { replace: true });
+      })
+      .catch((e) => {
+        message.error(e.message);
+      });
   }
 
   const isFinish = useMemo(() => {
@@ -99,16 +104,18 @@ function TrainSandBox() {
             trainConfig={trainResource.config}
             transactionRecord={transactionRecord}
             chartKlines={chartKlines}
+            isFinish={isFinish}
           ></KlineSandBox>
           <ControlPanel
             className="w-1/6"
             trainConfig={trainResource.config}
-            makeTransaction={makeTransaction}
             chartKlines={chartKlines}
-            nextDay={nextDay}
             isFinish={isFinish}
+            transactionRecord={transactionRecord}
+            nextDay={nextDay}
             buy={buy}
             sell={sell}
+            finish={finish}
           ></ControlPanel>
         </>
       )}

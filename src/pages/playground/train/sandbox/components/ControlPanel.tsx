@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { App, Button } from 'antd';
 import theme from '@/themes/theme';
+import { Transaction } from '@/types/playground';
 import { FCProps } from '@/types/react';
 import { SymbolDayLine, TrainKlineConfig } from '@/types/service';
 import Utils from '@/utils';
@@ -8,21 +9,22 @@ import Styled from '@emotion/styled';
 import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import Card from '@/components/layout/Card';
-import { Transaction } from '../page';
 
 interface CustomProps extends FCProps {
   trainConfig: TrainKlineConfig;
   chartKlines: SymbolDayLine[];
   isFinish: boolean;
-  makeTransaction: (t: Transaction) => void;
+  transactionRecord: Transaction[];
   nextDay: () => void;
   buy: (amount: number) => void;
   sell: (amount: number) => void;
+  finish: () => void;
 }
 
 const StyledP = Styled.p`
     display: flex;
     justify-content: space-between;
+    font-weight: bolder;
     & > label {
         font-weight: bold;
     }
@@ -50,7 +52,16 @@ const SellButton = Styled(Button)`
 const seed = 1000000;
 
 function ControlPanel(props: CustomProps) {
-  const { trainConfig, isFinish, chartKlines, buy, sell } = props;
+  const {
+    trainConfig,
+    isFinish,
+    chartKlines,
+    transactionRecord,
+    nextDay,
+    buy,
+    sell,
+    finish,
+  } = props;
   const { message } = App.useApp();
 
   // 持仓股数
@@ -65,6 +76,28 @@ function ControlPanel(props: CustomProps) {
       .plus(cash)
       .toNumber();
   }, [chartKlines, holding, cash]);
+
+  useEffect(() => {
+    if (trainConfig.finished) {
+      const _holding = transactionRecord.reduce(
+        (prev: number, current: Transaction) => {
+          return prev + current.amount * current.direction * -1;
+        },
+        0,
+      );
+      setHolding(_holding);
+      const _cash = transactionRecord.reduce(
+        (prev: BigNumber, current: Transaction) => {
+          return new BigNumber(current.price)
+            .times(current.amount * current.direction)
+            .plus(prev);
+        },
+        new BigNumber(seed),
+      );
+      setCash(_cash);
+    }
+  }, []);
+
   /**
    * 目前仅支持全仓交易
    */
@@ -93,25 +126,28 @@ function ControlPanel(props: CustomProps) {
     sell(holding);
   }
 
+  const blind = isFinish ? false : trainConfig.blind;
+
   return (
     <Card className={`${props.className || ''} flex flex-col m-6  ml-0`}>
       <div className="flex flex-col gap-4 flex-1  p-4 overflow-auto">
-        <StyledP>
-          <label>股票</label>
-          {trainConfig.blind
-            ? 'xxxxxx'
-            : `${trainConfig.name}(${trainConfig.code})`}
-        </StyledP>
+        {!blind && (
+          <>
+            <StyledP>
+              <label>股票</label>
+              {`${trainConfig.name}(${trainConfig.code})`}
+            </StyledP>
+            <StyledP>
+              <label>开始时间</label>
+              {dayjs(trainConfig.startDate).format('YYYY-MM-DD')}
+            </StyledP>
+          </>
+        )}
         <StyledP>
           <label>训练周期</label>
           {trainConfig.period}天
         </StyledP>
-        <StyledP>
-          <label>开始时间</label>
-          {trainConfig.blind
-            ? 'xxxxxx'
-            : dayjs(trainConfig.startDate).format('YYYY-MM-DD')}
-        </StyledP>
+
         <StyledP>
           <label>初始资产</label>
           {Utils.formatNumber(seed)}
@@ -140,26 +176,32 @@ function ControlPanel(props: CustomProps) {
           {Utils.formatNumber(holding)}
         </StyledP>
 
-        <StyledP className="gap-4">
-          <BuyButton type="primary" disabled={isFinish} onClick={handleBuy}>
-            买入
-          </BuyButton>
-          <Button
-            className="w-full"
-            type="primary"
-            disabled={isFinish}
-            onClick={props.nextDay}
-          >
-            下一天
+        {!trainConfig.finished && !isFinish && (
+          <StyledP className="gap-4">
+            <BuyButton type="primary" onClick={handleBuy}>
+              买入
+            </BuyButton>
+            <Button
+              className="w-full"
+              type="primary"
+              disabled={isFinish}
+              onClick={nextDay}
+            >
+              下一天
+            </Button>
+            <SellButton type="primary" onClick={handleSell}>
+              卖出
+            </SellButton>
+          </StyledP>
+        )}
+      </div>
+      {!trainConfig.finished && (
+        <div className="mt-4  p-4 ">
+          <Button className="w-full" onClick={finish}>
+            结束训练
           </Button>
-          <SellButton type="primary" disabled={isFinish} onClick={handleSell}>
-            卖出
-          </SellButton>
-        </StyledP>
-      </div>
-      <div className="mt-4  p-4 ">
-        <Button className="w-full">结束训练</Button>
-      </div>
+        </div>
+      )}
     </Card>
   );
 }

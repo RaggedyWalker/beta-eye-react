@@ -1,3 +1,5 @@
+import { Transaction } from "../playground";
+
 export type PredictRowDataType = {
   id: number;
   stockName: string;
@@ -35,9 +37,11 @@ export interface TrainKlineConfig {
   period: number;
   blind: boolean;
   userId: number;
+  finished: boolean
 }
 
 export interface TrainKlineResource {
   config: TrainKlineConfig;
   data: SymbolDayLine[];
+  transactions: Transaction[];
 }

@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import theme from '@/themes/theme';
+import { Transaction, TransDirection } from '@/types/playground';
 import { FCProps } from '@/types/react';
 import { SymbolDayLine, TrainKlineConfig } from '@/types/service';
 import dayjs from 'dayjs';
-import { SeriesOption } from 'echarts';
 import ReactECharts from 'echarts-for-react';
 import { CallbackDataParams, EChartsOption } from 'echarts/types/dist/shared';
 import PriceTooltip from '@/components/common/chart/kLine/PriceTooltip';
 import Card from '@/components/layout/Card';
-import { Direction, Transaction } from '../page';
 
 interface CustomProps extends FCProps {
   trainConfig: TrainKlineConfig;
   transactionRecord: Transaction[];
   chartKlines: SymbolDayLine[];
+  isFinish: boolean;
 }
 
 type ChartKline = Omit<SymbolDayLine, 'timestamp'> & {
@@ -43,7 +43,7 @@ function calculateMA(dayCount: number, data: ChartKline[]) {
 }
 
 function KlineSandBox(props: CustomProps) {
-  const { trainConfig, chartKlines, transactionRecord } = props;
+  const { trainConfig, chartKlines, transactionRecord, isFinish } = props;
   const [chartOption, setChartOption] = useState<EChartsOption>({});
   const [tooltipData, setTooltipData] = useState<SymbolDayLine | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState<number[]>([]);
@@ -137,7 +137,7 @@ function KlineSandBox(props: CustomProps) {
             animation: false,
             label: {
               formatter: function (param) {
-                return (param.value as Direction) === Direction.BUY
+                return (param.value as TransDirection) === TransDirection.BUY
                   ? '买入'
                   : '卖出';
               },
@@ -150,16 +150,16 @@ function KlineSandBox(props: CustomProps) {
               return {
                 name: 'Mark',
                 coord: [index, t.price],
-                symbolRotate: t.direction === Direction.BUY ? 0 : 180,
+                symbolRotate: t.direction === TransDirection.BUY ? 0 : 180,
                 symbolOffset: [
                   0,
-                  t.direction === Direction.BUY ? '500%' : '-500%',
+                  t.direction === TransDirection.BUY ? '500%' : '-500%',
                 ],
                 itemStyle: {
                   borderJoin: 'miter',
                   opacity: 0.8,
                   color:
-                    t.direction === Direction.BUY
+                    t.direction === TransDirection.BUY
                       ? theme.colors.long
                       : theme.colors.short,
                 },
@@ -167,10 +167,11 @@ function KlineSandBox(props: CustomProps) {
                 value: t.direction,
                 label: {
                   color:
-                    t.direction === Direction.BUY
+                    t.direction === TransDirection.BUY
                       ? theme.colors.long
                       : theme.colors.short,
-                  position: t.direction === Direction.BUY ? 'bottom' : 'top',
+                  position:
+                    t.direction === TransDirection.BUY ? 'bottom' : 'top',
                 },
               };
             }),
@@ -216,9 +217,9 @@ function KlineSandBox(props: CustomProps) {
                   show: true,
                   formatter: '开始',
                   color: theme.colors['text-base'],
-                  opacity: 0.6
+                  opacity: 0.6,
                 },
-                symbolRotate: 90
+                symbolRotate: 90,
               },
             ],
             blur: {
@@ -329,7 +330,7 @@ function KlineSandBox(props: CustomProps) {
           axisTick: { show: false },
           splitLine: { show: false },
           axisLabel: {
-            show: !trainConfig.blind,
+            show: !blind,
             formatter: (value, index) => {
               return dayjs(value).format('YYYY-MM-DD');
             },
@@ -340,7 +341,7 @@ function KlineSandBox(props: CustomProps) {
           axisPointer: {
             z: 100,
             label: {
-              show: !trainConfig.blind,
+              show: !blind,
               formatter(params) {
                 return dayjs(params.value).format('YYYY-MM-DD');
               },
@@ -398,13 +399,13 @@ function KlineSandBox(props: CustomProps) {
           xAxisIndex: [0, 1],
           minValueSpan: 20, // 最小缩放范围，至少显示2个数据点
           maxValueSpan: 200 * 5,
-        }
+        },
       ],
     };
-    console.log({ ...chartOption, ...option });
-
     setChartOption({ ...chartOption, ...option });
   }, [chartKlines, transactionRecord]);
+
+  const blind = isFinish ? false : trainConfig.blind;
 
   return (
     <Card className={`${props.className || ''} pl-4 relative m-6`}>
@@ -415,7 +416,7 @@ function KlineSandBox(props: CustomProps) {
       ></ReactECharts>
       {tooltipData && (
         <PriceTooltip
-          blind={props.trainConfig.blind}
+          blind={blind}
           symbolData={tooltipData}
           position={tooltipPosition}
         ></PriceTooltip>

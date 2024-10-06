@@ -65,7 +65,6 @@ const SettingContainer: FC<CustomProps> = (props) => {
           startDate: values.startDate?.valueOf(),
         })
         .then((data) => {
-          console.log(data);
           navigate(`sandbox/${data.id}`);
         })
         .catch((e) => {
