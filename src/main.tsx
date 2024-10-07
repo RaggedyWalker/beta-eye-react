@@ -11,6 +11,7 @@ import themeConfig from '@/themes/theme.config.ts';
 import { StyleProvider } from '@ant-design/cssinjs';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
+import { UserProvider } from './context/user';
 import './main.css';
 
 dayjs.locale(zhCN.locale);
@@ -19,9 +20,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConfigProvider theme={themeConfig} locale={zhCN}>
       <StyleProvider layer>
-        <App>
-          <RouterProvider router={router}></RouterProvider>
-        </App>
+        <UserProvider>
+          <App>
+            <RouterProvider router={router}></RouterProvider>
+          </App>
+        </UserProvider>
       </StyleProvider>
     </ConfigProvider>
   </React.StrictMode>,

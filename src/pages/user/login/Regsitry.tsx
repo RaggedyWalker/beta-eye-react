@@ -27,6 +27,12 @@ function Registry() {
     }
   };
 
+  // 只能本地开发看到注册页
+  if (localStorage.mode !== 'dev') {
+    window.location.href = '/eye/login';
+    // navigate('/login', {replace: true});
+  }
+
   return (
     <div>
       <Form

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { App, Button, Form, Input } from 'antd';
+import { useUserContext } from '@/context/user';
 import service from '@/service';
 import useUserInfo from '@/hooks/useUserInfo';
 
@@ -16,6 +17,8 @@ function Login() {
   const navigate = useNavigate();
   const { message } = App.useApp();
 
+  const { setUser } = useUserContext();
+
   const { setToken, clearToken } = useUserInfo();
 
   const location = useLocation();
@@ -30,7 +33,9 @@ function Login() {
     service.user
       .login(values)
       .then((result) => {
-        setToken(result.data.token);
+        setToken(result.token);
+        setUser(result.info);
+        // 后续放到store中
         let from = '/';
         if (location.state?.from) {
           from = location.state.from;
@@ -100,14 +105,16 @@ function Login() {
           </Button>
         </Form.Item>
       </Form>
-      <p>
-        <a
-          className="text-xs text-primary cursor-pointer"
-          onClick={() => navigate('/registry')}
-        >
-          没有账号？点此注册
-        </a>
-      </p>
+      {localStorage.mode === 'dev' && (
+        <p>
+          <a
+            className="text-xs text-primary cursor-pointer"
+            onClick={() => navigate('/registry')}
+          >
+            没有账号？点此注册
+          </a>
+        </p>
+      )}
     </div>
   );
 }

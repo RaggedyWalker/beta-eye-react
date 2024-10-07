@@ -1,4 +1,5 @@
 import { Transaction } from "../playground";
+import { User } from "../user";
 
 export type PredictRowDataType = {
   id: number;
@@ -44,4 +45,10 @@ export interface TrainKlineResource {
   config: TrainKlineConfig;
   data: SymbolDayLine[];
   transactions: Transaction[];
+}
+
+
+export interface LoginInfo {
+  token: string,
+  info: User
 }
