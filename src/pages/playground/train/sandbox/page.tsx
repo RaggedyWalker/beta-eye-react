@@ -96,7 +96,7 @@ function TrainSandBox() {
   }, [chartKlines, trainResource]);
 
   return (
-    <div className="flex h-full">
+    <div className="flex flex-col h-full xl:flex-row">
       {trainResource !== undefined && (
         <>
           <KlineSandBox
@@ -107,7 +107,7 @@ function TrainSandBox() {
             isFinish={isFinish}
           ></KlineSandBox>
           <ControlPanel
-            className="w-1/6"
+            className="xl:w-1/6"
             trainConfig={trainResource.config}
             chartKlines={chartKlines}
             isFinish={isFinish}

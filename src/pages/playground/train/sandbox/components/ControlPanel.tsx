@@ -129,8 +129,8 @@ function ControlPanel(props: CustomProps) {
   const blind = isFinish ? false : trainConfig.blind;
 
   return (
-    <Card className={`${props.className || ''} flex flex-col m-6  ml-0`}>
-      <div className="flex flex-col gap-4 flex-1  p-4 overflow-auto">
+    <Card className={`${props.className || ''} flex flex-col m-6`}>
+      <div className="flex flex-col gap-4 flex-1  p-4 overflow-y-auto">
         {!blind && (
           <>
             <StyledP>
@@ -177,10 +177,14 @@ function ControlPanel(props: CustomProps) {
         </StyledP>
 
         {!trainConfig.finished && !isFinish && (
-          <StyledP className="gap-4">
-            <BuyButton type="primary" onClick={handleBuy}>
-              买入
+          <StyledP className="gap-4 flex-wrap">
+            <BuyButton type="primary" onClick={handleBuy} className='w-full xl:w-auto'>
+              买入  
             </BuyButton>
+
+            <SellButton type="primary" onClick={handleSell} className='w-full xl:w-auto'>
+              卖出
+            </SellButton>
             <Button
               className="w-full"
               type="primary"
@@ -189,9 +193,6 @@ function ControlPanel(props: CustomProps) {
             >
               下一天
             </Button>
-            <SellButton type="primary" onClick={handleSell}>
-              卖出
-            </SellButton>
           </StyledP>
         )}
       </div>
