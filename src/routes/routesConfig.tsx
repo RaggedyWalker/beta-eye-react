@@ -9,6 +9,7 @@ import TrainPage from '@/pages/playground/train/page';
 import TrainSandBox from '@/pages/playground/train/sandbox/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 import LoginPage from '@/pages/user/login/page';
+import Resetpw from '@/pages/user/login/Resetpw';
 
 // const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
 
@@ -44,6 +45,22 @@ const routesConfig = [
     element: <LoginPage />,
     meta: {
       title: '注册',
+      auth: false,
+    },
+  },
+  {
+    path: '/resetpw',
+    element: <LoginPage />,
+    meta: {
+      title: '重置密码',
+      auth: false,
+    },
+  },
+  {
+    path: '/applyForAccount',
+    element: <LoginPage />,
+    meta: {
+      title: '申请账号',
       auth: false,
     },
   },

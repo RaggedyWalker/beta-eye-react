@@ -115,6 +115,20 @@ function Login() {
           </a>
         </p>
       )}
+      <p className="flex justify-between">
+        <a
+          className="text-xs text-primary cursor-pointer"
+          onClick={() => navigate('/resetpw')}
+        >
+          重置密码
+        </a>
+        <a
+          className="text-xs text-primary cursor-pointer"
+          onClick={() => navigate('/applyForAccount')}
+        >
+          申请使用账号
+        </a>
+      </p>
     </div>
   );
 }

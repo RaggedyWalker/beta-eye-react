@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BetaCard from '@/components/layout/Card';
+import ApplyForAccount from './ApplyForAccount';
 import Login from './Login';
 import Registry from './Regsitry';
+import Resetpw from './Resetpw';
 
 const background = {
   a: {
@@ -16,13 +18,41 @@ const background = {
   b: { backgroundImage: 'linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)' },
 };
 
+type ActionType = 'login' | 'registry' | 'applyForAccount' | 'resetpw';
 function LoginPage() {
   const location = useLocation();
-  const [action, setAction] = useState<'login' | 'registry'>('login');
+  const [action, setAction] = useState<ActionType>('login');
 
   useEffect(() => {
-    setAction(location.pathname === '/registry' ? 'registry' : 'login');
+    if (location.pathname === '/registry') {
+      setAction('registry');
+    } else if (location.pathname === '/login') {
+      setAction('login');
+    } else if (location.pathname === '/applyForAccount') {
+      setAction('applyForAccount');
+    } else if (location.pathname === '/resetpw') {
+      setAction('resetpw');
+    }
   }, [location.pathname]);
+
+  const actionEnum = {
+    registry: {
+      component: <Registry></Registry>,
+      title: '注册',
+    },
+    login: {
+      component: <Login></Login>,
+      title: '登录',
+    },
+    applyForAccount: {
+      component: <ApplyForAccount></ApplyForAccount>,
+      title: '申请账号',
+    },
+    resetpw: {
+      component: <Resetpw></Resetpw>,
+      title: '重置密码',
+    },
+  };
 
   return (
     <div
@@ -41,9 +71,9 @@ function LoginPage() {
         }}
       >
         <div className="text-2xl font-bold mb-4">
-          {action === 'login' ? '登录' : '注册'}
+          {actionEnum[action].title}
         </div>
-        {action === 'login' ? <Login /> : <Registry />}
+        {actionEnum[action].component}
       </BetaCard>
     </div>
   );
