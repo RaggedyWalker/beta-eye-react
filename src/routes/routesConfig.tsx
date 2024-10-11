@@ -9,7 +9,6 @@ import TrainPage from '@/pages/playground/train/page';
 import TrainSandBox from '@/pages/playground/train/sandbox/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 import LoginPage from '@/pages/user/login/page';
-import Resetpw from '@/pages/user/login/Resetpw';
 
 // const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
 
