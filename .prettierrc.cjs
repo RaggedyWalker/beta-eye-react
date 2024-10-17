@@ -21,5 +21,6 @@ module.exports = {
   importOrderSortSpecifiers: true,
   importOrderGroupNamespaceSpecifiers: true,
   importOrderCaseInsensitive: true,
-  endOfLine: "auto"
+  endOfLine: "auto",
+  printWidth: 120
 };

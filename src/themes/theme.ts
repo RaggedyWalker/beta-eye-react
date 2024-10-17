@@ -1,7 +1,8 @@
 const theme = {
   colors: {
-    primary: '#722ed1',
-    info: '#722ed1',
+    primary: '#722ee1',
+    info: '#722ee1',
+
     'text-base': '#1e1e1e',
     // 'layout-base': '#e5e7eb',
     'layout-base': '#f8fbfc',

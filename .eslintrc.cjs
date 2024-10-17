@@ -31,5 +31,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'no-unused-vars': import.meta.env === 'production' ? 'off' : 'warn',
+    "max-len": ["error", { "code": 100 }]
   },
 }

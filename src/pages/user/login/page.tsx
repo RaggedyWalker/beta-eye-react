@@ -60,10 +60,8 @@ function LoginPage() {
       style={Object.assign({}, background.a)}
     >
       <BetaCard
+        className="sm:min-w-full lg:min-w-[400px] lg:max-w-[600px]"
         style={{
-          zIndex: 10000,
-          maxWidth: '600px',
-          minWidth: '400px',
           margin: '0 auto',
           padding: '20px',
           backgroundColor: 'rgba(255, 255, 255, 0.9)',

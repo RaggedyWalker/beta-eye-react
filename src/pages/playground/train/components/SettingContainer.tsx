@@ -92,7 +92,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
         'flex flex-col overflow-y-auto gap-6 px-6 py-4',
       ].join(' ')}
     >
-      <h1>训练设置</h1>
+      <section className="text-lg font-bold">训练设置</section>
       <Form
         {...formLayout}
         labelAlign="left"

@@ -32,7 +32,7 @@ const HistoryContainer: FC<CustomProps> = (props) => {
         'flex flex-col overflow-y-auto gap-6 px-6 py-4',
       ].join(' ')}
     >
-      <h1>历史记录</h1>
+      <section className='text-lg font-bold'>历史记录</section>
       <div className="flex gap-6 flex-col">
         {historyList.map((item) => (
           <div

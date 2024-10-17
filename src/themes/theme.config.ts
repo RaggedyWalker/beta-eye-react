@@ -4,6 +4,7 @@ import theme from './theme';
 
 const themeConfig = {
   token: {
+    fontFamily: 'PlusJakartaSans',
     colorPrimary: theme.colors.primary,
     colorInfo: theme.colors.info,
     wireframe: false,
