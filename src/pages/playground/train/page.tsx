@@ -13,7 +13,7 @@ const StyledMain = styled.main`
 
 const TrainPage = () => {
   return (
-    <StyledMain className="px-10 py-8">
+    <StyledMain className="overflow-auto px-10 py-8">
       <SettingContainer className="w-1/3"></SettingContainer>
       <HistoryContainer className="flex-1"></HistoryContainer>
     </StyledMain>

@@ -86,8 +86,9 @@ function TrendPredictTable(props: CustomProps) {
   ];
 
   return (
-    <BetaCard>
+    <BetaCard className="overscroll-x-auto">
       <Table
+        className=""
         bordered
         rowKey="id"
         columns={columns}

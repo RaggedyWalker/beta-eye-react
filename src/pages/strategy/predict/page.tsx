@@ -4,6 +4,7 @@ import service from '@/service';
 import { PredictRowDataType } from '@/types/service';
 import { PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
+import BetaCard from '@/components/layout/Card';
 import CreatePredictDrawer from '@/pages/strategy/predict/components/CreatePredictDrawer.tsx';
 import TrendPredictTable from '@/pages/strategy/predict/components/table/TrendPredictTable.tsx';
 
@@ -87,33 +88,35 @@ const PredictPage: React.FC = () => {
 
   return (
     <main
-      className="h-full px-10 py-8 relative"
+      className="relative h-full px-10 py-8"
       ref={PageRef}
       style={pageStyle}
     >
-      <section className="mb-8">
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => setCreateDrawerOpen(true)}
-        >
-          新增
-        </Button>
-      </section>
-      <TrendPredictTable
-        tableList={tableList}
-        tableParams={tableParams}
-        onChange={onTableChange}
-        onOperation={onRefresh}
-      />
-      {createDrawerOpen && (
-        <CreatePredictDrawer
-          open={createDrawerOpen}
-          onClose={onClose}
-          onCreatedPredict={onCreatedPredict}
-          containerElement={PageRef.current}
+      <BetaCard className="h-full p-6">
+        <section className="mb-8">
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => setCreateDrawerOpen(true)}
+          >
+            新增
+          </Button>
+        </section>
+        <TrendPredictTable
+          tableList={tableList}
+          tableParams={tableParams}
+          onChange={onTableChange}
+          onOperation={onRefresh}
         />
-      )}
+        {createDrawerOpen && (
+          <CreatePredictDrawer
+            open={createDrawerOpen}
+            onClose={onClose}
+            onCreatedPredict={onCreatedPredict}
+            containerElement={PageRef.current}
+          />
+        )}
+      </BetaCard>
     </main>
   );
 };

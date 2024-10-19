@@ -1,4 +1,3 @@
-import LogoImg from '@/assets/logo4.svg?react';
 import theme from '@/themes/theme';
 import { FCProps } from '@/types/react';
 
@@ -9,7 +8,7 @@ export default function Logo(props: customProps) {
   const mainColor = props.theme === 'dark' ? '#f7f7f7' : theme.colors.primary;
   const fillColor = props.theme === 'dark' ? 'black' : 'white';
   return (
-    <div className={`${props.className} flex justify-center items-center`}>
+    <div className={`${props.className} flex items-center justify-center`}>
       {/* <LogoImg
         stroke={mainColor}
         fill={fillColor}
@@ -18,7 +17,7 @@ export default function Logo(props: customProps) {
         className="cursor-pointer hover:stroke-primary"
       ></LogoImg> */}
       <svg
-        className="cursor-pointer hover:stroke-primary"
+        className="cursor-pointer transition duration-500 hover:scale-125 hover:stroke-primary"
         width="64"
         height="64"
         viewBox="0 0 480 480"
@@ -85,7 +84,9 @@ export default function Logo(props: customProps) {
           />
         </g>
       </svg>
-      <span className="-ml-2 text-2xl font-semibold cursor-default">Beta Eye</span>
+      <span className="-ml-2 cursor-default text-2xl font-semibold">
+        Beta Eye
+      </span>
     </div>
   );
 }

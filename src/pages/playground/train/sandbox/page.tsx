@@ -36,7 +36,7 @@ function TrainSandBox() {
         message.error(e.message);
       });
   }, [id]);
-  
+
   function makeTransaction(t: Transaction) {
     setTransActionRecord([...transactionRecord, t]);
   }
@@ -96,7 +96,7 @@ function TrainSandBox() {
   }, [chartKlines, trainResource]);
 
   return (
-    <div className="flex flex-col h-full xl:flex-row">
+    <div className="flex h-full flex-col xl:flex-row">
       {trainResource !== undefined && (
         <>
           <KlineSandBox

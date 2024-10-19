@@ -129,8 +129,8 @@ function ControlPanel(props: CustomProps) {
   const blind = isFinish ? false : trainConfig.blind;
 
   return (
-    <Card className={`${props.className || ''} flex flex-col m-6`}>
-      <div className="flex flex-col gap-4 flex-1  p-4 overflow-y-auto">
+    <Card className={`${props.className || ''} m-6 flex flex-col`}>
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
         {!blind && (
           <>
             <StyledP>
@@ -177,12 +177,20 @@ function ControlPanel(props: CustomProps) {
         </StyledP>
 
         {!trainConfig.finished && !isFinish && (
-          <StyledP className="gap-4 flex-wrap">
-            <BuyButton type="primary" onClick={handleBuy} className='w-full xl:w-auto'>
-              买入  
+          <StyledP className="flex-wrap gap-4">
+            <BuyButton
+              type="primary"
+              onClick={handleBuy}
+              className="w-full xl:w-auto"
+            >
+              买入
             </BuyButton>
 
-            <SellButton type="primary" onClick={handleSell} className='w-full xl:w-auto'>
+            <SellButton
+              type="primary"
+              onClick={handleSell}
+              className="w-full xl:w-auto"
+            >
               卖出
             </SellButton>
             <Button
@@ -197,7 +205,7 @@ function ControlPanel(props: CustomProps) {
         )}
       </div>
       {!trainConfig.finished && (
-        <div className="mt-4  p-4 ">
+        <div className="mt-4 p-4">
           <Button className="w-full" onClick={finish}>
             结束训练
           </Button>

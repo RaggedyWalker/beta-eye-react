@@ -3,7 +3,7 @@ function BetaCard(props: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       style={props.style}
-      className={`${className} betaui-card bg-container-base rounded shadow-container`}
+      className={`betaui-card rounded bg-container-base shadow-container ${className} `}
     >
       {props.children}
     </div>

@@ -12,8 +12,6 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import SuperSearch from '@/components/layout/header/SuperSearch.tsx';
 import Logo from '@/components/layout/Logo.tsx';
 
-const { Header, Content, Sider } = Layout;
-
 type ItemType = {
   key: string;
   label: JSX.Element | string;
@@ -104,7 +102,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
 
   const showSider = useMemo(() => !collapsed, [collapsed]);
   return (
-    <div className="h-screen bg-layout-base">
+    <div className="rounded-2xl bg-[#896bb60f]">
       {/* <header
         style={{
           paddingLeft: 0,
@@ -170,7 +168,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           <SuperSearch className="w-4 min-w-60 content-end"></SuperSearch>
         </div>
       </header> */}
-      <div className="flex flex-row">
+      <div className="flex h-screen flex-row">
         {/* {!showSider && (
           <Sider
             width={200}
@@ -196,39 +194,32 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
         )} */}
         {showSider && (
           <aside
-            className="h-screen overflow-y-auto hidden mx-2 md:block bg-container-base border-r-2 border-r-gray-100"
+            className="hidden h-screen min-w-[120] overflow-y-auto border-r-2 border-r-gray-100 bg-white md:block"
             style={{ borderRightStyle: 'solid' }}
           >
             <Logo theme={systemTheme} className="px-4 pr-10" />
-            <div className="flex flex-col space-y-2 mt-6">
+            <div className="mt-6 flex flex-col space-y-2">
               {allSiderMenus.current.map((item) => (
                 <nav
-                  className={`flex items-center gap-4 
-                    font-semibold text-lg mx-4 px-5 py-2 
-                    rounded-lg cursor-pointer
-                     hover:bg-primary/10 hover:text-primary 
-                     ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'}
-                  `}
+                  className={`duration-600 text-md mx-4 flex cursor-pointer items-center gap-4 rounded-md px-5 py-2 font-semibold transition hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'} `}
                   key={item.key}
                   onClick={() => navigate(item.key)}
                 >
-                  {item.icon}
+                  <span className="inline-flex text-xl">{item.icon}</span>
                   {item.label}
                 </nav>
               ))}
             </div>
           </aside>
         )}
-        <Layout className={`flex-1 overflow-auto h-screen`}>
-          <Content
-            className="bg-layout-base "
-            style={{
-              marginLeft: 0,
-            }}
-          >
+        <div className={`flex h-screen flex-1 flex-col`}>
+          <header className="flex flex-row justify-end space-y-6 px-10 pt-6">
+            <SuperSearch className="w-60"></SuperSearch>
+          </header>
+          <main className="h-max flex-1 overflow-auto">
             <Outlet />
-          </Content>
-        </Layout>
+          </main>
+        </div>
       </div>
     </div>
   );
