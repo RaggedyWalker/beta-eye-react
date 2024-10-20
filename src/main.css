@@ -1,8 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: PlusJakartaSans;
+  src: url(assets/font/PlusJakartaSans-VariableFont_wght.ttf)
+}
+
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: PlusJakartaSans !important;
   /* line-height: 1.5; */
   font-weight: 400;
 
@@ -19,4 +27,5 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  font-family: PlusJakartaSans !important;
 }

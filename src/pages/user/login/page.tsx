@@ -56,21 +56,19 @@ function LoginPage() {
 
   return (
     <div
-      className="h-screen flex justify-center items-center bg-layout-base"
+      className="flex h-screen items-center justify-center bg-layout-base"
       style={Object.assign({}, background.a)}
     >
       <BetaCard
+        className="sm:min-w-full md:min-w-[400px] md:max-w-[600px]"
         style={{
-          zIndex: 10000,
-          maxWidth: '600px',
-          minWidth: '400px',
           margin: '0 auto',
           padding: '20px',
           backgroundColor: 'rgba(255, 255, 255, 0.9)',
           backdropFilter: 'blur(10px)',
         }}
       >
-        <div className="text-2xl font-bold mb-4">
+        <div className="mb-4 text-2xl font-bold">
           {actionEnum[action].title}
         </div>
         {actionEnum[action].component}

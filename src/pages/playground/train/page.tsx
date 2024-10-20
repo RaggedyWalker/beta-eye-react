@@ -4,18 +4,16 @@ import HistoryContainer from './components/HistoryContainer';
 import SettingContainer from './components/SettingContainer';
 
 const StyledMain = styled.main`
-  display: flex;
   height: 100%;
   position: relative;
-  display: flex;
   gap: 22px;
 `;
 
 const TrainPage = () => {
   return (
-    <StyledMain className="px-10 py-8">
-      <SettingContainer className="w-1/3"></SettingContainer>
-      <HistoryContainer className="flex-1"></HistoryContainer>
+    <StyledMain className="grid grid-cols-1 overflow-y-auto px-8 py-8 lg:grid-cols-3">
+      <SettingContainer className="lg:col-start-1 lg:col-end-2"></SettingContainer>
+      <HistoryContainer className="lg:col-span-2"></HistoryContainer>
     </StyledMain>
   );
 };

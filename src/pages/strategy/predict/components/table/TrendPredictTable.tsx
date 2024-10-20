@@ -62,12 +62,14 @@ function TrendPredictTable(props: CustomProps) {
       dataIndex: 'confidenceGradeText',
       title: '策略信心',
       width: 100,
+      responsive: ['lg'],
     },
     {
       dataIndex: 'comment',
       title: '策略细节',
       ellipsis: true,
       width: 300,
+      responsive: ['lg'],
     },
     {
       dataIndex: 'operation',
@@ -86,8 +88,9 @@ function TrendPredictTable(props: CustomProps) {
   ];
 
   return (
-    <BetaCard>
+    <BetaCard className="">
       <Table
+        className=""
         bordered
         rowKey="id"
         columns={columns}
@@ -96,6 +99,7 @@ function TrendPredictTable(props: CustomProps) {
         onChange={props.onChange}
         size="small"
         sticky={{ offsetHeader: 64 }}
+        scroll={{ x: 'max-content' }}
       />
     </BetaCard>
   );

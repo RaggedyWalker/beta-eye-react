@@ -58,11 +58,17 @@ function Login() {
         variant={'filled'}
       >
         <Form.Item
-          label="账号名称"
+          label="账号"
           name="userName"
-          rules={[{ required: true, message: '请输入账号名称!' }]}
+          rules={[
+            {
+              required: true,
+              message: '请输入账号名称!',
+              validateTrigger: 'blur',
+            },
+          ]}
         >
-          <Input placeholder="请输入账号名称" />
+          <Input placeholder="请输入账号名称/邮箱" />
         </Form.Item>
 
         {/* <Form.Item

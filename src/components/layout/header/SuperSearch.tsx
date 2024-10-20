@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { BsSearch } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { App, AutoComplete, SelectProps } from 'antd';
 import service from '@/service';
@@ -37,22 +38,24 @@ const SuperSearch: React.FC<FCProps> = (props) => {
     navigate(`/market/stock/${value}`);
   };
   return (
-    <section
-      className={`inline-flex justify-center items-center ${props.className}`}
-    >
-      <AutoComplete
-        ref={searchRef}
-        className="w-full bg-gray-50"
-        allowClear
-        placeholder="输入股票代码或名称"
-        options={options}
-        value={inputValue} // 控制输入值
-        onChange={setInputValue} // 更新输入值
-        onSearch={debounceSearch}
-        onSelect={onSelect}
-        variant="borderless"
-      ></AutoComplete>
-    </section>
+    // <section
+    //   className={`inline-flex items-center justify-center ${props.className}`}
+    // >
+    <AutoComplete
+      ref={searchRef}
+      className={`bg-gray-50 shadow-container ${props.className}`}
+      allowClear
+      placeholder="搜索股票"
+      options={options}
+      value={inputValue} // 控制输入值
+      onChange={setInputValue} // 更新输入值
+      onSearch={debounceSearch}
+      onSelect={onSelect}
+      variant="borderless"
+      popupMatchSelectWidth={false}
+      suffixIcon={<BsSearch />}
+    ></AutoComplete>
+    // </section>
   );
 };
 

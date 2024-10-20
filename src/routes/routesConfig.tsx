@@ -1,4 +1,6 @@
 import React from 'react';
+import { AiOutlineExperiment, AiOutlineStock } from 'react-icons/ai';
+import { RiBtcLine } from 'react-icons/ri';
 import { Navigate } from 'react-router-dom';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
@@ -17,6 +19,7 @@ export interface RouteConfig {
     title?: string;
     menuLevel?: number;
     auth?: boolean;
+    icon?: JSX.Element;
   };
   children?: RouteConfig[];
   element?: React.ReactNode;
@@ -25,10 +28,10 @@ export interface RouteConfig {
   path?: string;
 }
 
-const routesConfig = [
+const routesConfig: RouteConfig[] = [
   {
     path: '/',
-    element: <Navigate replace to="/strategy" />,
+    element: <Navigate replace to="/playground/train" />,
     errorElement: <ErrorPage />,
   },
   {
@@ -70,6 +73,7 @@ const routesConfig = [
       title: '策略',
       menuLevel: 1,
       auth: true,
+      icon: <RiBtcLine />,
     },
     children: [
       {
@@ -77,6 +81,7 @@ const routesConfig = [
         element: <Navigate replace to="/strategy/predict" />,
         meta: {
           title: '策略',
+          icon: <RiBtcLine />,
         },
       },
       {
@@ -85,6 +90,7 @@ const routesConfig = [
         meta: {
           menuLevel: 2,
           title: '预测走势',
+          icon: <AiOutlineStock />,
         },
       },
       {
@@ -93,6 +99,7 @@ const routesConfig = [
         meta: {
           menuLevel: 2,
           title: '开仓策略',
+          icon: <RiBtcLine />,
         },
       },
       {
@@ -101,6 +108,7 @@ const routesConfig = [
         meta: {
           menuLevel: 2,
           title: '选股器',
+          icon: <RiBtcLine />,
         },
       },
     ],
@@ -112,6 +120,7 @@ const routesConfig = [
       menuLevel: 1,
       title: '市场',
       auth: true,
+      icon: <RiBtcLine />,
     },
     children: [
       {
@@ -146,6 +155,7 @@ const routesConfig = [
       menuLevel: 1,
       title: '模拟',
       auth: true,
+      icon: <RiBtcLine />,
     },
     children: [
       {
@@ -159,8 +169,9 @@ const routesConfig = [
         path: 'train',
         element: <TrainPage />,
         meta: {
-          title: 'k线练习',
+          title: 'k线训练',
           menuLevel: 2,
+          icon: <AiOutlineExperiment />,
         },
       },
       {
@@ -169,6 +180,7 @@ const routesConfig = [
         element: <TrainSandBox />,
         meta: {
           title: 'k线训练沙盒',
+          icon: <AiOutlineExperiment />,
         },
       },
     ],

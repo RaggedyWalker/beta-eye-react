@@ -6,7 +6,10 @@ module.exports = {
   useTabs: false,
   // 以下为 @trivago/prettier-plugin-sort-imports 配置，若未使用可删去
   // importOrder 中的文件顺序规范，可依据项目实际情况自行更改
-  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
+  plugins: [
+    '@trivago/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
+  ],
   importOrder: [
     '^vite',
     '^react',
@@ -21,5 +24,6 @@ module.exports = {
   importOrderSortSpecifiers: true,
   importOrderGroupNamespaceSpecifiers: true,
   importOrderCaseInsensitive: true,
-  endOfLine: "auto"
+  endOfLine: 'auto',
+  printWidth: 80,
 };

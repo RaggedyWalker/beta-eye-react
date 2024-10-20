@@ -5,7 +5,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    "plugin:prettier/recommended"
+    'plugin:prettier/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
@@ -21,8 +21,8 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
-        "endOfLine": "auto"
-      }
+        endOfLine: 'auto',
+      },
     ],
     'react-refresh/only-export-components': [
       'warn',
@@ -30,6 +30,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'no-unused-vars': import.meta.env === 'production' ? 'off' : 'warn',
+    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'off' : 'warn',
+    // 'max-len': ['warn', { code: 80, ignoreComments: true }],
   },
-}
+};

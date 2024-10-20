@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import KLineChart from '@/components/common/chart/kLine/KLineChart.tsx';
 
-const StockPage: React.FC = (props) => {
+const StockPage: React.FC = () => {
   const { code } = useParams();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const StockPage: React.FC = (props) => {
     }
   }, [code]);
   return (
-    <div className="w-full flex h-full" key={code}>
+    <div className="flex h-full w-full px-10 py-8" key={code}>
       <KLineChart
         className="min-h-10"
         code={code as NonNullable<string>}
