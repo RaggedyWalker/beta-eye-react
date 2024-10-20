@@ -2,6 +2,7 @@ import React from 'react';
 import { AiOutlineExperiment, AiOutlineStock } from 'react-icons/ai';
 import { RiBtcLine } from 'react-icons/ri';
 import { Navigate } from 'react-router-dom';
+import type { RouteObject } from 'react-router-dom';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
 import ErrorPage from '@/pages/error';
@@ -14,7 +15,7 @@ import LoginPage from '@/pages/user/login/page';
 
 // const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
 
-export interface RouteConfig {
+export type RouteConfig = {
   meta?: {
     title?: string;
     menuLevel?: number;
@@ -24,9 +25,9 @@ export interface RouteConfig {
   children?: RouteConfig[];
   element?: React.ReactNode;
   errorElement?: React.ReactNode;
-  index?: false | undefined;
+  index?: true | false;
   path?: string;
-}
+} & RouteObject;
 
 const routesConfig: RouteConfig[] = [
   {
