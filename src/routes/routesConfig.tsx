@@ -24,7 +24,7 @@ export interface RouteConfig {
   children?: RouteConfig[];
   element?: React.ReactNode;
   errorElement?: React.ReactNode;
-  index?: boolean;
+  index?: false | undefined;
   path?: string;
 }
 
