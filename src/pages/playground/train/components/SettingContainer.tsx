@@ -5,7 +5,6 @@ import {
   Button,
   DatePicker,
   Form,
-  FormItemProps,
   FormProps,
   InputNumber,
   Space,
@@ -77,7 +76,6 @@ const SettingContainer: FC<CustomProps> = (props) => {
   }
 
   function periodLimit(e: React.ChangeEvent<HTMLInputElement>) {
-    // console.log(e.target.value);
     const val = Number(e.target.value);
     if (val > 1000) {
       form.setFieldValue('period', 1000);

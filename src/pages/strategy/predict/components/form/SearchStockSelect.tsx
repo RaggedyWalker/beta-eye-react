@@ -6,6 +6,7 @@ import useStockSearch from '@/hooks/useStockSearch';
 
 interface customProps extends FCProps {
   value?: Stock | undefined | null;
+  // eslint-disable-next-line no-unused-vars
   onChange?: (newValue: Stock | undefined) => void;
   disabled?: boolean;
   size?: 'small' | 'middle' | 'large';
