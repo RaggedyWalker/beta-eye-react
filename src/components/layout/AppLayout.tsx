@@ -1,14 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import {
-  matchRoutes,
-  NavLink,
-  Outlet,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
-import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
-import routesConfig, { RouteConfig } from '@/routes/routesConfig.tsx';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import React, { useMemo, useRef, useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import routesConfig from '@/routes/routesConfig.tsx';
 import SuperSearch from '@/components/layout/header/SuperSearch.tsx';
 import Logo from '@/components/layout/Logo.tsx';
 
@@ -17,20 +9,21 @@ type ItemType = {
   label: JSX.Element | string;
   icon?: JSX.Element;
 };
-function getHeaderMenus(): NonNullable<ItemType>[] {
-  const headerMenus: NonNullable<ItemType>[] = [];
-  routesConfig.forEach((route) => {
-    if (route?.meta?.menuLevel === 1) {
-      headerMenus.push({
-        key: route.path as string,
-        // label: <NavLink to={route.path as string}>{route.meta?.title}</NavLink>,
-        label: route.meta?.title as string,
-        icon: route.meta?.icon,
-      });
-    }
-  });
-  return headerMenus;
-}
+
+// function getHeaderMenus(): NonNullable<ItemType>[] {
+//   const headerMenus: NonNullable<ItemType>[] = [];
+//   routesConfig.forEach((route) => {
+//     if (route?.meta?.menuLevel === 1) {
+//       headerMenus.push({
+//         key: route.path as string,
+//         // label: <NavLink to={route.path as string}>{route.meta?.title}</NavLink>,
+//         label: route.meta?.title as string,
+//         icon: route.meta?.icon,
+//       });
+//     }
+//   });
+//   return headerMenus;
+// }
 
 function getAllSiderMenus(): NonNullable<ItemType>[] {
   const headerMenus: NonNullable<ItemType>[] = [];
@@ -51,16 +44,16 @@ function getAllSiderMenus(): NonNullable<ItemType>[] {
 }
 
 const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
-  const [currentHeaderMenu, setCurrentHeaderMenu] = useState('');
-  const [currentSideMenu, setCurrentSideMenu] = useState('');
-  const [collapsed, setCollapsed] = useState(false);
+  // const [currentHeaderMenu, setCurrentHeaderMenu] = useState('');
+  // const [currentSideMenu, setCurrentSideMenu] = useState('');
+  const [collapsed] = useState(false);
 
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const systemTheme = props.theme || 'light';
-  const { token } = theme.useToken();
+  // const { token } = theme.useToken();
 
-  const headerMenus = useRef<NonNullable<ItemType>[]>(getHeaderMenus());
+  // const headerMenus = useRef<NonNullable<ItemType>[]>(getHeaderMenus());
   const allSiderMenus = useRef<NonNullable<ItemType>[]>(getAllSiderMenus());
 
   // const sideMenus = useMemo<NonNullable<ItemType>[]>(() => {
