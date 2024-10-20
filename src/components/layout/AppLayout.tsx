@@ -194,7 +194,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
         )} */}
         {showSider && (
           <aside
-            className="hidden h-screen min-w-[120] overflow-y-auto border-r-2 border-r-gray-100 bg-white md:block"
+            className="hidden min-w-[120] overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white lg:block"
             style={{ borderRightStyle: 'solid' }}
           >
             <Logo theme={systemTheme} className="px-4 pr-10" />
@@ -212,11 +212,18 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
             </div>
           </aside>
         )}
-        <div className={`flex h-screen flex-1 flex-col`}>
-          <header className="flex flex-row justify-end space-y-6 px-10 pt-6">
+        <div className={`flex w-full flex-1 flex-col`}>
+          <header
+            className="flex flex-row items-center justify-between border-0 border-b-2 border-solid border-b-gray-200 bg-container-base/95 px-10 py-3"
+            style={{
+              boxShadow:
+                '0 1px 2px 0 rgba(0, 0, 0, 0.03),0 1px 6px -1px rgba(0, 0, 0, 0.02),0 2px 4px 0 rgba(0, 0, 0, 0.02)',
+            }}
+          >
+            <Logo theme={systemTheme} className="block lg:hidden" />
             <SuperSearch className="w-60"></SuperSearch>
           </header>
-          <main className="h-max flex-1 overflow-auto">
+          <main className="flex-1 overflow-y-auto">
             <Outlet />
           </main>
         </div>

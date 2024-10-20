@@ -84,7 +84,7 @@ export default function Logo(props: customProps) {
           />
         </g>
       </svg>
-      <span className="-ml-2 cursor-default text-2xl font-semibold">
+      <span className="-ml-2 hidden cursor-default text-2xl font-semibold lg:inline">
         Beta Eye
       </span>
     </div>

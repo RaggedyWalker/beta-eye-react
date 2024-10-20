@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineExperiment } from 'react-icons/ai';
+import { AiOutlineExperiment, AiOutlineStock } from 'react-icons/ai';
 import { RiBtcLine } from 'react-icons/ri';
 import { Navigate } from 'react-router-dom';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
@@ -90,7 +90,7 @@ const routesConfig: RouteConfig[] = [
         meta: {
           menuLevel: 2,
           title: '预测走势',
-          icon: <RiBtcLine />,
+          icon: <AiOutlineStock />,
         },
       },
       {

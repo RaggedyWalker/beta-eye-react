@@ -5,6 +5,8 @@ import {
   Button,
   DatePicker,
   Form,
+  FormItemProps,
+  FormProps,
   InputNumber,
   Space,
   Switch,
@@ -24,12 +26,12 @@ interface FormDataType {
   blind: boolean;
   revealTime: boolean;
 }
-const formLayout = {
+const formLayout: FormProps = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { lg: { span: 16, offset: 8 } },
 };
 const initialValues = {
   period: 60,
@@ -87,10 +89,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
 
   return (
     <BetaCard
-      className={[
-        props.className,
-        'flex flex-col overflow-y-auto gap-6 px-6 py-4',
-      ].join(' ')}
+      className={[props.className, 'flex flex-col gap-6 px-6 py-4'].join(' ')}
     >
       <section className="text-lg font-bold">训练设置</section>
       <Form
@@ -121,7 +120,10 @@ const SettingContainer: FC<CustomProps> = (props) => {
                 }),
               ]}
             >
-              <SearchStockSelect disabled={getFieldValue('blind')} />
+              <SearchStockSelect
+                size="small"
+                disabled={getFieldValue('blind')}
+              />
             </Form.Item>
           )}
         </Form.Item>
@@ -148,7 +150,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
           rules={[{ required: true }]}
         >
           <InputNumber
-            className="w-full mr-4 flex-1"
+            className="mr-4 w-full flex-1"
             type="number"
             min={30}
             max={600}
@@ -162,7 +164,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
           tooltip="随机生成股票和起始时间"
           rules={[{ required: true }]}
         >
-          <Switch></Switch>
+          <Switch className="mr-0"></Switch>
         </Form.Item>
         <Form.Item
           name="revealTime"
@@ -172,7 +174,7 @@ const SettingContainer: FC<CustomProps> = (props) => {
           <Switch></Switch>
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <Space>
+          <Space className="mx-auto">
             <Button type="primary" htmlType="submit" loading={loading}>
               开始
             </Button>

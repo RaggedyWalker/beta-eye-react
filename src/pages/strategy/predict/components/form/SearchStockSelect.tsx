@@ -8,6 +8,7 @@ interface customProps extends FCProps {
   value?: Stock | undefined | null;
   onChange?: (newValue: Stock | undefined) => void;
   disabled?: boolean;
+  size?: 'small' | 'middle' | 'large';
 }
 
 const SearchStockSelect: React.FC<customProps> = (props) => {
@@ -34,6 +35,7 @@ const SearchStockSelect: React.FC<customProps> = (props) => {
       notFoundContent={null}
       allowClear
       disabled={props.disabled}
+      size={props.size || 'middle'}
       options={(stockOptions || []).map((d: Stock) => ({
         value: d.stockCode,
         label: `${d.stockName} (${d.stockCode})`,

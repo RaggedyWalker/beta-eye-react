@@ -27,10 +27,6 @@ const fetchData = async () => {
   };
 };
 
-const pageStyle: React.CSSProperties = {
-  position: 'relative',
-};
-
 const PredictPage: React.FC = () => {
   const PageRef = React.useRef<HTMLElement>(null);
   const { message } = App.useApp();
@@ -87,12 +83,8 @@ const PredictPage: React.FC = () => {
   };
 
   return (
-    <main
-      className="relative h-full px-10 py-8"
-      ref={PageRef}
-      style={pageStyle}
-    >
-      <BetaCard className="h-full p-6">
+    <main className="relative w-full py-8 lg:px-10" ref={PageRef}>
+      <BetaCard className="w-full p-6">
         <section className="mb-8">
           <Button
             type="primary"
