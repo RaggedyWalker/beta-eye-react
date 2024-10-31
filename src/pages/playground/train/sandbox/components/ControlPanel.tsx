@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { App, Button } from 'antd';
+import { createStyles, css } from 'antd-style';
 import theme from '@/themes/theme';
 import { Transaction } from '@/types/playground';
 import { FCProps } from '@/types/react';
 import { SymbolDayLine, TrainKlineConfig } from '@/types/service';
 import Utils from '@/utils';
-import Styled from '@emotion/styled';
 import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import Card from '@/components/layout/Card';
@@ -20,33 +20,45 @@ interface CustomProps extends FCProps {
   sell: (amount: number) => void;
   finish: () => void;
 }
-
-const StyledP = Styled.p`
+const useStyles = createStyles({
+  labelContainer: css`
     display: flex;
     justify-content: space-between;
-    font-weight: bolder;
     & > label {
-        font-weight: bold;
+      margin-right: 10px;
     }
-`;
-const BuyButton = Styled(Button)`
+  `,
+  buyButton: css`
     background-color: ${theme.colors.long};
     &:hover {
-        background-color: ${Utils.getRgbaVar(theme.colors.long, theme.colors.hover)};
+      background-color: ${Utils.getRgbaVar(
+        theme.colors.long,
+        theme.colors.hover,
+      )};
     }
     &:active {
-        background-color: ${Utils.getRgbaVar(theme.colors.long, theme.colors.active)};
+      background-color: ${Utils.getRgbaVar(
+        theme.colors.long,
+        theme.colors.active,
+      )};
     }
-`;
-const SellButton = Styled(Button)`
+  `,
+  sellButton: css`
     background-color: ${theme.colors.short};
     &:hover {
-        background-color: ${Utils.getRgbaVar(theme.colors.short, theme.colors.hover)};
+      background-color: ${Utils.getRgbaVar(
+        theme.colors.short,
+        theme.colors.hover,
+      )};
     }
     &:active {
-        background-color: ${Utils.getRgbaVar(theme.colors.short, theme.colors.active)};
+      background-color: ${Utils.getRgbaVar(
+        theme.colors.short,
+        theme.colors.active,
+      )};
     }
-`;
+  `,
+});
 
 // 初始资产
 const seed = 1000000;
@@ -63,6 +75,7 @@ function ControlPanel(props: CustomProps) {
     finish,
   } = props;
   const { message } = App.useApp();
+  const { styles } = useStyles();
 
   // 持仓股数
   const [holding, setHolding] = useState(0);
@@ -133,30 +146,30 @@ function ControlPanel(props: CustomProps) {
       <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
         {!blind && (
           <>
-            <StyledP>
+            <p className={styles.labelContainer}>
               <label>股票</label>
               {`${trainConfig.name}(${trainConfig.code})`}
-            </StyledP>
-            <StyledP>
+            </p>
+            <p className={styles.labelContainer}>
               <label>开始时间</label>
               {dayjs(trainConfig.startDate).format('YYYY-MM-DD')}
-            </StyledP>
+            </p>
           </>
         )}
-        <StyledP>
+        <p className={styles.labelContainer}>
           <label>训练周期</label>
           {trainConfig.period}天
-        </StyledP>
+        </p>
 
-        <StyledP>
+        <p className={styles.labelContainer}>
           <label>初始资产</label>
           {Utils.formatNumber(seed)}
-        </StyledP>
-        <StyledP>
+        </p>
+        <p className={styles.labelContainer}>
           <label>当前资产</label>
           {Utils.formatNumber(currentAssets)}
-        </StyledP>
-        <StyledP>
+        </p>
+        <p className={styles.labelContainer}>
           <label>收益率</label>
           <span
             style={{
@@ -166,33 +179,33 @@ function ControlPanel(props: CustomProps) {
           >
             {(((currentAssets - seed) / seed) * 100).toFixed(2)}%
           </span>
-        </StyledP>
-        <StyledP>
+        </p>
+        <p className={styles.labelContainer}>
           <label>现金</label>
           {cash.toFormat()}
-        </StyledP>
-        <StyledP>
+        </p>
+        <p className={styles.labelContainer}>
           <label>持有股数</label>
           {Utils.formatNumber(holding)}
-        </StyledP>
+        </p>
 
         {!trainConfig.finished && !isFinish && (
-          <StyledP className="flex-wrap gap-4">
-            <BuyButton
+          <p className={`${styles.labelContainer} flex-wrap gap-4`}>
+            <Button
               type="primary"
               onClick={handleBuy}
-              className="w-full xl:w-auto"
+              className={`w-full xl:w-auto ${styles.buyButton}`}
             >
               买入
-            </BuyButton>
+            </Button>
 
-            <SellButton
+            <Button
               type="primary"
               onClick={handleSell}
-              className="w-full xl:w-auto"
+              className={`w-full xl:w-auto ${styles.sellButton}`}
             >
               卖出
-            </SellButton>
+            </Button>
             <Button
               className="w-full"
               type="primary"
@@ -201,7 +214,7 @@ function ControlPanel(props: CustomProps) {
             >
               下一天
             </Button>
-          </StyledP>
+          </p>
         )}
       </div>
       {!trainConfig.finished && (

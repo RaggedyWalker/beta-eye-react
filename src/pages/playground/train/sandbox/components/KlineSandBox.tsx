@@ -218,7 +218,7 @@ function KlineSandBox(props: CustomProps) {
                   formatter: '开始',
                   color: theme.colors['text-base'],
                   opacity: 0.6,
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
                 },
                 symbolRotate: 90,
               },
@@ -409,7 +409,7 @@ function KlineSandBox(props: CustomProps) {
   const blind = isFinish ? false : trainConfig.blind;
 
   return (
-    <Card className={`${props.className || ''} pl-4 relative m-6`}>
+    <Card className={`${props.className || ''} relative m-6 pl-4`}>
       <ReactECharts
         option={chartOption}
         style={{ height: '100%' }}

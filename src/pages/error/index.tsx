@@ -11,7 +11,7 @@ export default function ErrorPage() {
   return (
     <div
       id="error-page"
-      className="h-lvh flex flex-col justify-center items-center"
+      className="flex h-lvh flex-col items-center justify-center"
     >
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>

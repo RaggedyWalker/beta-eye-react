@@ -114,7 +114,7 @@ function Login() {
       {localStorage.mode === 'dev' && (
         <p>
           <a
-            className="text-xs text-primary cursor-pointer"
+            className="cursor-pointer text-xs text-primary"
             onClick={() => navigate('/registry')}
           >
             没有账号？点此注册
@@ -123,13 +123,13 @@ function Login() {
       )}
       <p className="flex justify-between">
         <a
-          className="text-xs text-primary cursor-pointer"
+          className="cursor-pointer text-xs text-primary"
           onClick={() => navigate('/resetpw')}
         >
           重置密码
         </a>
         <a
-          className="text-xs text-primary cursor-pointer"
+          className="cursor-pointer text-xs text-primary"
           onClick={() => navigate('/applyForAccount')}
         >
           申请使用账号

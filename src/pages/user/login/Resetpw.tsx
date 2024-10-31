@@ -109,7 +109,7 @@ function Resetpw() {
       </Form>
       <p>
         <a
-          className="text-xs text-primary cursor-pointer"
+          className="cursor-pointer text-xs text-primary"
           onClick={() => navigate('/login')}
         >
           返回登录

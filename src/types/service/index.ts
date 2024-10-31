@@ -1,5 +1,5 @@
-import { Transaction } from "../playground";
-import { User } from "../user";
+import { Transaction } from '../playground';
+import { User } from '../user';
 
 export type PredictRowDataType = {
   id: number;
@@ -47,8 +47,19 @@ export interface TrainKlineResource {
   transactions: Transaction[];
 }
 
-
 export interface LoginInfo {
-  token: string,
-  info: User
+  token: string;
+  info: User;
+}
+
+export interface AccountApplication {
+  userName: string;
+  email: string | null;
+  phone: string | null;
+  origin: string;
+  reason: string | null;
+  inviteKey: string | null;
+  createDate: string | null;
+  applyStatus: boolean | null;
+  id: number;
 }

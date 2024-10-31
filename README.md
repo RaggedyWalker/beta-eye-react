@@ -30,7 +30,7 @@ export default {
 ## Using Framework
 
 Frame
-- React + TypeScript + Vite + antd5 + tailwindCSS + emotion-js
+- React + TypeScript + Vite + antd5 + tailwindCSS + antd-style
 
 Utils
 - time: dayjs

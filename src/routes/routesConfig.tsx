@@ -1,10 +1,12 @@
 import React from 'react';
 import { AiOutlineExperiment, AiOutlineStock } from 'react-icons/ai';
-import { RiBtcLine } from 'react-icons/ri';
+import { RiAdminLine, RiBtcLine } from 'react-icons/ri';
 import { Navigate } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
+import { UserRole } from '@/types/user';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
+import BackgroundPage from '@/pages/background/page';
 import ErrorPage from '@/pages/error';
 import OverviewPage from '@/pages/market/overview/page.tsx';
 import StockPage from '@/pages/market/stock/page.tsx';
@@ -21,6 +23,7 @@ export type RouteConfig = {
     menuLevel?: number;
     auth?: boolean;
     icon?: JSX.Element;
+    role?: UserRole[];
   };
   children?: RouteConfig[];
   element?: React.ReactNode;
@@ -120,7 +123,6 @@ const routesConfig: RouteConfig[] = [
     meta: {
       menuLevel: 1,
       title: '市场',
-      auth: true,
       icon: <RiBtcLine />,
     },
     children: [
@@ -182,6 +184,22 @@ const routesConfig: RouteConfig[] = [
         meta: {
           title: 'k线训练沙盒',
           icon: <AiOutlineExperiment />,
+        },
+      },
+    ],
+  },
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [
+      {
+        path: 'background',
+        element: <BackgroundPage />,
+        meta: {
+          title: '后台管理',
+          menuLevel: 2,
+          icon: <RiAdminLine />,
+          role: [UserRole.ADMIN],
         },
       },
     ],

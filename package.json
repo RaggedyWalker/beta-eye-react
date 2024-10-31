@@ -13,10 +13,9 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
     "@raggedywalkerjonny/klinecharts": "^9.7.3",
     "antd": "^5.12.1",
+    "antd-style": "3.5.0",
     "axios": "^1.6.5",
     "bignumber.js": "^9.1.2",
     "crypto-js": "^4.2.0",

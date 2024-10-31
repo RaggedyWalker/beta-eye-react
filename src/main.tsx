@@ -18,14 +18,14 @@ dayjs.locale(zhCN.locale);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ConfigProvider theme={themeConfig} locale={zhCN}>
-      <StyleProvider layer>
+    <StyleProvider layer>
+      <ConfigProvider theme={themeConfig} locale={zhCN}>
         <UserProvider>
           <App>
             <RouterProvider router={router}></RouterProvider>
           </App>
         </UserProvider>
-      </StyleProvider>
-    </ConfigProvider>
+      </ConfigProvider>
+    </StyleProvider>
   </React.StrictMode>,
 );

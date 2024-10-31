@@ -22,7 +22,7 @@ const train = {
   /**
    * 获取训练数据
    * @param data
-   * @returns 
+   * @returns
    */
   getTrainData: async (data: { id: number }): Promise<TrainKlineResource> => {
     const response = await axios.get('/train/getTrainData', {
@@ -33,17 +33,20 @@ const train = {
 
   /**
    * 结束训练
-   * @param data 
-   * @returns 
+   * @param data
+   * @returns
    */
-  finishTrain: async (data: { id: number, transactions: Transaction[] }): Promise<void> => {
+  finishTrain: async (data: {
+    id: number;
+    transactions: Transaction[];
+  }): Promise<void> => {
     const response = await axios.post('/train/finishTrain', data);
     return response.data;
   },
 
   /**
    * 获取我的训练历史
-   * @returns 
+   * @returns
    */
   myTrainHistory: async (): Promise<TrainKlineConfig[]> => {
     const response = await axios.post('/train/myTrainHistory', {});

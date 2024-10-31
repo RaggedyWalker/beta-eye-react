@@ -18,14 +18,16 @@ function ApplyForAccount() {
   // 表单提交时的处理函数
   const onFinish = async (values: FieldType) => {
     console.log('Form Data:', values);
-    try {
-      await service.user.checkIfUserExist(values);
-      const result = await service.user.applyForAccount(values);
-      message.success(result.message);
-      navigate('/login');
-    } catch (e) {
-      message.error((e as Error).message);
-    }
+    form.validateFields().then(async () => {
+      try {
+        // await service.user.checkIfUserExist(values);
+        const result = await service.user.applyForAccount(values);
+        message.success(result.message);
+        navigate('/login');
+      } catch (e) {
+        message.error((e as Error).message);
+      }
+    });
   };
 
   return (
@@ -53,6 +55,7 @@ function ApplyForAccount() {
           name="email"
           required
           rules={[
+            { required: true },
             {
               type: 'email',
               message: '请输入有效的邮箱地址!',
@@ -83,7 +86,7 @@ function ApplyForAccount() {
           <Input placeholder="请输入邀请码（选填）" />
         </Form.Item>
 
-        <Form.Item label="申请原因" name="reason" required>
+        <Form.Item label="申请原因" name="reason" rules={[{ required: true }]}>
           <Input
             placeholder="请输入申请原因（选填）"
             maxLength={20}
@@ -99,7 +102,7 @@ function ApplyForAccount() {
       </Form>
       <p>
         <a
-          className="text-xs text-primary cursor-pointer"
+          className="cursor-pointer text-xs text-primary"
           onClick={() => navigate('/login')}
         >
           已有账号？去登录吧!
