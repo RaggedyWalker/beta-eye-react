@@ -18,7 +18,7 @@ interface CustomProps extends FCProps {
   nextDay: () => void;
   buy: (amount: number) => void;
   sell: (amount: number) => void;
-  finish: () => void;
+  finish: (endingGrowthPct: number) => void;
 }
 const useStyles = createStyles({
   labelContainer: css`
@@ -219,7 +219,14 @@ function ControlPanel(props: CustomProps) {
       </div>
       {!trainConfig.finished && (
         <div className="mt-4 p-4">
-          <Button className="w-full" onClick={finish}>
+          <Button
+            className="w-full"
+            onClick={() => {
+              finish(
+                Number((((currentAssets - seed) / seed) * 100).toFixed(2)),
+              );
+            }}
+          >
             结束训练
           </Button>
         </div>

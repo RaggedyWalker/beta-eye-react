@@ -39,6 +39,13 @@ export interface TrainKlineConfig {
   blind: boolean;
   userId: number;
   finished: boolean;
+  endingGrowthPct?: number;
+}
+
+export interface TrainHistroy extends TrainKlineConfig {
+  StockTrainTransactions: Transaction & {
+    recordId: number;
+  };
 }
 
 export interface TrainKlineResource {

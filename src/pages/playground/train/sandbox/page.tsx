@@ -74,11 +74,12 @@ function TrainSandBox() {
     nextDay();
   }
 
-  async function finish() {
+  async function finish(endingGrowthPct: number) {
     service.train
       .finishTrain({
         id: parseInt(id as string),
         transactions: transactionRecord,
+        endingGrowthPct,
       })
       .then((data) => {
         navigate('/playground/train', { replace: true });

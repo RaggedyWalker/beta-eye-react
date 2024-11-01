@@ -1,5 +1,9 @@
 import { Transaction } from '@/types/playground';
-import { TrainKlineConfig, TrainKlineResource } from '@/types/service';
+import {
+  TrainHistroy,
+  TrainKlineConfig,
+  TrainKlineResource,
+} from '@/types/service';
 import axios from 'axios';
 
 const train = {
@@ -39,6 +43,7 @@ const train = {
   finishTrain: async (data: {
     id: number;
     transactions: Transaction[];
+    endingGrowthPct: number;
   }): Promise<void> => {
     const response = await axios.post('/train/finishTrain', data);
     return response.data;
@@ -48,7 +53,7 @@ const train = {
    * 获取我的训练历史
    * @returns
    */
-  myTrainHistory: async (): Promise<TrainKlineConfig[]> => {
+  myTrainHistory: async (): Promise<TrainHistroy[]> => {
     const response = await axios.post('/train/myTrainHistory', {});
     return response.data;
   },

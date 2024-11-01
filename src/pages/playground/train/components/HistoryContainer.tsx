@@ -2,15 +2,16 @@ import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { App } from 'antd';
 import service from '@/service';
+import theme from '@/themes/theme';
 import { FCProps } from '@/types/react';
-import { TrainKlineConfig } from '@/types/service';
+import { TrainHistroy } from '@/types/service';
 import dayjs from 'dayjs';
 import BetaCard from '@/components/layout/Card';
 
 interface CustomProps extends FCProps {}
 
 const HistoryContainer: FC<CustomProps> = (props) => {
-  const [historyList, setHistoryList] = useState<TrainKlineConfig[]>([]);
+  const [historyList, setHistoryList] = useState<TrainHistroy[]>([]);
   const { message } = App.useApp();
   const navigate = useNavigate();
 
@@ -41,13 +42,28 @@ const HistoryContainer: FC<CustomProps> = (props) => {
             onClick={() => navigate(`/playground/train/sandbox/${item.id}`)}
           >
             <p className="col-span-4 text-base font-bold md:col-span-3">{`${item.name} (${item.code})`}</p>
-            <p className="col-span-8 text-sm md:col-span-6">
+            <p className="col-span-8 text-xs md:col-span-6">
               训练周期：{dayjs(item.startDate).format('YYYY-MM-DD')} ~{' '}
               {dayjs(item.startDate)
                 .add(item.period, 'day')
                 .format('YYYY-MM-DD')}
             </p>
-            <p className="col-span-3 ml-auto hidden border-4 text-sm md:block">
+            {typeof item.endingGrowthPct === 'number' && (
+              <p className="col-span-8 text-xs md:col-span-3">
+                收益率：
+                <span
+                  style={{
+                    color:
+                      item.endingGrowthPct >= 0
+                        ? theme.colors.long
+                        : theme.colors.short,
+                  }}
+                >
+                  {item.endingGrowthPct}%
+                </span>
+              </p>
+            )}
+            <p className="col-span-3 ml-auto hidden border-4 text-xs md:block">
               {item.finished ? '已结束' : '未完成'}
             </p>
           </div>
