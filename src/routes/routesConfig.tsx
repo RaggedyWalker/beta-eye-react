@@ -1,6 +1,7 @@
 import React from 'react';
 import { AiOutlineExperiment, AiOutlineStock } from 'react-icons/ai';
 import { RiAdminLine, RiBtcLine } from 'react-icons/ri';
+import { TbViewfinder } from 'react-icons/tb';
 import { Navigate } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
 import { UserRole } from '@/types/user';
@@ -112,7 +113,7 @@ const routesConfig: RouteConfig[] = [
         meta: {
           menuLevel: 2,
           title: '选股器',
-          icon: <RiBtcLine />,
+          icon: <TbViewfinder />,
         },
       },
     ],

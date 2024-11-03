@@ -3,6 +3,7 @@ import { FCProps } from '@/types/react';
 
 interface customProps extends FCProps {
   theme?: 'dark' | 'light';
+  collapsed: boolean;
 }
 export default function Logo(props: customProps) {
   const mainColor = props.theme === 'dark' ? '#f7f7f7' : theme.colors.primary;
@@ -18,8 +19,8 @@ export default function Logo(props: customProps) {
       ></LogoImg> */}
       <svg
         className="cursor-pointer transition duration-500 hover:scale-125 hover:stroke-primary"
-        width="64"
-        height="64"
+        width="56"
+        height="56"
         viewBox="0 0 480 480"
         stroke={mainColor}
         fill={fillColor}
@@ -84,9 +85,13 @@ export default function Logo(props: customProps) {
           />
         </g>
       </svg>
-      <span className="-ml-2 hidden cursor-default text-2xl font-semibold lg:inline">
-        Beta Eye
-      </span>
+      {!props.collapsed && (
+        <span
+          className={`-ml-2 hidden cursor-default text-xl font-semibold lg:${props.collapsed ? 'hidden' : 'block'}`}
+        >
+          Beta Eye
+        </span>
+      )}
     </div>
   );
 }
