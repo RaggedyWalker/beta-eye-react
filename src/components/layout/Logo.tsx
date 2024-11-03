@@ -1,11 +1,14 @@
+import { useNavigate } from 'react-router-dom';
 import theme from '@/themes/theme';
 import { FCProps } from '@/types/react';
 
 interface customProps extends FCProps {
   theme?: 'dark' | 'light';
   collapsed: boolean;
+  redirect?: string;
 }
 export default function Logo(props: customProps) {
+  const navigator = useNavigate();
   const mainColor = props.theme === 'dark' ? '#f7f7f7' : theme.colors.primary;
   const fillColor = props.theme === 'dark' ? 'black' : 'white';
   return (
@@ -18,6 +21,7 @@ export default function Logo(props: customProps) {
         className="cursor-pointer hover:stroke-primary"
       ></LogoImg> */}
       <svg
+        onClick={() => navigator(props.redirect || '/')}
         className="cursor-pointer transition duration-500 hover:scale-125 hover:stroke-primary"
         width="56"
         height="56"

@@ -54,8 +54,6 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   const [allSiderMenus, setAllSiderMenus] = useState<NonNullable<ItemType>[]>(
     [],
   );
-  const showSider = useMemo(() => !collapsed, [collapsed]);
-
   // 判断当前路由是否需要登录权限，需要权限的判断权限，否则方形
   const checkAuth = useCallback(function (route: RouteConfig) {
     if (route.meta?.auth === false) {
