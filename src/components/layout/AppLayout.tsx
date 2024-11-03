@@ -9,6 +9,7 @@ import { useUserContext } from '@/context/user';
 import routesConfig, { RouteConfig } from '@/routes/routesConfig.tsx';
 import service from '@/service';
 import { User } from '@/types/user';
+import { motion } from 'framer-motion';
 import SuperSearch from '@/components/layout/header/SuperSearch.tsx';
 import Logo from '@/components/layout/Logo.tsx';
 import Avatar from './Avatar';
@@ -91,8 +92,9 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
   return (
     <div className="rounded-2xl bg-[#896bb60f]">
       <div className="flex h-screen flex-row">
-        <aside
-          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-3 transition duration-300 lg:block"
+        <motion.aside
+          layout
+          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-3 lg:block"
           style={{ borderRightStyle: 'solid' }}
         >
           <Logo collapsed={collapsed} theme={systemTheme} className="" />
@@ -103,21 +105,25 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
                 key={item.key}
                 onClick={() => navigate(item.key)}
               >
-                <span
-                  className={`inline-flex ${collapsed ? 'text-2xl' : 'text-xl'}`}
+                <motion.span
+                  className={`inline-flex text-xl`}
+                  // initial={{ fontSize: '1rem' }}
+                  // animate={{ fontSize: collapsed ? '1.5rem' : '1.25rem' }}
                   title={item.label.toString()}
                 >
                   {item.icon}
-                </span>
-                <span className={`${collapsed ? 'hidden' : 'block'} ml-4`}>
+                </motion.span>
+                <span
+                  className={`${collapsed ? 'hidden' : 'block'} text-md ml-4`}
+                >
                   {item.label}
                 </span>
               </nav>
             ))}
           </div>
-        </aside>
+        </motion.aside>
 
-        <div className={`flex w-full min-w-0 flex-auto flex-col`}>
+        <motion.div layout className={`flex w-full min-w-0 flex-auto flex-col`}>
           <header
             className="flex flex-row items-center justify-between border-0 border-b-2 border-solid border-b-gray-200 bg-container-base/95 px-10 py-3"
             style={{
@@ -136,7 +142,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           <main className="flex-1 overflow-y-auto">
             <Outlet />
           </main>
-        </div>
+        </motion.div>
       </div>
       <LayoutToggle
         collapsed={collapsed}
