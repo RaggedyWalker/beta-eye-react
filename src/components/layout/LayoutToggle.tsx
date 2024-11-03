@@ -8,7 +8,7 @@ function LayoutToggle(props: { handleToggle: () => void; collapsed: boolean }) {
     >
       <MdOutlineKeyboardDoubleArrowRight
         size={20}
-        className="transition-transform duration-150 hover:rotate-180"
+        className="transition-transform duration-150"
       />
     </div>
   );

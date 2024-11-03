@@ -92,14 +92,14 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
     <div className="rounded-2xl bg-[#896bb60f]">
       <div className="flex h-screen flex-row">
         <aside
-          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-3 transition lg:block"
+          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-3 transition duration-300 lg:block"
           style={{ borderRightStyle: 'solid' }}
         >
           <Logo collapsed={collapsed} theme={systemTheme} className="" />
           <div className="mt-6 flex flex-col space-y-2">
             {allSiderMenus.map((item) => (
               <nav
-                className={`text-md flex cursor-pointer items-center rounded-md px-5 py-2 font-semibold transition duration-200 hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'} `}
+                className={`text-md flex cursor-pointer items-center rounded-md px-5 py-2 font-semibold hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'} `}
                 key={item.key}
                 onClick={() => navigate(item.key)}
               >
@@ -117,7 +117,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           </div>
         </aside>
 
-        <div className={`flex w-full flex-1 flex-col`}>
+        <div className={`flex w-full min-w-0 flex-auto flex-col`}>
           <header
             className="flex flex-row items-center justify-between border-0 border-b-2 border-solid border-b-gray-200 bg-container-base/95 px-10 py-3"
             style={{
