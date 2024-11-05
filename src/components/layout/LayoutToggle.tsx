@@ -1,9 +1,13 @@
 import { MdOutlineKeyboardDoubleArrowRight } from 'react-icons/md';
 
-function LayoutToggle(props: { handleToggle: () => void; collapsed: boolean }) {
+function LayoutToggle(props: {
+  handleToggle: () => void;
+  collapsed: boolean;
+  className?: string;
+}) {
   return (
     <div
-      className={`fixed bottom-5 left-6 flex cursor-pointer items-center rounded-md border-2 border-solid border-black/25 p-1 leading-[initial] text-black/35 hover:border-primary/70 hover:text-primary/70 ${props.collapsed ? '' : 'rotate-180'}`}
+      className={`flex cursor-pointer items-center rounded-md border-2 border-solid border-black/25 p-1 leading-[initial] text-black/35 hover:border-primary/70 hover:text-primary/70 ${props.collapsed ? '' : 'rotate-180'} ${props.className || ''}`}
       onClick={props.handleToggle}
     >
       <MdOutlineKeyboardDoubleArrowRight

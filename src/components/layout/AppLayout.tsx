@@ -94,7 +94,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
       <div className="flex h-screen flex-row">
         <motion.aside
           layout
-          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-4 lg:block"
+          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white lg:block"
           style={{ borderRightStyle: 'solid' }}
         >
           <Logo
@@ -106,7 +106,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           <div className="mt-6 flex flex-col space-y-2">
             {allSiderMenus.map((item) => (
               <nav
-                className={`${collapsed ? 'justify-center' : 'px-4'} text-md flex cursor-pointer items-center rounded-md py-2 font-semibold hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'}`}
+                className={`mx-2 ${collapsed ? 'justify-center' : 'px-4'} text-md flex cursor-pointer items-center rounded-md py-2 font-semibold hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'}`}
                 key={item.key}
                 onClick={() => navigate(item.key)}
               >
@@ -134,6 +134,11 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
                 '0 1px 2px 0 rgba(0, 0, 0, 0.03),0 1px 6px -1px rgba(0, 0, 0, 0.02),0 2px 4px 0 rgba(0, 0, 0, 0.02)',
             }}
           >
+            <LayoutToggle
+              className={`left-2 block lg:hidden`}
+              collapsed={collapsed}
+              handleToggle={handleToggle}
+            ></LayoutToggle>
             <Logo
               collapsed={collapsed}
               theme={systemTheme}
@@ -148,6 +153,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
         </motion.div>
       </div>
       <LayoutToggle
+        className={`fixed ${collapsed ? 'left-4' : 'left-6'} bottom-5 hidden lg:block`}
         collapsed={collapsed}
         handleToggle={handleToggle}
       ></LayoutToggle>
