@@ -17,7 +17,7 @@ export default function Logo(props: customProps) {
     <div className={`${props.className} flex items-center justify-center`}>
       <svg
         onClick={() => navigator(props.redirect || '/')}
-        className="cursor-pointer transition duration-500 hover:scale-125 hover:stroke-primary"
+        className="scale-125 cursor-pointer transition duration-500 hover:scale-150 hover:stroke-primary"
         width={size}
         viewBox="0 0 480 480"
         stroke={mainColor}
@@ -85,9 +85,9 @@ export default function Logo(props: customProps) {
       </svg>
       {!props.collapsed && (
         <span
-          className={`-ml-2 hidden cursor-default text-sm font-semibold lg:${props.collapsed ? 'hidden' : 'block'}`}
+          className={`-ml-2 hidden cursor-default text-xl font-semibold text-primary/95 lg:${props.collapsed ? 'hidden' : 'block'} -translate-x-1 translate-y-1`}
         >
-          Beta Eye
+          eta Eye
         </span>
       )}
     </div>
