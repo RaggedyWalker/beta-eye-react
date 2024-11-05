@@ -1,9 +1,9 @@
 import React from 'react';
+import { AiOutlineRightCircle } from 'react-icons/ai';
 import { Dropdown, MenuProps, message } from 'antd';
 import service from '@/service';
 import { FCProps } from '@/types/react.ts';
 import { PredictRowDataType } from '@/types/service';
-import { RightCircleOutlined } from '@ant-design/icons';
 
 interface CustomProps extends FCProps {
   record: PredictRowDataType;
@@ -52,7 +52,7 @@ const TrendPredictOperation: React.FC<CustomProps> = (props) => {
   return (
     <Dropdown menu={{ items }}>
       <a onClick={(e) => e.preventDefault()}>
-        <RightCircleOutlined />
+        <AiOutlineRightCircle />
       </a>
     </Dropdown>
   );

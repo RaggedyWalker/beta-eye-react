@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { App, Button, TablePaginationConfig, TableProps } from 'antd';
 import service from '@/service';
 import { PredictRowDataType } from '@/types/service';
-import { PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import BetaCard from '@/components/layout/Card';
 import CreatePredictDrawer from '@/pages/strategy/predict/components/CreatePredictDrawer.tsx';
@@ -88,7 +88,7 @@ const PredictPage: React.FC = () => {
         <section className="mb-8">
           <Button
             type="primary"
-            icon={<PlusOutlined />}
+            icon={<AiOutlinePlus />}
             onClick={() => setCreateDrawerOpen(true)}
           >
             新增

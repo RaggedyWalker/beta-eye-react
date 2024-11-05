@@ -1,13 +1,72 @@
 import { useEffect, useState } from 'react';
+import * as echarts from 'echarts/core';
 import theme from '@/themes/theme';
 import { Transaction, TransDirection } from '@/types/playground';
 import { FCProps } from '@/types/react';
 import { SymbolDayLine, TrainKlineConfig } from '@/types/service';
 import dayjs from 'dayjs';
-import ReactECharts from 'echarts-for-react';
-import { CallbackDataParams, EChartsOption } from 'echarts/types/dist/shared';
+import ReactECharts from 'echarts-for-react/lib/core';
+import {
+  BarChart,
+  BarSeriesOption,
+  CandlestickChart,
+  CandlestickSeriesOption,
+  LineChart,
+  LineSeriesOption,
+} from 'echarts/charts';
+import {
+  DatasetComponent,
+  DatasetComponentOption,
+  DataZoomComponent,
+  DataZoomComponentOption,
+  GridComponent,
+  GridComponentOption,
+  LegendComponent,
+  LegendComponentOption,
+  MarkLineComponent,
+  MarkLineComponentOption,
+  MarkPointComponent,
+  MarkPointComponentOption,
+  TitleComponent,
+  TitleComponentOption,
+  TooltipComponent,
+  TooltipComponentOption,
+} from 'echarts/components';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
 import PriceTooltip from '@/components/common/chart/kLine/PriceTooltip';
 import Card from '@/components/layout/Card';
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  DataZoomComponent,
+  MarkLineComponent,
+  MarkPointComponent,
+  CandlestickChart,
+  LineChart,
+  BarChart,
+  CanvasRenderer,
+  UniversalTransition,
+  DatasetComponent,
+]);
+
+type EChartsOption = echarts.ComposeOption<
+  | TitleComponentOption
+  | TooltipComponentOption
+  | GridComponentOption
+  | LegendComponentOption
+  | DataZoomComponentOption
+  | MarkLineComponentOption
+  | MarkPointComponentOption
+  | CandlestickSeriesOption
+  | LineSeriesOption
+  | BarSeriesOption
+  | DatasetComponentOption
+>;
 
 interface CustomProps extends FCProps {
   trainConfig: TrainKlineConfig;
@@ -411,6 +470,7 @@ function KlineSandBox(props: CustomProps) {
   return (
     <Card className={`${props.className || ''} relative m-6 pl-4`}>
       <ReactECharts
+        echarts={echarts}
         option={chartOption}
         style={{ height: '100%' }}
         onEvents={chartEvents}
