@@ -94,27 +94,30 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
       <div className="flex h-screen flex-row">
         <motion.aside
           layout
-          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-3 lg:block"
+          className="hidden overflow-y-auto whitespace-nowrap border-r-2 border-r-gray-100 bg-white px-4 lg:block"
           style={{ borderRightStyle: 'solid' }}
         >
-          <Logo collapsed={collapsed} theme={systemTheme} className="" />
+          <Logo
+            collapsed={collapsed}
+            theme={systemTheme}
+            className=""
+            size={'4rem'}
+          />
           <div className="mt-6 flex flex-col space-y-2">
             {allSiderMenus.map((item) => (
               <nav
-                className={`text-md flex cursor-pointer items-center rounded-md px-5 py-2 font-semibold hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'} `}
+                className={`${collapsed ? 'justify-center' : 'px-4'} text-md flex cursor-pointer items-center rounded-md py-2 font-semibold hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'}`}
                 key={item.key}
                 onClick={() => navigate(item.key)}
               >
                 <motion.span
-                  className={`inline-flex text-xl`}
-                  // initial={{ fontSize: '1rem' }}
-                  // animate={{ fontSize: collapsed ? '1.5rem' : '1.25rem' }}
+                  className={`inline-flex text-2xl`}
                   title={item.label.toString()}
                 >
                   {item.icon}
                 </motion.span>
                 <span
-                  className={`${collapsed ? 'hidden' : 'block'} text-md ml-4`}
+                  className={`${collapsed ? 'hidden' : 'block'} text-md ml-2 mr-4`}
                 >
                   {item.label}
                 </span>

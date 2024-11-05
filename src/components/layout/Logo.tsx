@@ -6,25 +6,19 @@ interface customProps extends FCProps {
   theme?: 'dark' | 'light';
   collapsed: boolean;
   redirect?: string;
+  size?: number | string;
 }
 export default function Logo(props: customProps) {
   const navigator = useNavigate();
   const mainColor = props.theme === 'dark' ? '#f7f7f7' : theme.colors.primary;
   const fillColor = props.theme === 'dark' ? 'black' : 'white';
+  const { size = 64 } = props;
   return (
     <div className={`${props.className} flex items-center justify-center`}>
-      {/* <LogoImg
-        stroke={mainColor}
-        fill={fillColor}
-        width={64}
-        height={64}
-        className="cursor-pointer hover:stroke-primary"
-      ></LogoImg> */}
       <svg
         onClick={() => navigator(props.redirect || '/')}
         className="cursor-pointer transition duration-500 hover:scale-125 hover:stroke-primary"
-        width="56"
-        height="56"
+        width={size}
         viewBox="0 0 480 480"
         stroke={mainColor}
         fill={fillColor}
@@ -91,7 +85,7 @@ export default function Logo(props: customProps) {
       </svg>
       {!props.collapsed && (
         <span
-          className={`-ml-2 hidden cursor-default text-xl font-semibold lg:${props.collapsed ? 'hidden' : 'block'}`}
+          className={`-ml-2 hidden cursor-default text-sm font-semibold lg:${props.collapsed ? 'hidden' : 'block'}`}
         >
           Beta Eye
         </span>
