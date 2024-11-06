@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { AiOutlineExperiment, AiOutlineStock } from 'react-icons/ai';
 import { RiAdminLine, RiBtcLine } from 'react-icons/ri';
 import { TbViewfinder } from 'react-icons/tb';
@@ -7,16 +7,20 @@ import type { RouteObject } from 'react-router-dom';
 import { UserRole } from '@/types/user';
 import WaitNewModule from '@/components/common/waitNewModule/WaitNewModule.tsx';
 import AppLayout from '@/components/layout/AppLayout.tsx';
-import BackgroundPage from '@/pages/background/page';
 import ErrorPage from '@/pages/error';
 import OverviewPage from '@/pages/market/overview/page.tsx';
-import StockPage from '@/pages/market/stock/page.tsx';
+// import StockPage from '@/pages/market/stock/page.tsx';
 import TrainPage from '@/pages/playground/train/page';
-import TrainSandBox from '@/pages/playground/train/sandbox/page';
+// import TrainSandBox from '@/pages/playground/train/sandbox/page';
 import PredictPage from '@/pages/strategy/predict/page.tsx';
 import LoginPage from '@/pages/user/login/page';
+import SuspensePage from './SuspensePage';
 
-// const TrainSandBox = () => import('@/pages/playground/train/sandbox/page');
+const StockPage = lazy(() => import('@/pages/market/stock/page.tsx'));
+const BackgroundPage = lazy(() => import('@/pages/background/page'));
+const TrainSandBox = lazy(
+  () => import('@/pages/playground/train/sandbox/page'),
+);
 
 export type RouteConfig = {
   meta?: {
@@ -144,7 +148,11 @@ const routesConfig: RouteConfig[] = [
       },
       {
         path: 'stock/:code?',
-        element: <StockPage />,
+        element: (
+          <SuspensePage>
+            <StockPage />
+          </SuspensePage>
+        ),
         meta: {
           // menuLevel: 2,
           title: '个股',
@@ -181,7 +189,11 @@ const routesConfig: RouteConfig[] = [
       {
         path: 'train/sandbox/:id',
         // Component: React.lazy(() => import('@/pages/playground/train/sandbox/page')),
-        element: <TrainSandBox />,
+        element: (
+          <SuspensePage>
+            <TrainSandBox />
+          </SuspensePage>
+        ),
         meta: {
           title: 'k线训练沙盒',
           icon: <AiOutlineExperiment />,
@@ -195,7 +207,11 @@ const routesConfig: RouteConfig[] = [
     children: [
       {
         path: 'background',
-        element: <BackgroundPage />,
+        element: (
+          <SuspensePage>
+            <BackgroundPage />
+          </SuspensePage>
+        ),
         meta: {
           title: '后台管理',
           menuLevel: 2,
