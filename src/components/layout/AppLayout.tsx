@@ -105,12 +105,13 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
           />
           <div className="mt-6 flex flex-col space-y-2">
             {allSiderMenus.map((item) => (
-              <nav
+              <motion.nav
                 className={`mx-2 ${collapsed ? 'justify-center' : 'px-4'} text-md flex cursor-pointer items-center rounded-md py-2 font-semibold hover:bg-primary/10 hover:text-primary ${pathname === item.key ? 'bg-primary/10 text-primary' : 'text-gray-500'}`}
                 key={item.key}
                 onClick={() => navigate(item.key)}
               >
                 <motion.span
+                  layout
                   className={`inline-flex text-2xl`}
                   title={item.label.toString()}
                 >
@@ -121,7 +122,7 @@ const AppLayout: React.FC<{ theme?: 'dark' | 'light' }> = (props) => {
                 >
                   {item.label}
                 </span>
-              </nav>
+              </motion.nav>
             ))}
           </div>
         </motion.aside>
